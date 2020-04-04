@@ -1,0 +1,26 @@
+/TestStationManagement/TestStationManagement/bin
+/TestStationManagement/TestStationManagement/obj
+/WorkInProgress
+/Docs
+*.dll
+.cache
+.resx
+storage.ide
+storage.ide-wal
+DesignTimeResolveAssemblyReferences.cache
+DesignTimeResolveAssemblyReferencesInput.cache
+/.vs/iProduct/v15/Server/sqlite3/storage.ide-shm
+/iProduct/obj
+*.pdf
+backup
+*.bak
+*.csv
+git_today.csv
+git_today.txt
+/.vs/iProduct/v15/.suo
+licenses.licx
+/AxxinForms/Properties/licenses.licx
+*.ide-shm
+*.lock
+/PdfHoursInvoice
+/TestStationManagement/~$st Station Management Software.docx

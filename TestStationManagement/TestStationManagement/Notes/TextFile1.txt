@@ -1,0 +1,26 @@
+﻿
+select *, get_test_scan(samples.id) as test_scan, concat(first_name,' ', family_name) as full_name  from samples
+
+test_scan is the infor generated (name, etc) that appears as a QV Barcode on Run Tests sreen so  operator can scan into Test Machine
+sample_id is the field popualted when the sample is saved from the hash algorthm to give a unique value for this sample/record.
+
+--------------------------------
+
+Run Test Controls
+------------------------
+
+teRunTestsName
+teRunTestsPhone
+deRunTestsDateofBirth
+teRunTestsPostCode
+teRunTestsEmail
+teRunTestsMemo
+
+Test Lists Controls
+------------------------
+teTestListName
+teTestListPhone
+deTestListDateOfBirth
+teTestListPostCode
+teTestListEmail
+teTestListMem
