@@ -76,7 +76,7 @@ namespace TestStationManagement
                 Filter = "Test Result files (*.dat)|*.dat|All files (*.*)|*.*",
                 Title = "Import Test Results"
             };
-            Text = $"Test Station Management  Version: {AppView.version_info.test_station}";
+            Text = $"Test Station - Version: {AppView.version_info.test_station}";
 
             shift_focus.Add(edName, edFamilyName);
             shift_focus.Add(edFamilyName, deDOB);
