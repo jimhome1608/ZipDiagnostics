@@ -36,6 +36,8 @@ namespace TestStationManagement
 
     public static class Database    {
 
+
+        public static string database_host = ConfigurationManager.AppSettings["DatabaseHost"];
         public static String str_clean(String s)
         {
             s = s.Replace("\\", "\\\\"); ;
@@ -62,13 +64,12 @@ namespace TestStationManagement
         {
             if (fMySql == null)
             {
-                string databaseHost = ConfigurationManager.AppSettings["DatabaseHost"];
                 // "DESKTOP-136ALIH"
                 if (running_on_dev_machine)
                 {
-                    databaseHost = "localhost";
+                    database_host = "localhost";
                 }
-                fMySql = new MySqlConnection("server=" + databaseHost + "; " + connection_string);
+                fMySql = new MySqlConnection("server=" + database_host + "; " + connection_string);
                 fMySql.Open();
             }
 

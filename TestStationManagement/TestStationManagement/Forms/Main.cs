@@ -89,7 +89,8 @@ namespace TestStationManagement
             lblInfoSampleCollection.Text = "<br><size=24>Sample Collection<size=14><br>";
             lblInfoTestLists.Text = "<br><size=24>Test Lists<size=14><br>";
             lblInfoRunTest.Text = "<br><size=24>Run Test<size=14><br>";
-            lblInfo.Text = $" <font='Tahoma'size=12><br><image=ZipDiagnosticsLogo.jpg><br><br>Test Station - Version: {AppView.version_info.test_station}<br><br>© 2020 Zip Diagnostics,  All Rights Reserved<br><br>";
+            lblInfo.Text = $" <font='Tahoma'size=12><br><image=ZipDiagnosticsLogo.jpg><br><br>Test Station - Version: {AppView.version_info.test_station}<br>© 2020 Zip Diagnostics,  All Rights Reserved<br><br>";
+            lblInfo.Text = lblInfo.Text + $"<br><br>Database Host: {Database.database_host}";
             Skin skin_ = TabSkins.GetSkin(DevExpress.LookAndFeel.UserLookAndFeel.Default.ActiveLookAndFeel);
             SkinElement element = skin_[TabSkins.SkinTabHeader];
             element.Properties["AllowTouch"] = false;
@@ -255,16 +256,24 @@ namespace TestStationManagement
             string last_userName = ConfigurationManager.AppSettings["LastUserLogin"];
             if (last_userName != null && last_userName.Length > 1)
                 edtUserName.Text = last_userName;
+            try
+            {
+                samples_data = new SqlData($"{SQL_SAMPLES_SELECT} order by save_time desc ");
 
-            samples_data = new SqlData($"{SQL_SAMPLES_SELECT} order by save_time desc ");            
-
-            grdSamplesTest.DataSource = samples_data.myBindingSource;
-            teTestListName.DataBindings.Add(new Binding("text", samples_data.myBindingSource, "full_name"));
-            teTestListPhone.DataBindings.Add(new Binding("text", samples_data.myBindingSource, "phone"));
-            deTestListDateOfBirth.DataBindings.Add(new Binding("text", samples_data.myBindingSource, "date_of_birth"));
-            teTestListPostCode.DataBindings.Add(new Binding("text", samples_data.myBindingSource, "postcode"));
-            teTestListEmail.DataBindings.Add(new Binding("text", samples_data.myBindingSource, "email"));
-            teTestListMemo.DataBindings.Add(new Binding("text", samples_data.myBindingSource, "notes"));
+                grdSamplesTest.DataSource = samples_data.myBindingSource;
+                teTestListName.DataBindings.Add(new Binding("text", samples_data.myBindingSource, "full_name"));
+                teTestListPhone.DataBindings.Add(new Binding("text", samples_data.myBindingSource, "phone"));
+                deTestListDateOfBirth.DataBindings.Add(new Binding("text", samples_data.myBindingSource, "date_of_birth"));
+                teTestListPostCode.DataBindings.Add(new Binding("text", samples_data.myBindingSource, "postcode"));
+                teTestListEmail.DataBindings.Add(new Binding("text", samples_data.myBindingSource, "email"));
+                teTestListMemo.DataBindings.Add(new Binding("text", samples_data.myBindingSource, "notes"));
+            }
+            catch (Exception ex)
+            {
+                this.Enabled = false;
+                lblInfo.Text = lblInfo.Text + $" <font='Tahoma'size=16 color=red><br>Cannot connect to MySql Database<br>Please contact support.<br>{ex.Message}";
+            }
+            
         }
 
         private IEnumerable<Control> GetAll(Control control, Type type)
