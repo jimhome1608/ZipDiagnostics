@@ -138,6 +138,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Notes\TextFile1.txt" />
+    <None Include="Resources\ZipDiagnosticsLogo.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

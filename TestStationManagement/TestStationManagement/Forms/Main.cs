@@ -89,6 +89,7 @@ namespace TestStationManagement
             lblInfoSampleCollection.Text = "<br><size=24>Sample Collection<size=14><br>";
             lblInfoTestLists.Text = "<br><size=24>Test Lists<size=14><br>";
             lblInfoRunTest.Text = "<br><size=24>Run Test<size=14><br>";
+            lblInfo.Text = $" <font='Tahoma'size=12><br><image=ZipDiagnosticsLogo.jpg><br><br>Test Station - Version: {AppView.version_info.test_station}<br><br>© 2020 Zip Diagnostics,  All Rights Reserved<br><br>";
             Skin skin_ = TabSkins.GetSkin(DevExpress.LookAndFeel.UserLookAndFeel.Default.ActiveLookAndFeel);
             SkinElement element = skin_[TabSkins.SkinTabHeader];
             element.Properties["AllowTouch"] = false;
@@ -224,7 +225,7 @@ namespace TestStationManagement
             AppView.get_versions();
             //TabControl.ShowTabHeader = DevExpress.Utils.DefaultBoolean.False;
             //  lblInfo.Text = "<size=24>Sample Collection<size=14><br>";
-            lblInfo.Text = "";
+     
             const string data = "Ladyshipitdaughtersecuringprocuredorammoreovermr.Putsirsheexercisevicinitycheerfulwondered.Continualsaysuspicionprovisionyouneglectedsircuriosityunwilling.Simplicityendthemselvesincreasingleddaysympathizeyet";
             string original = "Here is some data to encrypt!";
             string key = "";
