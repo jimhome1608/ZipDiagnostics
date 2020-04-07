@@ -59,16 +59,40 @@ namespace TestStationManagement
             }
         }
 
+        public static void clear_connection()
+        {
+            fMySql = null;
+        }
+
+
+        public static string check_connection(string host)
+        {
+            using (MySqlConnection sql_connection = new MySqlConnection("server=" + host + "; " + connection_string))
+            {
+                {
+                    try
+                    {
+                        sql_connection.Open();
+                        return "";
+                    }
+                    catch (Exception ex)
+                    {
+                        return ex.Message;
+                    }
+
+                }
+            }
+        }
 
         public static MySqlConnection MySql()
         {
             if (fMySql == null)
             {
                 // "DESKTOP-136ALIH"
-                if (running_on_dev_machine)
-                {
-                    database_host = "localhost";
-                }
+                //if (running_on_dev_machine)
+                //{
+                //    database_host = "localhost";
+                //}
                 fMySql = new MySqlConnection("server=" + database_host + "; " + connection_string);
                 fMySql.Open();
             }
