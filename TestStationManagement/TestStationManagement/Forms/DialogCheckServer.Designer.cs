@@ -83,9 +83,9 @@
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(22, 25);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(220, 20);
+            this.label1.Size = new System.Drawing.Size(287, 20);
             this.label1.TabIndex = 27;
-            this.label1.Text = "Name or IP Address of  server";
+            this.label1.Text = "IP Address (or name) of  database host";
             // 
             // btnCancel
             // 
