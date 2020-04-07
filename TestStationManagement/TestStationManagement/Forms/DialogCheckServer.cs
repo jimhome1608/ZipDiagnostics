@@ -66,7 +66,7 @@ namespace TestStationManagement
             else
             {
                 String _message =
-                  $"Test Connection: <b>Success</b>.\nClick save to make {tbAddress.Text} the sql server at this location.\n\n"; 
+                  $"Test Connection: <b>Success</b>.\nClick save to make {tbAddress.Text} the Database Host at this location.\n\n"; 
                 XtraMessageBox.Show(_message, "Test Connection", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
