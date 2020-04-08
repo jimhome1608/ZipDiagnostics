@@ -320,7 +320,7 @@ namespace TestStationManagement
         }
 
         private void btnLogout_Click(object sender, EventArgs e)
-        {
+        {           
             CurrentUser.user_status = CurrentUser.UserStatus.LoggedOut;
             TabControl.SelectedTabPage = tbLogin;
         }
@@ -464,13 +464,13 @@ namespace TestStationManagement
             if (HTMLDialog.dialogResult != DialogResult.OK)
                 return;
 
-            //string sql_insert = "insert into samples (id,save_time,first_name,family_name, date_of_birth,postcode,phone,email,notes,sample_id,test_result,test_status) " +
+            //string sql_insert = "insert into samples (internal_id, id,save_time,first_name,family_name, date_of_birth,postcode,phone,email,notes,sample_id,test_result,test_status) " +
             //$"values (_id, _save_time, _first_name, _family_name, _date_of_birth, _postcode, _phone, _email, _notes, _sample_id, _test_result, _test_status);";
 
-            string sql_insert = "insert into samples (id,save_time,first_name,family_name, date_of_birth,postcode,phone,email,notes,sample_id,test_result,test_status) " + 
-                $"values (@id, @save_time, @first_name, @family_name, @date_of_birth, @postcode, @phone, @email, @notes, @sample_id, @test_result, @test_status);";
+            string sql_insert = "insert into samples (station_id, id,save_time,first_name,family_name, date_of_birth,postcode,phone,email,notes,sample_id,test_result,test_status) " + 
+                $"values @station_id, get_next_id() , @save_time, @first_name, @family_name, @date_of_birth, @postcode, @phone, @email, @notes, @sample_id, @test_result, @test_status);";
             MySqlCommand command = new MySqlCommand(sql_insert, Database.MySql()); // @id, @proj_id, @heading_name, @heading_code, @heading_order, @spec_type
-            command.Parameters.Add("@id", MySqlDbType.Int32).Value = 0;
+            command.Parameters.Add("@station_id", MySqlDbType.Int32).Value = 0;
             command.Parameters.Add("@save_time", MySqlDbType.DateTime, 11).Value = DateTime.Now;
             command.Parameters.Add("@first_name", MySqlDbType.VarChar, 255).Value = edName.Text;
             command.Parameters.Add("@family_name", MySqlDbType.VarChar, 255).Value = edFamilyName.Text;
