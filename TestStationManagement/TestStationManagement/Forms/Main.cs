@@ -24,8 +24,7 @@ namespace TestStationManagement
 {
     public partial class frmMain : Form
     {
-
-        private const string SQL_SAMPLES_SELECT = "select *, get_test_barcode(samples.id) as test_barcode, concat(first_name,' ', family_name) as full_name  from samples ";
+        
         private OpenFileDialog openFileDialog1;
 
         public static event EventHandler current_test_data_id_changed;
@@ -190,7 +189,7 @@ namespace TestStationManagement
                     teRunTestsEmail.DataBindings.Clear();
                     teRunTestsMemo.DataBindings.Clear();
 
-                    current_test_data = new SqlData($"{SQL_SAMPLES_SELECT} where id = {current_test_data_id} ");
+                    current_test_data = new SqlData($"{Constants.SQL_SAMPLES_SELECT} where id = {current_test_data_id} ");
 
                     tbTestStatus.DataBindings.Add(new Binding("text", current_test_data.myBindingSource, "test_status"));
                     if (Constants.match_in_progress(tbTestStatus.Text))
@@ -265,7 +264,7 @@ namespace TestStationManagement
             while (true)
             try
             {
-                samples_data = new SqlData($"{SQL_SAMPLES_SELECT} order by save_time desc ");
+                samples_data = new SqlData($"{Constants.SQL_SAMPLES_SELECT} order by save_time desc ");
 
                 grdSamplesTest.DataSource = samples_data.myBindingSource;
                 teTestListName.DataBindings.Add(new Binding("text", samples_data.myBindingSource, "full_name"));
@@ -328,9 +327,7 @@ namespace TestStationManagement
         }
 
         private void btnLogout_Click(object sender, EventArgs e)
-        {
-            Settings.get_next_station_id();
-            return;
+        {            
             CurrentUser.user_status = CurrentUser.UserStatus.LoggedOut;
             TabControl.SelectedTabPage = tbLogin;
         }
@@ -477,10 +474,10 @@ namespace TestStationManagement
             //string sql_insert = "insert into samples (internal_id, id,save_time,first_name,family_name, date_of_birth,postcode,phone,email,notes,sample_id,test_result,test_status) " +
             //$"values (_id, _save_time, _first_name, _family_name, _date_of_birth, _postcode, _phone, _email, _notes, _sample_id, _test_result, _test_status);";
 
-            string sql_insert = "insert into samples (station_id, id,save_time,first_name,family_name, date_of_birth,postcode,phone,email,notes,sample_id,test_result,test_status) " + 
-                $"values @station_id, get_next_id() , @save_time, @first_name, @family_name, @date_of_birth, @postcode, @phone, @email, @notes, @sample_id, @test_result, @test_status);";
+            string sql_insert = "insert into samples (station_id, id,save_time,first_name,family_name, date_of_birth,postcode,phone,email,notes,sample_id,test_result,test_status, web_saved) " + 
+                $"values( @station_id, get_next_id() , @save_time, @first_name, @family_name, @date_of_birth, @postcode, @phone, @email, @notes, @sample_id, @test_result, @test_status, @web_saved);";
             MySqlCommand command = new MySqlCommand(sql_insert, Database.MySql()); // @id, @proj_id, @heading_name, @heading_code, @heading_order, @spec_type
-            command.Parameters.Add("@station_id", MySqlDbType.Int32).Value = 0;
+            command.Parameters.Add("@station_id", MySqlDbType.VarChar).Value = Settings.station_id;
             command.Parameters.Add("@save_time", MySqlDbType.DateTime, 11).Value = DateTime.Now;
             command.Parameters.Add("@first_name", MySqlDbType.VarChar, 255).Value = edName.Text;
             command.Parameters.Add("@family_name", MySqlDbType.VarChar, 255).Value = edFamilyName.Text;
@@ -492,11 +489,15 @@ namespace TestStationManagement
             command.Parameters.Add("@sample_id", MySqlDbType.VarChar, 255).Value = _sample_id;
             command.Parameters.Add("@test_result", MySqlDbType.LongText, 255).Value = "";
             command.Parameters.Add("@test_status", MySqlDbType.VarChar, 255).Value = Constants.TEST_WAITING_TEXT;
+            command.Parameters.Add("@web_saved", MySqlDbType.VarChar, 255).Value = 0;
             command.ExecuteNonQuery();
             edTicketId.Text = _sample_id;
             bcTicketId.Text = _sample_id;
-            samples_data.refresh();
+            int sample_id = Database.sql_to_int("select max(id) from samples");           
             AppView.sample_state = AppView.DataStates.Saved;
+            if (WebApi.save_sample(sample_id))
+                Database.execute_non_query($"update samples set web_saved = 1 where id = {sample_id}");
+            samples_data.refresh();
             String test_r = $"<SAMPLE_ID>{_sample_id}</SAMPLE_ID>\n<RESULT>this is a mock test result, not a real test.</RESULT>";
             File.WriteAllText(AppView.temp_directory + "\\sample_test_result.dat", test_r);
             File.WriteAllText($"F:\\{_sample_id}.dat", test_r);
@@ -543,6 +544,8 @@ namespace TestStationManagement
             r["test_status"] = Constants.TEST_IN_PROGRESS_TEXT;
             r["test_start_time"] = DateTime.Now;            
             current_test_data.save_to_db();
+            if (!WebApi.save_sample(r))
+                Database.execute_non_query($"update samples set web_saved = 0 where id = {r["id"].ToString()}");
             samples_data.refresh();
             tbTestStatus.BackColor = Constants.TEST_IN_PROGRESS_BACKCOLOR;
         }
@@ -550,15 +553,24 @@ namespace TestStationManagement
 
         private void gvTestManagement_CustomDrawCell(object sender, DevExpress.XtraGrid.Views.Base.RowCellCustomDrawEventArgs e)
         {
-            if (e.Column != ColTestStatusTests)
-                return;
-            String s = e.CellValue.ToString().ToLower();
-            if (Constants.match_in_progress(s)) 
-                e.Appearance.BackColor = Constants.TEST_IN_PROGRESS_BACKCOLOR;
-            else if (Constants.match_completed(s))
-                e.Appearance.BackColor = Constants.TEST_COMPLETED_BACKCOLOR;
-            else
-                e.Appearance.BackColor = Constants.TEST_WAITING_BACKCOLOR;
+            if (e.Column == ColTestStatusTests)
+            {
+                String s = e.CellValue.ToString().ToLower();
+                if (Constants.match_in_progress(s))
+                    e.Appearance.BackColor = Constants.TEST_IN_PROGRESS_BACKCOLOR;
+                else if (Constants.match_completed(s))
+                    e.Appearance.BackColor = Constants.TEST_COMPLETED_BACKCOLOR;
+                else
+                    e.Appearance.BackColor = Constants.TEST_WAITING_BACKCOLOR;
+            } //
+            if (e.Column == colWebSaved)
+            {
+                String s = e.CellValue.ToString().ToLower();
+                if (s == "1")
+                    e.Appearance.BackColor = Constants.WEB_SAVED_OK_COLOR;
+                e.DisplayText = "";
+            } //col
+
         }
 
         private void gvTestManagement_CustomRowFilter(object sender, DevExpress.XtraGrid.Views.Base.RowFilterEventArgs e)
@@ -697,6 +709,8 @@ namespace TestStationManagement
 
             
             writeTestResult.write(id, test_result);
+            if (!WebApi.save_sample(id))
+                Database.execute_non_query($"update samples set web_saved = 0 where id = {id}");
             samples_data.refresh();
             
             XtraMessageBox.Show($"Sample for {sample_info}\nhas been updated with results.", "Import Test Results", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -705,6 +719,13 @@ namespace TestStationManagement
         private void btnSettings_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void gvTestManagement_DoubleClick(object sender, EventArgs e)
+        {
+            DataRow r = gvTestManagement.GetFocusedDataRow();
+            if (r == null) return;
+            WebApi.save_sample(r);
         }
 
         private void edit_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)

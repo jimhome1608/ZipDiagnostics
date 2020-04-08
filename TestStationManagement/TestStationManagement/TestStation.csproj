@@ -83,6 +83,7 @@
     <Compile Include="Data\ErrorLog.cs" />
     <Compile Include="Data\SqlData.cs" />
     <Compile Include="Data\User.cs" />
+    <Compile Include="Data\WebApi.cs" />
     <Compile Include="Data\writeTestResult.cs" />
     <Compile Include="Encryption.cs" />
     <Compile Include="Forms\DialogCheckServer.cs">

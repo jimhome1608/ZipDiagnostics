@@ -9,10 +9,15 @@ namespace TestStationManagement.Data
 {
     public static class Constants
     {
+
+        public const string SQL_SAMPLES_SELECT = "select *, get_test_barcode(samples.id) as test_barcode, concat(first_name,' ', family_name) as full_name  from samples ";
+
+
         public static Color EDITING_BACKCOLOR = Color.LightYellow;
         public static Color TEST_IN_PROGRESS_BACKCOLOR = Color.Yellow;
         public static Color TEST_COMPLETED_BACKCOLOR = Color.Red;
         public static Color TEST_WAITING_BACKCOLOR = Color.LightGreen;
+        public static Color WEB_SAVED_OK_COLOR = Color.Green;
 
         public static string TEST_IN_PROGRESS_TEXT = "Test in Progress";
         public static string TEST_COMPLETE_TEXT = "Test Completed";
