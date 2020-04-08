@@ -53,6 +53,7 @@ namespace TestStationManagement
         public frmMain()
         {
 
+
             AppView.error_log = Directory.GetCurrentDirectory() + "..\\..\\error_log";
             if (!Directory.Exists(AppView.error_log))
                 Directory.CreateDirectory(AppView.error_log);
@@ -69,6 +70,13 @@ namespace TestStationManagement
             InitializeComponent();
 
             AppView.get_versions();
+
+            Settings.station_id = Settings.get_station_id();
+            if (Settings.station_id.Length < 1)
+            {
+                throw new Exception("Could not get/set station id");
+            }
+
 
             openFileDialog1 = new OpenFileDialog()
             {
@@ -320,7 +328,9 @@ namespace TestStationManagement
         }
 
         private void btnLogout_Click(object sender, EventArgs e)
-        {           
+        {
+            Settings.get_next_station_id();
+            return;
             CurrentUser.user_status = CurrentUser.UserStatus.LoggedOut;
             TabControl.SelectedTabPage = tbLogin;
         }

@@ -1,5 +1,7 @@
 /TestStationManagement/TestStationManagement/bin
 /TestStationManagement/TestStationManagement/obj
+/TestStationManagement/TestStationManagement/obj
+/TestStationManagement/packages
 /WorkInProgress
 /Docs
 *.dll
