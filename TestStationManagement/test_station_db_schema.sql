@@ -32,12 +32,13 @@ CREATE TABLE `error_log` (
   `key_word` varchar(255) DEFAULT NULL,
   `data` longtext,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
 /*Table structure for table `samples` */
 
 CREATE TABLE `samples` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `station_id` varchar(255) NOT NULL,
+  `id` int(11) NOT NULL,
   `save_time` datetime NOT NULL,
   `first_name` varchar(255) DEFAULT NULL,
   `family_name` varchar(255) DEFAULT NULL,
@@ -51,8 +52,33 @@ CREATE TABLE `samples` (
   `test_status` varchar(255) DEFAULT '',
   `test_start_time` datetime DEFAULT NULL,
   `result_import_time` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8;
+  `web_saved` int(11) DEFAULT '0',
+  PRIMARY KEY (`station_id`,`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `samples_history` */
+
+CREATE TABLE `samples_history` (
+  `history_id` int(11) NOT NULL,
+  `station_id` varchar(255) NOT NULL,
+  `id` int(11) NOT NULL,
+  `save_time` datetime NOT NULL,
+  `first_name` varchar(255) DEFAULT NULL,
+  `family_name` varchar(255) DEFAULT NULL,
+  `date_of_birth` datetime DEFAULT NULL,
+  `postcode` varchar(255) DEFAULT '',
+  `phone` varchar(255) DEFAULT '',
+  `email` varchar(255) DEFAULT '',
+  `notes` longtext,
+  `sample_id` varchar(255) DEFAULT '',
+  `test_result` longtext,
+  `test_status` varchar(255) DEFAULT '',
+  `test_start_time` datetime DEFAULT NULL,
+  `result_import_time` datetime DEFAULT NULL,
+  `web_saved` int(11) DEFAULT '0',
+  `history_date` datetime DEFAULT NULL,
+  PRIMARY KEY (`history_id`,`station_id`,`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `settings` */
 
@@ -61,6 +87,16 @@ CREATE TABLE `settings` (
   `value` varchar(255) DEFAULT '',
   `description` varchar(255) DEFAULT '',
   PRIMARY KEY (`code`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `stations` */
+
+CREATE TABLE `stations` (
+  `id` int(11) NOT NULL,
+  `when_created` datetime DEFAULT NULL,
+  `location` varchar(255) DEFAULT NULL,
+  `notes` longtext,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `user_log` */
@@ -90,6 +126,60 @@ CREATE TABLE `users` (
   PRIMARY KEY (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+/* Procedure structure for procedure `get_next_id` */
+
+DELIMITER $$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `get_next_id`()
+BEGIN
+declare _nextid int;
+set _nextid = (select max(id) from samples);
+set _nextid = ifnull(_nextid,0);
+set _nextid = _nextid + 1;
+select _nextid;
+END$$
+
+DELIMITER ;
+
+/* Procedure structure for procedure `get_next_station_id` */
+
+DELIMITER $$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `get_next_station_id`()
+BEGIN
+declare _nextid int;
+set _nextid = (select max(id) from stations);
+set _nextid = ifnull(_nextid,0);
+set _nextid = _nextid + 1;
+select _nextid as next_station_id;
+END$$
+
+DELIMITER ;
+
+/* Procedure structure for procedure `save_sample` */
+
+DELIMITER $$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `save_sample`(IN _station_id varchar(255), _id int, _save_time datetime, _first_name varchar(255), _family_name varchar(255), 
+	_date_of_birth datetime, _postcode varchar(255), _phone varchar(255), _email varchar(255), _notes longtext, _sample_id varchar(255), _test_result longtext , 
+        _test_status  varchar(255), _test_start_time datetime, _result_import_time datetime, _web_saved  int)
+BEGIN
+   if exists (select * from samples where station_id = _station_id and id = _id) then
+	insert into samples_history (select get_next_history_id(),station_id, id, save_time, first_name, family_name, 
+	date_of_birth, postcode, phone, email, notes,sample_id, test_result, test_status, test_start_time, result_import_time, web_saved,
+        now() from samples where station_id = _station_id and id = _id );
+        delete from samples where station_id = _station_id and id = _id;
+   end if;
+   insert into `samples` 
+	(station_id, id, save_time, first_name, family_name, date_of_birth, postcode, phone, email, notes, 
+	sample_id, test_result, test_status, test_start_time, result_import_time, web_saved )
+	values
+	(_station_id, _id, _save_time, _first_name, _family_name, _date_of_birth, _postcode, _phone, _email, _notes, 
+	_sample_id, _test_result, _test_status, _test_start_time, _result_import_time, _web_saved);
+END$$
+
+DELIMITER ;
+
 /* Procedure structure for procedure `user_login` */
 
 DELIMITER $$
@@ -116,6 +206,36 @@ BEGIN
     ifNull(user_position,'') as user_position,  
     ifNull(user_full_name, '') as user_full_name,  
     ifNull(user_mobile,'') as user_mobile from users where user_name =  _user_name and  user_password = _user_password; 
+END$$
+
+DELIMITER ;
+
+/* Function  structure for function  `get_next_history_id` */
+
+DELIMITER $$
+
+CREATE DEFINER=`root`@`localhost` FUNCTION `get_next_history_id`() RETURNS int(11)
+BEGIN
+declare _nextid int;
+  set _nextid = (select max(history_id) from samples_history);
+  set _nextid = ifnull(_nextid,0);
+  set _nextid = _nextid + 1;
+  return _nextid;
+END$$
+
+DELIMITER ;
+
+/* Function  structure for function  `get_next_id` */
+
+DELIMITER $$
+
+CREATE DEFINER=`root`@`localhost` FUNCTION `get_next_id`() RETURNS int(11)
+BEGIN
+  declare _nextid int;
+  set _nextid = (select max(id) from samples);
+  set _nextid = ifnull(_nextid,0);
+  set _nextid = _nextid + 1;
+  return _nextid;
 END$$
 
 DELIMITER ;
