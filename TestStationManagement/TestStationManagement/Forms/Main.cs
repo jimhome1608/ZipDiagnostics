@@ -264,30 +264,51 @@ namespace TestStationManagement
             while (true)
             try
             {
-                samples_data = new SqlData($"{Constants.SQL_SAMPLES_SELECT} order by save_time desc ");
+                    WebApi.CheckForInternetConnection();
+                    samples_data = new SqlData($"{Constants.SQL_SAMPLES_SELECT} order by save_time desc ");
 
-                grdSamplesTest.DataSource = samples_data.myBindingSource;
-                teTestListName.DataBindings.Add(new Binding("text", samples_data.myBindingSource, "full_name"));
-                teTestListPhone.DataBindings.Add(new Binding("text", samples_data.myBindingSource, "phone"));
-                deTestListDateOfBirth.DataBindings.Add(new Binding("text", samples_data.myBindingSource, "date_of_birth"));
-                teTestListPostCode.DataBindings.Add(new Binding("text", samples_data.myBindingSource, "postcode"));
-                teTestListEmail.DataBindings.Add(new Binding("text", samples_data.myBindingSource, "email"));
-                teTestListMemo.DataBindings.Add(new Binding("text", samples_data.myBindingSource, "notes"));
-                this.Enabled = true;
-                lblInfo.Text = $" <font='Tahoma'size=12><br><image=ZipDiagnosticsLogo.jpg><br><br>Test Station - Version: {AppView.version_info.test_station}<br>© 2020 Zip Diagnostics,  All Rights Reserved<br><br>";
-                lblInfo.Text = lblInfo.Text + $"<br><br>Database Host: {Database.database_host}";
-                break;
+                    grdSamplesTest.DataSource = samples_data.myBindingSource;
+                    teTestListName.DataBindings.Add(new Binding("text", samples_data.myBindingSource, "full_name"));
+                    teTestListPhone.DataBindings.Add(new Binding("text", samples_data.myBindingSource, "phone"));
+                    deTestListDateOfBirth.DataBindings.Add(new Binding("text", samples_data.myBindingSource, "date_of_birth"));
+                    teTestListPostCode.DataBindings.Add(new Binding("text", samples_data.myBindingSource, "postcode"));
+                    teTestListEmail.DataBindings.Add(new Binding("text", samples_data.myBindingSource, "email"));
+                    teTestListMemo.DataBindings.Add(new Binding("text", samples_data.myBindingSource, "notes"));
+                    this.Enabled = true;
+                    lblInfo.Text = $" <font='Tahoma'size=12><br><image=ZipDiagnosticsLogo.jpg><br><br>Test Station - Version: {AppView.version_info.test_station}<br>© 2020 Zip Diagnostics,  All Rights Reserved<br><br>";
+                    lblInfo.Text = lblInfo.Text + "<br><b>Connections</b>";
+                    lblInfo.Text = lblInfo.Text + $"<br>Database Host: {Database.database_host}";
+                    lblInfo.Text = lblInfo.Text + $"<br>Database Connected: <b>OK</b>";
+                    string internet_connection_ok = (WebApi.internet_connection_ok) ? "<br>Internet Connection: <b>OK</b>" : "<br>Internet Connection: <b>Not Available</b>";
+                    lblInfo.Text = lblInfo.Text + internet_connection_ok;
+                    lblInfo.Text = lblInfo.Text + Database.get_backup_status();
+                    if (Database.need_backup != 0 && WebApi.internet_connection_ok)
+                    {
+                        lblInfo.Text = lblInfo.Text + $"<br>Backup in progress ({DateTime.Now.ToString()}) ";
+                        SqlData need_backup = new SqlData($"select * from samples where ifnull(web_saved,0) <> 1 "); 
+                        foreach (DataRow dr in need_backup.myDataTable.Rows )
+                        {
+                            if (WebApi.save_sample(dr))
+                            {
+                                dr["web_saved"] = 1;
+                                need_backup.save_to_db();
+                            }
+                        }
+                        lblInfo.Text = lblInfo.Text + $"<br>Backup finished. ({DateTime.Now.ToString()}) ";
+                        lblInfo.Text = lblInfo.Text + Database.get_backup_status();
+
+                    }
+                    break;
             }
             catch (Exception ex)
             {
-                this.Enabled = false;
-                lblInfo.Text = lblInfo.Text + $"<font='Tahoma'size=16 color=red><br>Cannot connect to MySql Database on Host: <b>\"{Database.database_host}\"<color=black></b><br>Please contact support.<br>{ex.Message}";
-               if  (DialogCheckServer.ask() != DialogResult.OK)
-               {
-                        break;
-               }
-            }
-            
+                    this.Enabled = false;
+                    lblInfo.Text = lblInfo.Text + $"<font='Tahoma'size=16 color=red><br>Cannot connect to MySql Database on Host: <b>\"{Database.database_host}\"<color=black></b><br>Please contact support.<br>{ex.Message}";
+                    if  (DialogCheckServer.ask() != DialogResult.OK)
+                    {
+                            break;
+                    }
+            }            
         }
 
         private IEnumerable<Control> GetAll(Control control, Type type)

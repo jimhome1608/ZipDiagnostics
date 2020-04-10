@@ -37,7 +37,32 @@ namespace TestStationManagement.Data
     public static class WebApi
     {
         //static string host_address = "http://localhost:52647";
-        static string host_address = "http://www.multilink2.com.au";
+        static string host_address = "https://www.multilink2.com.au";
+        public static bool internet_connection_ok = false;
+
+        public static bool CheckForInternetConnection()
+        {
+            try
+            {
+                // https://www.multilink2.com.au/api/TestStation/status_sumamry
+                using (var client = new WebClient())
+                {
+                    Stream s =  client.OpenRead($"{host_address}/api/TestStation/status_sumamry");
+                    StreamReader sr = new StreamReader(s);
+                    var response = sr.ReadToEnd();
+                    Debug.WriteLine("CheckForInternetConnection");
+                    Debug.WriteLine(response);
+                    internet_connection_ok = true;
+                    return true;
+                }
+            }
+            catch
+            {
+                internet_connection_ok = false;
+                return false;
+            }
+        }
+
         public static string get_next_station_id()
         {
             string station_id = "";
@@ -82,7 +107,7 @@ namespace TestStationManagement.Data
         }
 
         public static bool save_sample(DataRow r)
-        {
+        {            
             try
             {
                 TestStationSampleData data = new TestStationSampleData();
