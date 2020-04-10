@@ -590,10 +590,19 @@ namespace TestStationManagement
             } //
             if (e.Column == colWebSaved)
             {
+                Color c =Color.Yellow;
                 String s = e.CellValue.ToString().ToLower();
                 if (s == "1")
-                    e.Appearance.BackColor = Constants.WEB_SAVED_OK_COLOR;
+                    c = Constants.WEB_SAVED_OK_COLOR;
                 e.DisplayText = "";
+                Rectangle rrect = e.Bounds;
+                Brush brush;
+                brush = new SolidBrush(c);
+                rrect.Width = rrect.Height - 5;
+                rrect.Height = rrect.Width;
+                rrect.X += 10;
+                brush = new SolidBrush(Color.FromArgb(144, 238, 144));               
+                e.Graphics.FillEllipse(brush, rrect);
             } //col
 
         }
