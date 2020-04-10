@@ -305,7 +305,7 @@ namespace TestStationManagement
                 {
                     if (WebApi.save_sample(dr))
                     {
-                        dr["web_saved"] = 1;
+                        Database.execute_non_query($"update samples set web_saved=1 where station_id ={dr["station_id"]} and id ={dr["id"]}");
                         need_backup.save_to_db();
                     }
                 }
@@ -601,7 +601,6 @@ namespace TestStationManagement
                 rrect.Width = rrect.Height - 5;
                 rrect.Height = rrect.Width;
                 rrect.X += 10;
-                brush = new SolidBrush(Color.FromArgb(144, 238, 144));               
                 e.Graphics.FillEllipse(brush, rrect);
             } //col
 

@@ -108,15 +108,15 @@ namespace TestStationManagement
             int total_count = Database.sql_to_int("select count(*) from samples");
             int backup_count = Database.sql_to_int("select count(*) from samples where ifnull(web_saved,0) <> 0 ");
             need_backup = total_count - backup_count;
-            double backup_percent = 100;
+            double backup_percent = 100.00;
             string latest_sample = "select DATE_FORMAT(GREATEST(save_time, test_start_time, result_import_time), ' %W - %d/%m/%Y  %k:%i ') as x from samples order by x desc limit 1";
             string latest_sample_saved = "select DATE_FORMAT(GREATEST(save_time, test_start_time, result_import_time), ' %W - %d/%m/%Y  %k:%i ') as x from samples  where ifnull(web_saved,0) = 1 order by x desc limit 1";
             if (total_count > 0)
                 backup_percent = (float) backup_count / (float) total_count * 100;
 //            backup_percent = 90;
-            String res = $"<br><br><b>Backup Status:  {backup_percent}%</b>";
+            String res = $"<br><br><b>Backup Status:  {Math.Round(backup_percent, 2)}%</b>";
             if (backup_percent < 100)
-                res =  $"<br><br><b>Backup Status: <color=red>{backup_percent}%</b><color=black>";
+                res =  $"<br><br><b>Backup Status: <color=red>{Math.Round(backup_percent,2)}%</b><color=black>";
             res = res + $"<br>Samples Collected: {total_count}";
             res = res +$"<br>Samples saved to backup: {backup_count}";
             return res;
