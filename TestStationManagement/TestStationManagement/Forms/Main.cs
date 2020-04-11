@@ -295,7 +295,8 @@ namespace TestStationManagement
         {
             WebApi.CheckForInternetConnection();
             lblInfo.Text = $" <font='Tahoma'size=12><br><image=ZipDiagnosticsLogo.jpg><br><br>Test Station - Version: {AppView.version_info.test_station}<br>© 2020 Zip Diagnostics,  All Rights Reserved<br><br>";
-            lblInfo.Text = lblInfo.Text + "<br><b>Connections</b>";
+            lblInfo.Text = lblInfo.Text + "<br><b>Setup</b>";            
+            lblInfo.Text = lblInfo.Text + $"<br>Station ID: {Settings.station_id}";
             lblInfo.Text = lblInfo.Text + $"<br>Database Host: {Database.database_host}";
             lblInfo.Text = lblInfo.Text + $"<br>Database Connected: <b>OK</b>";
             string internet_connection_ok = (WebApi.internet_connection_ok) ? "<br>Internet Connection: <b>OK</b>" : "<br>Internet Connection: <b><color=red>Not Available <color=black></b>";
