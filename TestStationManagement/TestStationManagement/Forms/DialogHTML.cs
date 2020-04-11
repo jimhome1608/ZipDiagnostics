@@ -14,10 +14,14 @@ namespace TestStationManagement
     {
         public static DialogResult dialogResult = DialogResult.None;
 
-        public HTMLDialog(String caption_text, String _html)
+        public HTMLDialog(String caption_text, String _html, String b1, string b2)
         {
             int max_height =  480;
             InitializeComponent();
+            btn_cancel.Text = b1;
+            btnOK.Text = b2;
+            if (btn_cancel.Text == "")
+                btn_cancel.Visible = false;
             Text = caption_text;
             lblHTML.Text = _html;
             this.Height = lblHTML.Height + 100;
@@ -25,9 +29,9 @@ namespace TestStationManagement
                 this.Height = max_height;
         }
 
-        public static DialogResult confirm(String caption_text, String _html)
+        public static DialogResult confirm(String caption_text, String _html, String b1, string b2)
         {
-            using (HTMLDialog dialogHTML = new HTMLDialog(caption_text, _html))
+            using (HTMLDialog dialogHTML = new HTMLDialog(caption_text, _html, b1, b2))
             {
                 dialogHTML.ShowDialog();
                 return dialogResult;

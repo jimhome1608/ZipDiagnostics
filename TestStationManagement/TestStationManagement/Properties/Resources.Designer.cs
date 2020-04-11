@@ -63,6 +63,26 @@ namespace TestStationManagement.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap about_32x32 {
+            get {
+                object obj = ResourceManager.GetObject("about_32x32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap about_32x32_grey {
+            get {
+                object obj = ResourceManager.GetObject("about_32x32_grey", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap apply_16x16 {
             get {
                 object obj = ResourceManager.GetObject("apply_16x16", resourceCulture);
@@ -113,6 +133,16 @@ namespace TestStationManagement.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap info_32x32 {
+            get {
+                object obj = ResourceManager.GetObject("info_32x32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap mini_circle {
             get {
                 object obj = ResourceManager.GetObject("mini_circle", resourceCulture);
@@ -136,6 +166,26 @@ namespace TestStationManagement.Properties {
         internal static System.Drawing.Bitmap print_32x32 {
             get {
                 object obj = ResourceManager.GetObject("print_32x32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap properties_32x32 {
+            get {
+                object obj = ResourceManager.GetObject("properties_32x32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap toolbar_get_info {
+            get {
+                object obj = ResourceManager.GetObject("toolbar_get_info", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

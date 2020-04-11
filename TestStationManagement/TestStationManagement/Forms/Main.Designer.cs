@@ -79,8 +79,8 @@
             DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject90 = new DevExpress.Utils.SerializableAppearanceObject();
             DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject91 = new DevExpress.Utils.SerializableAppearanceObject();
             DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject92 = new DevExpress.Utils.SerializableAppearanceObject();
-            DevExpress.XtraPrinting.BarCode.QRCodeGenerator qrCodeGenerator3 = new DevExpress.XtraPrinting.BarCode.QRCodeGenerator();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain));
+            DevExpress.XtraPrinting.BarCode.QRCodeGenerator qrCodeGenerator3 = new DevExpress.XtraPrinting.BarCode.QRCodeGenerator();
             DevExpress.XtraGrid.GridLevelNode gridLevelNode2 = new DevExpress.XtraGrid.GridLevelNode();
             DevExpress.XtraEditors.Controls.EditorButtonImageOptions editorButtonImageOptions24 = new DevExpress.XtraEditors.Controls.EditorButtonImageOptions();
             DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject93 = new DevExpress.Utils.SerializableAppearanceObject();
@@ -307,7 +307,8 @@
             this.xtraScrollableControl5 = new DevExpress.XtraEditors.XtraScrollableControl();
             this.lblInfoSampleCollection = new DevExpress.XtraEditors.LabelControl();
             this.pnl_logout_settings = new System.Windows.Forms.Panel();
-            this.btnSettings = new DevExpress.XtraEditors.SimpleButton();
+            this.btnAbout = new DevExpress.XtraEditors.SimpleButton();
+            this.simpleButton1 = new DevExpress.XtraEditors.SimpleButton();
             this.lblLoggedIn = new DevExpress.XtraEditors.LabelControl();
             this.btnLogout = new DevExpress.XtraEditors.SimpleButton();
             this.tlButtons = new System.Windows.Forms.TableLayoutPanel();
@@ -315,6 +316,8 @@
             this.btnCancel = new DevExpress.XtraEditors.SimpleButton();
             this.btnNew = new DevExpress.XtraEditors.SimpleButton();
             this.btnPrint = new DevExpress.XtraEditors.SimpleButton();
+            this.simpleButton2 = new DevExpress.XtraEditors.SimpleButton();
+            this.simpleButton3 = new DevExpress.XtraEditors.SimpleButton();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemButtonEdit1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemButtonEdit2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit1)).BeginInit();
@@ -1279,7 +1282,7 @@
             this.panel17.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel17.Location = new System.Drawing.Point(139, 0);
             this.panel17.Name = "panel17";
-            this.panel17.Size = new System.Drawing.Size(784, 96);
+            this.panel17.Size = new System.Drawing.Size(816, 96);
             this.panel17.TabIndex = 22;
             // 
             // xtraScrollableControl4
@@ -1290,7 +1293,7 @@
             this.xtraScrollableControl4.Dock = System.Windows.Forms.DockStyle.Fill;
             this.xtraScrollableControl4.Location = new System.Drawing.Point(0, 0);
             this.xtraScrollableControl4.Name = "xtraScrollableControl4";
-            this.xtraScrollableControl4.Size = new System.Drawing.Size(784, 96);
+            this.xtraScrollableControl4.Size = new System.Drawing.Size(816, 96);
             this.xtraScrollableControl4.TabIndex = 29;
             // 
             // lblInfoRunTest
@@ -1306,20 +1309,21 @@
             this.lblInfoRunTest.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lblInfoRunTest.Location = new System.Drawing.Point(0, 0);
             this.lblInfoRunTest.Name = "lblInfoRunTest";
-            this.lblInfoRunTest.Size = new System.Drawing.Size(784, 19);
+            this.lblInfoRunTest.Size = new System.Drawing.Size(816, 19);
             this.lblInfoRunTest.TabIndex = 21;
             this.lblInfoRunTest.Text = "info";
             // 
             // panel33
             // 
             this.panel33.BackColor = System.Drawing.Color.Aquamarine;
+            this.panel33.Controls.Add(this.simpleButton3);
             this.panel33.Controls.Add(this.lblLoggedIn3);
             this.panel33.Controls.Add(this.btnLogOutRunTests);
             this.panel33.Dock = System.Windows.Forms.DockStyle.Right;
-            this.panel33.Location = new System.Drawing.Point(923, 0);
+            this.panel33.Location = new System.Drawing.Point(955, 0);
             this.panel33.Margin = new System.Windows.Forms.Padding(4);
             this.panel33.Name = "panel33";
-            this.panel33.Size = new System.Drawing.Size(425, 96);
+            this.panel33.Size = new System.Drawing.Size(393, 96);
             this.panel33.TabIndex = 21;
             // 
             // lblLoggedIn3
@@ -1332,7 +1336,7 @@
             this.lblLoggedIn3.Appearance.Options.UseTextOptions = true;
             this.lblLoggedIn3.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Near;
             this.lblLoggedIn3.AutoSizeMode = DevExpress.XtraEditors.LabelAutoSizeMode.Horizontal;
-            this.lblLoggedIn3.Location = new System.Drawing.Point(319, 64);
+            this.lblLoggedIn3.Location = new System.Drawing.Point(287, 64);
             this.lblLoggedIn3.Name = "lblLoggedIn3";
             this.lblLoggedIn3.Size = new System.Drawing.Size(94, 19);
             this.lblLoggedIn3.TabIndex = 9;
@@ -1344,7 +1348,7 @@
             this.btnLogOutRunTests.Appearance.Font = new System.Drawing.Font("Tahoma", 12F);
             this.btnLogOutRunTests.Appearance.Options.UseFont = true;
             this.btnLogOutRunTests.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.TopCenter;
-            this.btnLogOutRunTests.Location = new System.Drawing.Point(274, 11);
+            this.btnLogOutRunTests.Location = new System.Drawing.Point(242, 11);
             this.btnLogOutRunTests.Margin = new System.Windows.Forms.Padding(4, 4, 27, 4);
             this.btnLogOutRunTests.Name = "btnLogOutRunTests";
             this.btnLogOutRunTests.Padding = new System.Windows.Forms.Padding(0, 0, 13, 0);
@@ -2193,7 +2197,7 @@
             this.xtraScrollableControl3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.xtraScrollableControl3.Location = new System.Drawing.Point(337, 0);
             this.xtraScrollableControl3.Name = "xtraScrollableControl3";
-            this.xtraScrollableControl3.Size = new System.Drawing.Size(810, 97);
+            this.xtraScrollableControl3.Size = new System.Drawing.Size(797, 97);
             this.xtraScrollableControl3.TabIndex = 28;
             // 
             // lblInfoTestLists
@@ -2209,19 +2213,20 @@
             this.lblInfoTestLists.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lblInfoTestLists.Location = new System.Drawing.Point(0, 0);
             this.lblInfoTestLists.Name = "lblInfoTestLists";
-            this.lblInfoTestLists.Size = new System.Drawing.Size(810, 19);
+            this.lblInfoTestLists.Size = new System.Drawing.Size(797, 19);
             this.lblInfoTestLists.TabIndex = 21;
             this.lblInfoTestLists.Text = "info";
             // 
             // panel5
             // 
+            this.panel5.Controls.Add(this.simpleButton2);
             this.panel5.Controls.Add(this.lblLoggedIn2);
             this.panel5.Controls.Add(this.btnLogOutTests);
             this.panel5.Dock = System.Windows.Forms.DockStyle.Right;
-            this.panel5.Location = new System.Drawing.Point(1147, 0);
+            this.panel5.Location = new System.Drawing.Point(1134, 0);
             this.panel5.Margin = new System.Windows.Forms.Padding(4);
             this.panel5.Name = "panel5";
-            this.panel5.Size = new System.Drawing.Size(201, 97);
+            this.panel5.Size = new System.Drawing.Size(214, 97);
             this.panel5.TabIndex = 21;
             // 
             // lblLoggedIn2
@@ -2234,7 +2239,7 @@
             this.lblLoggedIn2.Appearance.Options.UseTextOptions = true;
             this.lblLoggedIn2.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Near;
             this.lblLoggedIn2.AutoSizeMode = DevExpress.XtraEditors.LabelAutoSizeMode.Horizontal;
-            this.lblLoggedIn2.Location = new System.Drawing.Point(95, 64);
+            this.lblLoggedIn2.Location = new System.Drawing.Point(108, 64);
             this.lblLoggedIn2.Name = "lblLoggedIn2";
             this.lblLoggedIn2.Size = new System.Drawing.Size(94, 19);
             this.lblLoggedIn2.TabIndex = 9;
@@ -2246,7 +2251,7 @@
             this.btnLogOutTests.Appearance.Font = new System.Drawing.Font("Tahoma", 12F);
             this.btnLogOutTests.Appearance.Options.UseFont = true;
             this.btnLogOutTests.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.TopCenter;
-            this.btnLogOutTests.Location = new System.Drawing.Point(50, 11);
+            this.btnLogOutTests.Location = new System.Drawing.Point(63, 11);
             this.btnLogOutTests.Margin = new System.Windows.Forms.Padding(4, 4, 27, 4);
             this.btnLogOutTests.Name = "btnLogOutTests";
             this.btnLogOutTests.Padding = new System.Windows.Forms.Padding(0, 0, 13, 0);
@@ -2938,9 +2943,9 @@
             this.xtraScrollableControl5.Appearance.Options.UseBackColor = true;
             this.xtraScrollableControl5.Controls.Add(this.lblInfoSampleCollection);
             this.xtraScrollableControl5.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.xtraScrollableControl5.Location = new System.Drawing.Point(534, 0);
+            this.xtraScrollableControl5.Location = new System.Drawing.Point(530, 0);
             this.xtraScrollableControl5.Name = "xtraScrollableControl5";
-            this.xtraScrollableControl5.Size = new System.Drawing.Size(485, 96);
+            this.xtraScrollableControl5.Size = new System.Drawing.Size(606, 96);
             this.xtraScrollableControl5.TabIndex = 27;
             // 
             // lblInfoSampleCollection
@@ -2956,36 +2961,52 @@
             this.lblInfoSampleCollection.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lblInfoSampleCollection.Location = new System.Drawing.Point(0, 0);
             this.lblInfoSampleCollection.Name = "lblInfoSampleCollection";
-            this.lblInfoSampleCollection.Size = new System.Drawing.Size(485, 19);
+            this.lblInfoSampleCollection.Size = new System.Drawing.Size(606, 19);
             this.lblInfoSampleCollection.TabIndex = 21;
             this.lblInfoSampleCollection.Text = "info";
             // 
             // pnl_logout_settings
             // 
-            this.pnl_logout_settings.Controls.Add(this.btnSettings);
+            this.pnl_logout_settings.Controls.Add(this.btnAbout);
+            this.pnl_logout_settings.Controls.Add(this.simpleButton1);
             this.pnl_logout_settings.Controls.Add(this.lblLoggedIn);
             this.pnl_logout_settings.Controls.Add(this.btnLogout);
             this.pnl_logout_settings.Dock = System.Windows.Forms.DockStyle.Right;
-            this.pnl_logout_settings.Location = new System.Drawing.Point(1019, 0);
+            this.pnl_logout_settings.Location = new System.Drawing.Point(1136, 0);
             this.pnl_logout_settings.Margin = new System.Windows.Forms.Padding(4);
             this.pnl_logout_settings.Name = "pnl_logout_settings";
-            this.pnl_logout_settings.Size = new System.Drawing.Size(329, 96);
+            this.pnl_logout_settings.Size = new System.Drawing.Size(212, 96);
             this.pnl_logout_settings.TabIndex = 21;
             // 
-            // btnSettings
+            // btnAbout
             // 
-            this.btnSettings.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnSettings.Appearance.Font = new System.Drawing.Font("Tahoma", 12F);
-            this.btnSettings.Appearance.Options.UseFont = true;
-            this.btnSettings.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("btnSettings.ImageOptions.Image")));
-            this.btnSettings.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
-            this.btnSettings.Location = new System.Drawing.Point(20, 11);
-            this.btnSettings.Margin = new System.Windows.Forms.Padding(4);
-            this.btnSettings.Name = "btnSettings";
-            this.btnSettings.Size = new System.Drawing.Size(140, 37);
-            this.btnSettings.TabIndex = 10;
-            this.btnSettings.Text = "Settings";
-            this.btnSettings.Click += new System.EventHandler(this.btnSettings_Click);
+            this.btnAbout.AllowFocus = false;
+            this.btnAbout.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnAbout.Appearance.Font = new System.Drawing.Font("Tahoma", 12F);
+            this.btnAbout.Appearance.Options.UseFont = true;
+            this.btnAbout.ImageOptions.Image = global::TestStationManagement.Properties.Resources.toolbar_get_info;
+            this.btnAbout.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
+            this.btnAbout.Location = new System.Drawing.Point(16, 11);
+            this.btnAbout.Margin = new System.Windows.Forms.Padding(4);
+            this.btnAbout.Name = "btnAbout";
+            this.btnAbout.Size = new System.Drawing.Size(37, 37);
+            this.btnAbout.TabIndex = 10;
+            this.btnAbout.Click += new System.EventHandler(this.btnAbout_Click_1);
+            // 
+            // simpleButton1
+            // 
+            this.simpleButton1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.simpleButton1.Appearance.Font = new System.Drawing.Font("Tahoma", 12F);
+            this.simpleButton1.Appearance.Options.UseFont = true;
+            this.simpleButton1.ImageOptions.Image = global::TestStationManagement.Properties.Resources.properties_32x32;
+            this.simpleButton1.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
+            this.simpleButton1.Location = new System.Drawing.Point(16, 55);
+            this.simpleButton1.Margin = new System.Windows.Forms.Padding(4);
+            this.simpleButton1.Name = "simpleButton1";
+            this.simpleButton1.Size = new System.Drawing.Size(37, 37);
+            this.simpleButton1.TabIndex = 11;
+            this.simpleButton1.Visible = false;
+            this.simpleButton1.Click += new System.EventHandler(this.btnAbout_Click_1);
             // 
             // lblLoggedIn
             // 
@@ -2996,7 +3017,7 @@
             this.lblLoggedIn.Appearance.Options.UseTextOptions = true;
             this.lblLoggedIn.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Near;
             this.lblLoggedIn.AutoSizeMode = DevExpress.XtraEditors.LabelAutoSizeMode.Horizontal;
-            this.lblLoggedIn.Location = new System.Drawing.Point(223, 60);
+            this.lblLoggedIn.Location = new System.Drawing.Point(106, 60);
             this.lblLoggedIn.Name = "lblLoggedIn";
             this.lblLoggedIn.Size = new System.Drawing.Size(94, 19);
             this.lblLoggedIn.TabIndex = 9;
@@ -3008,7 +3029,7 @@
             this.btnLogout.Appearance.Font = new System.Drawing.Font("Tahoma", 12F);
             this.btnLogout.Appearance.Options.UseFont = true;
             this.btnLogout.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.TopCenter;
-            this.btnLogout.Location = new System.Drawing.Point(178, 11);
+            this.btnLogout.Location = new System.Drawing.Point(61, 11);
             this.btnLogout.Margin = new System.Windows.Forms.Padding(4, 4, 27, 4);
             this.btnLogout.Name = "btnLogout";
             this.btnLogout.Padding = new System.Windows.Forms.Padding(0, 0, 13, 0);
@@ -3025,7 +3046,6 @@
             this.tlButtons.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 133F));
             this.tlButtons.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 135F));
             this.tlButtons.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tlButtons.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tlButtons.Controls.Add(this.btnSave, 1, 0);
             this.tlButtons.Controls.Add(this.btnCancel, 2, 0);
             this.tlButtons.Controls.Add(this.btnNew, 0, 0);
@@ -3036,7 +3056,7 @@
             this.tlButtons.Name = "tlButtons";
             this.tlButtons.RowCount = 1;
             this.tlButtons.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlButtons.Size = new System.Drawing.Size(534, 96);
+            this.tlButtons.Size = new System.Drawing.Size(530, 96);
             this.tlButtons.TabIndex = 18;
             // 
             // btnSave
@@ -3094,6 +3114,36 @@
             this.btnPrint.Size = new System.Drawing.Size(120, 86);
             this.btnPrint.TabIndex = 14;
             this.btnPrint.Text = "Print";
+            // 
+            // simpleButton2
+            // 
+            this.simpleButton2.AllowFocus = false;
+            this.simpleButton2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.simpleButton2.Appearance.Font = new System.Drawing.Font("Tahoma", 12F);
+            this.simpleButton2.Appearance.Options.UseFont = true;
+            this.simpleButton2.ImageOptions.Image = global::TestStationManagement.Properties.Resources.toolbar_get_info;
+            this.simpleButton2.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
+            this.simpleButton2.Location = new System.Drawing.Point(18, 11);
+            this.simpleButton2.Margin = new System.Windows.Forms.Padding(4);
+            this.simpleButton2.Name = "simpleButton2";
+            this.simpleButton2.Size = new System.Drawing.Size(37, 37);
+            this.simpleButton2.TabIndex = 11;
+            this.simpleButton2.Click += new System.EventHandler(this.btnAbout_Click_1);
+            // 
+            // simpleButton3
+            // 
+            this.simpleButton3.AllowFocus = false;
+            this.simpleButton3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.simpleButton3.Appearance.Font = new System.Drawing.Font("Tahoma", 12F);
+            this.simpleButton3.Appearance.Options.UseFont = true;
+            this.simpleButton3.ImageOptions.Image = global::TestStationManagement.Properties.Resources.toolbar_get_info;
+            this.simpleButton3.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter;
+            this.simpleButton3.Location = new System.Drawing.Point(197, 11);
+            this.simpleButton3.Margin = new System.Windows.Forms.Padding(4);
+            this.simpleButton3.Name = "simpleButton3";
+            this.simpleButton3.Size = new System.Drawing.Size(37, 37);
+            this.simpleButton3.TabIndex = 12;
+            this.simpleButton3.Click += new System.EventHandler(this.btnAbout_Click_1);
             // 
             // frmMain
             // 
@@ -3397,7 +3447,7 @@
         private DevExpress.XtraEditors.XtraScrollableControl xtraScrollableControl5;
         private DevExpress.XtraEditors.LabelControl lblInfoSampleCollection;
         private System.Windows.Forms.Panel pnl_logout_settings;
-        private DevExpress.XtraEditors.SimpleButton btnSettings;
+        private DevExpress.XtraEditors.SimpleButton btnAbout;
         private DevExpress.XtraEditors.LabelControl lblLoggedIn;
         private DevExpress.XtraEditors.SimpleButton btnLogout;
         private System.Windows.Forms.TableLayoutPanel tlButtons;
@@ -3496,6 +3546,9 @@
         private DevExpress.XtraGrid.Columns.GridColumn colWebSaved;
         private System.Windows.Forms.Panel panel27;
         private System.Windows.Forms.Button btnCopy;
+        private DevExpress.XtraEditors.SimpleButton simpleButton1;
+        private DevExpress.XtraEditors.SimpleButton simpleButton3;
+        private DevExpress.XtraEditors.SimpleButton simpleButton2;
     }
 }
 

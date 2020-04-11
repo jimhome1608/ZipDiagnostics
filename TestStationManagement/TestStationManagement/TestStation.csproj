@@ -158,6 +158,11 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Notes\TextFile1.txt" />
+    <None Include="Resources\toolbar_get_info.png" />
+    <None Include="Resources\about_32x32_grey.png" />
+    <None Include="Resources\info_32x32.png" />
+    <None Include="Resources\properties_32x32.png" />
+    <None Include="Resources\about_32x32.png" />
     <None Include="Resources\mini_circle.png" />
     <None Include="Resources\iconsettrafficlights4_16x16_bw.png" />
     <None Include="Resources\iconsettrafficlights4_16x16.png" />

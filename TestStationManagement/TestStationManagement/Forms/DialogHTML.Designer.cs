@@ -28,13 +28,17 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(HTMLDialog));
             this.xtraScrollableControl2 = new DevExpress.XtraEditors.XtraScrollableControl();
             this.lblHTML = new DevExpress.XtraEditors.LabelControl();
             this.pnl_bottom = new System.Windows.Forms.Panel();
             this.btn_cancel = new DevExpress.XtraEditors.SimpleButton();
             this.btnOK = new DevExpress.XtraEditors.SimpleButton();
+            this.imageCollection1 = new DevExpress.Utils.ImageCollection(this.components);
             this.xtraScrollableControl2.SuspendLayout();
             this.pnl_bottom.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.imageCollection1)).BeginInit();
             this.SuspendLayout();
             // 
             // xtraScrollableControl2
@@ -49,13 +53,16 @@
             // lblHTML
             // 
             this.lblHTML.AllowHtmlString = true;
+            this.lblHTML.Appearance.BackColor = System.Drawing.Color.White;
             this.lblHTML.Appearance.Font = new System.Drawing.Font("Tahoma", 12F);
+            this.lblHTML.Appearance.Options.UseBackColor = true;
             this.lblHTML.Appearance.Options.UseFont = true;
             this.lblHTML.Appearance.Options.UseTextOptions = true;
             this.lblHTML.Appearance.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Bottom;
             this.lblHTML.Appearance.TextOptions.WordWrap = DevExpress.Utils.WordWrap.Wrap;
             this.lblHTML.AutoSizeMode = DevExpress.XtraEditors.LabelAutoSizeMode.Vertical;
             this.lblHTML.Dock = System.Windows.Forms.DockStyle.Top;
+            this.lblHTML.HtmlImages = this.imageCollection1;
             this.lblHTML.Location = new System.Drawing.Point(0, 0);
             this.lblHTML.Name = "lblHTML";
             this.lblHTML.Padding = new System.Windows.Forms.Padding(5);
@@ -107,6 +114,12 @@
             this.btnOK.Text = "SAVE ";
             this.btnOK.Click += new System.EventHandler(this.btnOK_Click);
             // 
+            // imageCollection1
+            // 
+            this.imageCollection1.ImageSize = new System.Drawing.Size(101, 61);
+            this.imageCollection1.ImageStream = ((DevExpress.Utils.ImageCollectionStreamer)(resources.GetObject("imageCollection1.ImageStream")));
+            this.imageCollection1.Images.SetKeyName(0, "ZipDiagnosticsLogo.jpg");
+            // 
             // HTMLDialog
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -120,6 +133,7 @@
             this.Text = "DialogHTML";
             this.xtraScrollableControl2.ResumeLayout(false);
             this.pnl_bottom.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.imageCollection1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -131,5 +145,6 @@
         private System.Windows.Forms.Panel pnl_bottom;
         private DevExpress.XtraEditors.SimpleButton btn_cancel;
         private DevExpress.XtraEditors.SimpleButton btnOK;
+        private DevExpress.Utils.ImageCollection imageCollection1;
     }
 }

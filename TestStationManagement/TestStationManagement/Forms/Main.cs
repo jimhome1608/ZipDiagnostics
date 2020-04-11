@@ -370,7 +370,6 @@ namespace TestStationManagement
             {                
                 TabControl.SelectedTabPage = tbSampleEntry;
                 CurrentUser.user_status = CurrentUser.UserStatus.LoggedIn;
-                btnSettings.Visible = CurrentUser.is_admin;
                 return;
             };
             MessageBox.Show("User Name and password combination not correct", "Login", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -521,7 +520,7 @@ namespace TestStationManagement
             _html = _html + $"Post Code: <backcolor=yellow>&nbsp;{edPostCode.Text}&nbsp;<backcolor=control><br><br>";
             _html = _html + $"Notes: <backcolor=yellow>&nbsp;{mmNotes.Text}&nbsp;<backcolor=control><br><br>";
             _html = _html + $"Ticket #: {_sample_id}&<br>";
-            HTMLDialog.confirm("Confirm", _html);
+            HTMLDialog.confirm("Confirm", _html, "GO BACK", "SAVE");
             if (HTMLDialog.dialogResult != DialogResult.OK)
                 return;
 
@@ -596,7 +595,7 @@ namespace TestStationManagement
             }
             String _sample_id = ComputeHash(DateTime.Now.ToString() + edName.Text + deDOB.DateTime.ToString("dd/MM/yyyy"));
             String _html = "<font=Tahoma></font><size=18>Please confirm the test is running on this sample...<size=14><br><br>";
-            HTMLDialog.confirm("Confirm", _html);
+            HTMLDialog.confirm("Confirm", _html, "GO BACK", "SAVE");
             if (HTMLDialog.dialogResult != DialogResult.OK)
                 return;
             r["test_status"] = Constants.TEST_IN_PROGRESS_TEXT;
@@ -807,6 +806,27 @@ namespace TestStationManagement
             s = s.Replace("<br>", "\n").Replace("</br>", "").Replace("<b>", "").Replace("</b>", "").Replace("<font='Tahoma'size=12>", "").Replace("<image=ZipDiagnosticsLogo.jpg>", "").Replace("<font='Tahoma'size=16 color=red>", "").Replace("<color=black>", "");
             Clipboard.SetData(DataFormats.Text, (Object)s);
             XtraMessageBox.Show("Test Station setup info has been copied to clipboard", "Copy", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        private void btnAbout_Click_1(object sender, EventArgs e)
+        {
+            string _html = $" <font='Tahoma'size=12><br><image=ZipDiagnosticsLogo.jpg><br><br>Test Station - Version: {AppView.version_info.test_station}<br>© 2020 Zip Diagnostics,  All Rights Reserved<br><br>";
+            _html = _html + "<b>Setup</b>";
+            _html = _html + $"<br>Station ID: {Settings.station_id}";
+            _html = _html + $"<br>Database Host: {Database.database_host}";
+            _html = _html + $"<br>Database Connected: <b>OK</b>";
+            string internet_connection_ok = (WebApi.internet_connection_ok) ? "<br>Internet Connection: <b>OK</b>" : "<br>Internet Connection: <b><color=red>Not Available <color=black></b>";
+            _html = _html + internet_connection_ok;           
+            samples_data.refresh();
+            _html = _html + "<br><b>This Computer</b>";
+            _html = _html + $"<br>Computer Name: {AppView.computer_name}";
+            _html = _html + $"<br>IP Address: {AppView.ip_address}";
+            if (new[] { "localhost", "127.0.0.1", $"{AppView.computer_name.ToLower()}", $"{AppView.ip_address}" }.Any(c => Database.database_host.ToLower().Contains(c)))
+            {
+                _html = _html + $"<br><b>Note:</b> This is the machine with the SQL Database.";
+                _html = _html + $"<br>Please configure each other computer to use this IP Address or Computer Name";
+            }
+            HTMLDialog.confirm("About", _html, "", "OK");
         }
 
         private void edit_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
