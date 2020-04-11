@@ -1240,9 +1240,9 @@
             // 
             this.te_scan_sample_id.Dock = System.Windows.Forms.DockStyle.Fill;
             this.te_scan_sample_id.Font = new System.Drawing.Font("Tahoma", 14F);
-            this.te_scan_sample_id.Location = new System.Drawing.Point(265, 1);
+            this.te_scan_sample_id.Location = new System.Drawing.Point(202, 1);
             this.te_scan_sample_id.Name = "te_scan_sample_id";
-            this.te_scan_sample_id.Size = new System.Drawing.Size(1048, 30);
+            this.te_scan_sample_id.Size = new System.Drawing.Size(1111, 30);
             this.te_scan_sample_id.TabIndex = 23;
             this.te_scan_sample_id.TextChanged += new System.EventHandler(this.te_scan_sample_id_TextChanged);
             // 
@@ -1260,9 +1260,9 @@
             this.labelControl26.Dock = System.Windows.Forms.DockStyle.Left;
             this.labelControl26.Location = new System.Drawing.Point(1, 1);
             this.labelControl26.Name = "labelControl26";
-            this.labelControl26.Size = new System.Drawing.Size(264, 31);
+            this.labelControl26.Size = new System.Drawing.Size(201, 31);
             this.labelControl26.TabIndex = 11;
-            this.labelControl26.Text = "Scan Ticket / Sample ID o Enter ID:";
+            this.labelControl26.Text = "Scan  or Enter Ticket ID:";
             // 
             // panel32
             // 
@@ -1535,7 +1535,7 @@
             this.colTestResult.AppearanceCell.Font = new System.Drawing.Font("Tahoma", 12F);
             this.colTestResult.AppearanceCell.Options.UseFont = true;
             this.colTestResult.AppearanceCell.Options.UseTextOptions = true;
-            this.colTestResult.AppearanceCell.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Top;
+            this.colTestResult.AppearanceCell.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Center;
             this.colTestResult.Caption = "Test Result";
             this.colTestResult.FieldName = "test_result";
             this.colTestResult.Name = "colTestResult";
@@ -2802,6 +2802,7 @@
             this.labelControl6.Dock = System.Windows.Forms.DockStyle.Left;
             this.labelControl6.Location = new System.Drawing.Point(1, 1);
             this.labelControl6.Name = "labelControl6";
+            this.labelControl6.Padding = new System.Windows.Forms.Padding(0, 3, 0, 0);
             this.labelControl6.Size = new System.Drawing.Size(75, 26);
             this.labelControl6.TabIndex = 11;
             this.labelControl6.Text = "Ticket ID:";

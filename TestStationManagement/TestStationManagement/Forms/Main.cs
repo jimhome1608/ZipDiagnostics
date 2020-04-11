@@ -212,7 +212,7 @@ namespace TestStationManagement
 
                     teRunTestsName.DataBindings.Add(new Binding("text", current_test_data.myBindingSource, "full_name"));
                     teRunTestsPhone.DataBindings.Add(new Binding("text", current_test_data.myBindingSource, "phone"));
-                    deRunTestsDateofBirth.DataBindings.Add(new Binding("text", current_test_data.myBindingSource, "date_of_birth"));
+                    deRunTestsDateofBirth.DataBindings.Add(new Binding("datetime", current_test_data.myBindingSource, "date_of_birth"));
                     teRunTestsPostCode.DataBindings.Add(new Binding("text", current_test_data.myBindingSource, "postcode"));
                     teRunTestsEmail.DataBindings.Add(new Binding("text", current_test_data.myBindingSource, "email"));
                     teRunTestsMemo.DataBindings.Add(new Binding("text", current_test_data.myBindingSource, "notes"));
@@ -284,7 +284,7 @@ namespace TestStationManagement
                     grdSamplesTest.DataSource = samples_data.myBindingSource;
                     teTestListName.DataBindings.Add(new Binding("text", samples_data.myBindingSource, "full_name"));
                     teTestListPhone.DataBindings.Add(new Binding("text", samples_data.myBindingSource, "phone"));
-                    deTestListDateOfBirth.DataBindings.Add(new Binding("text", samples_data.myBindingSource, "date_of_birth"));
+                    deTestListDateOfBirth.DataBindings.Add(new Binding("datetime", samples_data.myBindingSource, "date_of_birth"));
                     teTestListPostCode.DataBindings.Add(new Binding("text", samples_data.myBindingSource, "postcode"));
                     teTestListEmail.DataBindings.Add(new Binding("text", samples_data.myBindingSource, "email"));
                     teTestListMemo.DataBindings.Add(new Binding("text", samples_data.myBindingSource, "notes"));
@@ -517,7 +517,8 @@ namespace TestStationManagement
         {
             if (!valid_to_save())
                 return;
-            String _sample_id = ComputeHash(DateTime.Now.ToString()+ edName.Text+ deDOB.DateTime.ToString("dd/MM/yyyy"));
+            int next_id = Database.sql_to_int("select get_next_id()");
+            String _sample_id = Settings.station_id + "-" + next_id.ToString();
             String _html = "<font=Tahoma></font><size=18>Please confirm these details are correct before saving<size=14><br><br>";
             _html = _html + $"Name:<backcolor=yellow>&nbsp;{edName.Text}&nbsp;<backcolor=control><br><br>";
             _html = _html + $"Email: <backcolor=yellow>&nbsp;{edEmail.Text}&nbsp;<backcolor=control><br><br>";
@@ -530,26 +531,30 @@ namespace TestStationManagement
             if (HTMLDialog.dialogResult != DialogResult.OK)
                 return;
 
-            //string sql_insert = "insert into samples (internal_id, id,save_time,first_name,family_name, date_of_birth,postcode,phone,email,notes,sample_id,test_result,test_status) " +
-            //$"values (_id, _save_time, _first_name, _family_name, _date_of_birth, _postcode, _phone, _email, _notes, _sample_id, _test_result, _test_status);";
-
-            string sql_insert = "insert into samples (station_id, id,save_time,first_name,family_name, date_of_birth,postcode,phone,email,notes,sample_id,test_result,test_status, web_saved) " + 
-                $"values( @station_id, get_next_id() , @save_time, @first_name, @family_name, @date_of_birth, @postcode, @phone, @email, @notes, @sample_id, @test_result, @test_status, @web_saved);";
-            MySqlCommand command = new MySqlCommand(sql_insert, Database.MySql()); // @id, @proj_id, @heading_name, @heading_code, @heading_order, @spec_type
-            command.Parameters.Add("@station_id", MySqlDbType.VarChar).Value = Settings.station_id;
-            command.Parameters.Add("@save_time", MySqlDbType.DateTime, 11).Value = DateTime.Now;
-            command.Parameters.Add("@first_name", MySqlDbType.VarChar, 255).Value = edName.Text;
-            command.Parameters.Add("@family_name", MySqlDbType.VarChar, 255).Value = edFamilyName.Text;
-            command.Parameters.Add("@date_of_birth", MySqlDbType.DateTime, 11).Value = deDOB.DateTime.ToString("yyyy-MM-dd");
-            command.Parameters.Add("@postcode", MySqlDbType.VarChar, 255).Value = edPostCode.Text;
-            command.Parameters.Add("@phone", MySqlDbType.VarChar, 255).Value = edPhone.Text;
-            command.Parameters.Add("@email", MySqlDbType.VarChar, 255).Value = edEmail.Text;
-            command.Parameters.Add("@notes", MySqlDbType.LongText, 255).Value = mmNotes.Text;
-            command.Parameters.Add("@sample_id", MySqlDbType.VarChar, 255).Value = _sample_id;
-            command.Parameters.Add("@test_result", MySqlDbType.LongText, 255).Value = "";
-            command.Parameters.Add("@test_status", MySqlDbType.VarChar, 255).Value = Constants.TEST_WAITING_TEXT;
-            command.Parameters.Add("@web_saved", MySqlDbType.VarChar, 255).Value = 0;
+            string sql_insert = "";
+            //sql_insert = "call save_sample(_station_id, _id,_save_time, _first_name, _family_name, _date_of_birth, _postcode, _phone, _email, _notes,"+
+            //             " _sample_id, _test_result, _test_status, _test_start_time, _result_import_time, _web_saved)";
+            sql_insert = "save_sample";
+            MySqlCommand command = new MySqlCommand(sql_insert, Database.MySql());
+            command.CommandType = CommandType.StoredProcedure;
+            command.Parameters.Add("@_station_id", MySqlDbType.VarChar, 255).Value = Settings.station_id;
+            command.Parameters.Add("@_id", MySqlDbType.Int32).Value = next_id;
+            command.Parameters.Add("@_save_time", MySqlDbType.DateTime, 11).Value = DateTime.Now;
+            command.Parameters.Add("@_first_name", MySqlDbType.VarChar, 255).Value = edName.Text;
+            command.Parameters.Add("@_family_name", MySqlDbType.VarChar, 255).Value = edFamilyName.Text;
+            command.Parameters.Add("@_date_of_birth", MySqlDbType.DateTime, 11).Value = deDOB.DateTime.ToString("yyyy-MM-dd");
+            command.Parameters.Add("@_postcode", MySqlDbType.VarChar, 255).Value = edPostCode.Text;
+            command.Parameters.Add("@_phone", MySqlDbType.VarChar, 255).Value = edPhone.Text;
+            command.Parameters.Add("@_email", MySqlDbType.VarChar, 255).Value = edEmail.Text;
+            command.Parameters.Add("@_notes", MySqlDbType.LongText, 255).Value = mmNotes.Text;
+            command.Parameters.Add("@_sample_id", MySqlDbType.VarChar, 255).Value = _sample_id;
+            command.Parameters.Add("@_test_result", MySqlDbType.LongText, 255).Value = "";
+            command.Parameters.Add("@_test_status", MySqlDbType.VarChar, 255).Value = Constants.TEST_WAITING_TEXT;
+            command.Parameters.Add("@_test_start_time", MySqlDbType.DateTime, 11).Value = null;
+            command.Parameters.Add("@_result_import_time", MySqlDbType.DateTime, 11).Value = null;
+            command.Parameters.Add("@_web_saved", MySqlDbType.Int32).Value = 0;
             command.ExecuteNonQuery();
+
             edTicketId.Text = _sample_id;
             bcTicketId.Text = _sample_id;
             int sample_id = Database.sql_to_int("select max(id) from samples");           
@@ -560,7 +565,7 @@ namespace TestStationManagement
             }
             Database.refresh_backup_percent();
             samples_data.refresh();
-            return;
+            //return;
             String test_r = $"<SAMPLE_ID>{_sample_id}</SAMPLE_ID>\n<RESULT>this is a mock test result, not a real test.</RESULT>";
             File.WriteAllText(AppView.temp_directory + "\\sample_test_result.dat", test_r);
             File.WriteAllText($"F:\\{_sample_id}.dat", test_r);
@@ -619,12 +624,42 @@ namespace TestStationManagement
         {
             if (e.Column == colTestResult)
             {
+                DataRow r = gvTestManagement.GetDataRow(e.RowHandle);
+                if (r == null) return;
+                string test_status = r["test_status"].ToString();
                 Rectangle rrect = e.Bounds;
                 Brush b = new SolidBrush(Color.White);
-                e.Graphics.FillRectangle(b, rrect);
-                e.Appearance.DrawString(e.Cache, "  Invalid", e.Bounds);
-                Rectangle r = new Rectangle(e.Bounds.X + 80, e.Bounds.Y, 32, 32);
-                e.Graphics.DrawImage(Properties.Resources.test_result_invalid_yellow, r); //  
+                e.Graphics.FillRectangle(b, rrect);                
+                Rectangle rec = new Rectangle(e.Bounds.X + 80, e.Bounds.Y, 32, 32);
+                if (Constants.match_completed(test_status))
+                {
+                    switch (e.RowHandle)
+                    {
+                        case 0:
+                            e.Appearance.DrawString(e.Cache, "  Invalid", e.Bounds);
+                            e.Graphics.DrawImage(Properties.Resources.test_result_invalid_yellow, rec);
+                            break;
+                        case 1:
+                            e.Appearance.DrawString(e.Cache, "  Negative", e.Bounds);
+                            e.Graphics.DrawImage(Properties.Resources.test_result_negative_green, rec);
+                            break;
+                        case 2:
+                            e.Appearance.DrawString(e.Cache, "  Positive", e.Bounds);
+                            e.Graphics.DrawImage(Properties.Resources.test_result_positive_red, rec);
+                            break;
+                        case 3:
+                            e.Appearance.DrawString(e.Cache, "  Invalid", e.Bounds);
+                            e.Graphics.DrawImage(Properties.Resources.test_result_invalid_yellow, rec);
+                            break;
+                    }
+                    
+                }                    
+                else
+                {
+                    e.Appearance.DrawString(e.Cache, "  Pending", e.Bounds);
+                    e.Graphics.DrawImage(Properties.Resources.test_result_waiting_blank, rec);
+                }
+                    
                 e.Handled = true;
             }
             if (e.Column == ColTestStatusTests)

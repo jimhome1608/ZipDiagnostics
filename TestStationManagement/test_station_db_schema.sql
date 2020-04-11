@@ -32,7 +32,7 @@ CREATE TABLE `error_log` (
   `key_word` varchar(255) DEFAULT NULL,
   `data` longtext,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
 /*Table structure for table `samples` */
 
@@ -164,6 +164,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `save_sample`(IN _station_id varchar
 	_date_of_birth datetime, _postcode varchar(255), _phone varchar(255), _email varchar(255), _notes longtext, _sample_id varchar(255), _test_result longtext , 
         _test_status  varchar(255), _test_start_time datetime, _result_import_time datetime, _web_saved  int)
 BEGIN
+   declare new_id int;
    if exists (select * from samples where station_id = _station_id and id = _id) then
 	insert into samples_history (select get_next_history_id(),station_id, id, save_time, first_name, family_name, 
 	date_of_birth, postcode, phone, email, notes,sample_id, test_result, test_status, test_start_time, result_import_time, web_saved,
@@ -176,6 +177,10 @@ BEGIN
 	values
 	(_station_id, _id, _save_time, _first_name, _family_name, _date_of_birth, _postcode, _phone, _email, _notes, 
 	_sample_id, _test_result, _test_status, _test_start_time, _result_import_time, _web_saved);
+    set new_id = (select max(id) from samples where station_id = _station_id);
+    select samples.*, get_sample_id(samples.station_id, samples.id) as sample_id2, concat(first_name,' ', family_name) as full_name  from samples
+    where station_id = _station_id and id = new_id;
+    
 END$$
 
 DELIMITER ;
@@ -240,18 +245,29 @@ END$$
 
 DELIMITER ;
 
+/* Function  structure for function  `get_sample_id` */
+
+DELIMITER $$
+
+CREATE DEFINER=`root`@`localhost` FUNCTION `get_sample_id`(_station_id varchar(255), _id int) RETURNS varchar(255) CHARSET latin1
+BEGIN   
+   return Concat(Upper(_station_id),'S',_id);		
+END$$
+
+DELIMITER ;
+
 /* Function  structure for function  `get_test_barcode` */
 
 DELIMITER $$
 
-CREATE DEFINER=`root`@`localhost` FUNCTION `get_test_barcode`(_sample_id int) RETURNS varchar(4096) CHARSET latin1
+CREATE DEFINER=`root`@`localhost` FUNCTION `get_test_barcode`(_station_id varchar(255),_sample_id int) RETURNS varchar(4096) CHARSET latin1
 BEGIN
    declare name varchar(255);   
    declare dob varchar(255);
    declare sid varchar(255);
-   set name = (select concat(first_name,' ',family_name) from samples  where id = _sample_id);  
-   set dob = (select DATE_FORMAT(date_of_birth,'%d %b %Y') from samples where id = _sample_id); 
-   set sid = (select sample_id from samples where id = _sample_id); 
+   set name = (select concat(first_name,' ',family_name) from samples  where  station_id = _station_id and id = _sample_id);  
+   set dob = (select DATE_FORMAT(date_of_birth,'%d %b %Y') from samples where station_id = _station_id and id = _sample_id); 
+   set sid = (select sample_id from samples where station_id = _station_id and id = _sample_id); 
    return Concat(Upper(name),':',Upper(dob),':',sid);		
 END$$
 
