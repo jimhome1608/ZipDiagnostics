@@ -66,6 +66,7 @@ namespace TestStationManagement
         public static String application_name = "";
         public static Boolean show_confirmation_move_tests = true;
         public static string computer_name;
+        public static string ip_address;
 
 
         public static void write_error_log(String error_message)

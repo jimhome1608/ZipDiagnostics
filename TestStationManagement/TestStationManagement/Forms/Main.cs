@@ -12,6 +12,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
@@ -69,6 +70,9 @@ namespace TestStationManagement
             InitializeComponent();
 
             AppView.get_versions();
+            AppView.computer_name = Environment.MachineName.ToString();
+            string hostName = Dns.GetHostName();
+            AppView.ip_address = Dns.GetHostByName(hostName).AddressList[0].ToString();
 
             Settings.station_id = Settings.get_station_id();
             if (Settings.station_id.Length < 1)
@@ -264,9 +268,9 @@ namespace TestStationManagement
             while (true)
             try
             {                                                                           
-                    this.Enabled = true;
-                    load_info_screen();
+                    this.Enabled = true;                    
                     samples_data = new SqlData($"{Constants.SQL_SAMPLES_SELECT} order by save_time desc ");
+                    load_info_screen();
                     grdSamplesTest.DataSource = samples_data.myBindingSource;
                     teTestListName.DataBindings.Add(new Binding("text", samples_data.myBindingSource, "full_name"));
                     teTestListPhone.DataBindings.Add(new Binding("text", samples_data.myBindingSource, "phone"));
@@ -312,6 +316,16 @@ namespace TestStationManagement
                 lblInfo.Text = lblInfo.Text + $"<br>Backup finished. ({DateTime.Now.ToString()}) ";
                 lblInfo.Text = lblInfo.Text + Database.get_backup_status();
             }
+            lblInfo.Text = lblInfo.Text + "<br><br><b>This Computer</b>";
+            lblInfo.Text = lblInfo.Text + $"<br>Computer Name: {AppView.computer_name}";
+            lblInfo.Text = lblInfo.Text + $"<br>IP Address: {AppView.ip_address}";
+            if (new[] { "localhost", "127.0.0.1", $"{AppView.computer_name.ToLower()}", $"{AppView.ip_address}" }.Any(c => Database.database_host.ToLower().Contains(c)))
+            {
+                lblInfo.Text = lblInfo.Text + $"<br><b>Note:</b> This is the machine with the SQL Database.";
+                lblInfo.Text = lblInfo.Text + $"<br>Please configure each other computer to use this IP Address or Computer Name";
+            }
+                
+
         }
 
         private IEnumerable<Control> GetAll(Control control, Type type)
@@ -769,6 +783,15 @@ namespace TestStationManagement
                 e.Cancel = true;
                 return;
             }            
+        }
+
+
+        private void btnCopy_Click(object sender, EventArgs e)
+        {
+            String s = lblInfo.Text;
+            s = s.Replace("<br>", "\n").Replace("</br>", "").Replace("<b>", "").Replace("</b>", "").Replace("<font='Tahoma'size=12>","").Replace("<image=ZipDiagnosticsLogo.jpg>","");
+            Clipboard.SetData(DataFormats.Text, (Object)s);
+            XtraMessageBox.Show("Test Station setup info has been copied to clipboard", "Copy", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private void edit_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)

@@ -2,7 +2,7 @@
 **Database -> test_station**
 <br>Currently using same Database as spectrace setup so would need to run..
 ```
-GRANT ALL PRIVILEGES ON test_station.*  TO 'axxin_spectrace'@'%' WITH GRANT OPTION;
+GRANT ALL PRIVILEGES ON test_station.* TO 'axxin_spectrace'@'%' WITH GRANT OPTION;
 GRANT ALL PRIVILEGES ON test_station.* TO 'axxin_spectrace'@'localhost' WITH GRANT OPTION;
 ```
 But for release will install mysql with a different user and just use the root password for the database so will not be any complications.
