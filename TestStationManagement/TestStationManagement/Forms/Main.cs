@@ -623,8 +623,8 @@ namespace TestStationManagement
                 Brush b = new SolidBrush(Color.White);
                 e.Graphics.FillRectangle(b, rrect);
                 e.Appearance.DrawString(e.Cache, "  Invalid", e.Bounds);
-                Rectangle r = new Rectangle(e.Bounds.X + 80, e.Bounds.Y + 2, 63, 63);
-                e.Graphics.DrawImage(Properties.Resources.testResultInvalid, r); //  
+                Rectangle r = new Rectangle(e.Bounds.X + 80, e.Bounds.Y, 32, 32);
+                e.Graphics.DrawImage(Properties.Resources.test_result_invalid_yellow, r); //  
                 e.Handled = true;
             }
             if (e.Column == ColTestStatusTests)

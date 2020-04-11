@@ -158,6 +158,10 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Notes\TextFile1.txt" />
+    <None Include="Resources\test_result_waiting_blank.png" />
+    <None Include="Resources\test_result_positive_red.png" />
+    <None Include="Resources\test_result_negative_green.png" />
+    <None Include="Resources\test_result_invalid_yellow.png" />
     <None Include="Resources\testResultInvalid.png" />
     <None Include="Resources\toolbar_get_info.png" />
     <None Include="Resources\about_32x32_grey.png" />

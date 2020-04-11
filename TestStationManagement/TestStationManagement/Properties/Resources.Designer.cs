@@ -73,16 +73,6 @@ namespace TestStationManagement.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap about_32x32_grey {
-            get {
-                object obj = ResourceManager.GetObject("about_32x32_grey", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
         internal static System.Drawing.Bitmap apply_16x16 {
             get {
                 object obj = ResourceManager.GetObject("apply_16x16", resourceCulture);
@@ -106,26 +96,6 @@ namespace TestStationManagement.Properties {
         internal static System.Drawing.Bitmap apply_32x32 {
             get {
                 object obj = ResourceManager.GetObject("apply_32x32", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap iconsettrafficlights4_16x16 {
-            get {
-                object obj = ResourceManager.GetObject("iconsettrafficlights4_16x16", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap iconsettrafficlights4_16x16_bw {
-            get {
-                object obj = ResourceManager.GetObject("iconsettrafficlights4_16x16_bw", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -183,9 +153,39 @@ namespace TestStationManagement.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap testResultInvalid {
+        internal static System.Drawing.Bitmap test_result_invalid_yellow {
             get {
-                object obj = ResourceManager.GetObject("testResultInvalid", resourceCulture);
+                object obj = ResourceManager.GetObject("test_result_invalid_yellow", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap test_result_negative_green {
+            get {
+                object obj = ResourceManager.GetObject("test_result_negative_green", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap test_result_positive_red {
+            get {
+                object obj = ResourceManager.GetObject("test_result_positive_red", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap test_result_waiting_blank {
+            get {
+                object obj = ResourceManager.GetObject("test_result_waiting_blank", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

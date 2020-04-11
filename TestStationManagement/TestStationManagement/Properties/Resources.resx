@@ -118,9 +118,6 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="iconsettrafficlights4_16x16" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\iconsettrafficlights4_16x16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="apply_16x16" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\apply_16x16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -139,28 +136,31 @@
   <data name="apply_16x16_no_color3" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\apply_16x16_no_color3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="iconsettrafficlights4_16x16_bw" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\iconsettrafficlights4_16x16_bw.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="ZipDiagnosticsLogo" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ZipDiagnosticsLogo.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="about_32x32" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\about_32x32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="mini_circle" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\mini_circle.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="info_32x32" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\info_32x32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="about_32x32_grey" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\about_32x32_grey.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="toolbar_get_info" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\toolbar_get_info.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="testResultInvalid" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\testResultInvalid.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="test_result_invalid_yellow" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\test_result_invalid_yellow.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="test_result_negative_green" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\test_result_negative_green.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="test_result_positive_red" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\test_result_positive_red.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="test_result_waiting_blank" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\test_result_waiting_blank.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="mini_circle" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\mini_circle.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>
