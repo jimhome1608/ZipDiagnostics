@@ -266,8 +266,8 @@ namespace TestStationManagement
                 edtUserName.Text = last_userName;
             while (true)
             try
-            {                                                                           
-                    this.Enabled = true;
+            {
+                    pnlLoginLeft.Enabled = true;
                     Settings.station_id = Settings.get_station_id();
                     if (Settings.station_id.Length < 1)
                     {
@@ -286,8 +286,19 @@ namespace TestStationManagement
             }
             catch (Exception ex)
             {
-                    this.Enabled = false;
+                    pnlLoginLeft.Enabled = false;
                     lblInfo.Text = lblInfo.Text + $"<font='Tahoma'size=16 color=red><br>Cannot connect to MySql Database on Host: <b>\"{Database.database_host}\"<color=black></b><br>Please contact support.<br>{ex.Message}";
+                    lblInfo.Text = lblInfo.Text + "<br><b>Setup</b>";
+                    lblInfo.Text = lblInfo.Text + $"<br>Station ID: {Settings.station_id}";
+                    lblInfo.Text = lblInfo.Text + $"<br>Database Host: {Database.database_host}";
+                    lblInfo.Text = lblInfo.Text + "<br><br><b>This Computer</b>";
+                    lblInfo.Text = lblInfo.Text + $"<br>Computer Name: {AppView.computer_name}";
+                    lblInfo.Text = lblInfo.Text + $"<br>IP Address: {AppView.ip_address}";
+                    if (new[] { "localhost", "127.0.0.1", $"{AppView.computer_name.ToLower()}", $"{AppView.ip_address}" }.Any(c2 => Database.database_host.ToLower().Contains(c2)))
+                    {
+                        lblInfo.Text = lblInfo.Text + $"<br><b>Note:</b> This is the machine with the SQL Database.";
+                        lblInfo.Text = lblInfo.Text + $"<br>Please configure each other computer to use this IP Address or Computer Name";
+                    }
                     if  (DialogCheckServer.ask() != DialogResult.OK)
                     {
                             break;
@@ -793,7 +804,7 @@ namespace TestStationManagement
         private void btnCopy_Click(object sender, EventArgs e)
         {
             String s = lblInfo.Text;
-            s = s.Replace("<br>", "\n").Replace("</br>", "").Replace("<b>", "").Replace("</b>", "").Replace("<font='Tahoma'size=12>","").Replace("<image=ZipDiagnosticsLogo.jpg>","");
+            s = s.Replace("<br>", "\n").Replace("</br>", "").Replace("<b>", "").Replace("</b>", "").Replace("<font='Tahoma'size=12>", "").Replace("<image=ZipDiagnosticsLogo.jpg>", "").Replace("<font='Tahoma'size=16 color=red>", "").Replace("<color=black>", "");
             Clipboard.SetData(DataFormats.Text, (Object)s);
             XtraMessageBox.Show("Test Station setup info has been copied to clipboard", "Copy", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
