@@ -39,6 +39,10 @@ namespace TestStationManagement
         public static event EventHandler backup_percent_changed;
 
         private static double _backup_percent = 100.00;
+        public static int test_waiting = 0;
+        public static int test_completed = 0;
+        public static int test_in_progress = 0;
+        public static int sample_count = 0;
 
         public static double  backup_percent
         {
@@ -124,11 +128,14 @@ namespace TestStationManagement
 
         public static bool refresh_backup_percent()
         {
-            int total_count = Database.sql_to_int("select count(*) from samples");
+            sample_count = Database.sql_to_int("select count(*) from samples");
             int backup_count = Database.sql_to_int("select count(*) from samples where ifnull(web_saved,0) <> 0 ");
-            need_backup = total_count - backup_count;
-            if (total_count > 0)
-                backup_percent = (float)backup_count / (float)total_count * 100;
+            test_waiting = Database.sql_to_int("select count(*) from samples where test_status like '%Collected%' ");
+            test_completed = Database.sql_to_int("select count(*) from samples where test_status like '%Completed%' ");
+            test_in_progress = Database.sql_to_int("select count(*) from samples where test_status like '%Progress%' ");
+            need_backup = sample_count - backup_count;
+            if (sample_count > 0)
+                backup_percent = (float)backup_count / (float)sample_count * 100;
             return false;
         }
 

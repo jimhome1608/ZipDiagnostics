@@ -183,6 +183,16 @@ namespace TestStationManagement.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap testResultInvalid {
+            get {
+                object obj = ResourceManager.GetObject("testResultInvalid", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap toolbar_get_info {
             get {
                 object obj = ResourceManager.GetObject("toolbar_get_info", resourceCulture);

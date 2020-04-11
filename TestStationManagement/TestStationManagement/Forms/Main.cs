@@ -155,13 +155,13 @@ namespace TestStationManagement
                 btnCompleted.BackColor = Color.Transparent;
                 btnAll.BackColor = Color.Transparent;
                 if (AppView.test_view_state == AppView.DataView.Waiting)
-                    btnWaitingToBeTested.BackColor = Color.Yellow;
+                    btnWaitingToBeTested.BackColor = Constants.BACKGROUND_COLOR_FOR_SELECTED_VIEW_BUTTON;
                 if (AppView.test_view_state == AppView.DataView.InProgress)
-                    btnInProgress.BackColor = Color.Yellow;
+                    btnInProgress.BackColor = Constants.BACKGROUND_COLOR_FOR_SELECTED_VIEW_BUTTON;
                 if (AppView.test_view_state == AppView.DataView.Completed)
-                    btnCompleted.BackColor = Color.Yellow;
+                    btnCompleted.BackColor = Constants.BACKGROUND_COLOR_FOR_SELECTED_VIEW_BUTTON;
                 if (AppView.test_view_state == AppView.DataView.All)
-                    btnAll.BackColor = Color.Yellow;
+                    btnAll.BackColor = Constants.BACKGROUND_COLOR_FOR_SELECTED_VIEW_BUTTON;
                 gvTestManagement.RefreshData();
 
             };
@@ -170,6 +170,12 @@ namespace TestStationManagement
             Database.backup_percent_changed += (s, e) =>
             {
                 colWebSaved.Caption = "Backup " + $"{Math.Round(Database.backup_percent, 0)}%";
+                btnWaitingToBeTested.Text = $"Waiting ({Database.test_waiting})";
+                btnInProgress.Text = $"In Progress ({Database.test_in_progress})";
+                btnCompleted.Text = $"Completed ({Database.test_completed})";
+                btnAll.Text = $"All ({Database.sample_count})";
+
+
             };
 
             AppView.sample_state = AppView.DataStates.Saved;
@@ -611,6 +617,16 @@ namespace TestStationManagement
 
         private void gvTestManagement_CustomDrawCell(object sender, DevExpress.XtraGrid.Views.Base.RowCellCustomDrawEventArgs e)
         {
+            if (e.Column == colTestResult)
+            {
+                Rectangle rrect = e.Bounds;
+                Brush b = new SolidBrush(Color.White);
+                e.Graphics.FillRectangle(b, rrect);
+                e.Appearance.DrawString(e.Cache, "  Invalid", e.Bounds);
+                Rectangle r = new Rectangle(e.Bounds.X + 80, e.Bounds.Y + 2, 63, 63);
+                e.Graphics.DrawImage(Properties.Resources.testResultInvalid, r); //  
+                e.Handled = true;
+            }
             if (e.Column == ColTestStatusTests)
             {
                 String s = e.CellValue.ToString().ToLower();
@@ -620,6 +636,7 @@ namespace TestStationManagement
                     e.Appearance.BackColor = Constants.TEST_COMPLETED_BACKCOLOR;
                 else
                     e.Appearance.BackColor = Constants.TEST_WAITING_BACKCOLOR;
+                //
             } //
             if (e.Column == colWebSaved)
             {
@@ -827,6 +844,12 @@ namespace TestStationManagement
                 _html = _html + $"<br>Please configure each other computer to use this IP Address or Computer Name";
             }
             HTMLDialog.confirm("About", _html, "", "OK");
+        }
+
+        private void btnRefresh_Click(object sender, EventArgs e)
+        {
+            samples_data.refresh();
+            Database.refresh_backup_percent();
         }
 
         private void edit_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
