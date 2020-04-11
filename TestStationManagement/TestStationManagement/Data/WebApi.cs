@@ -108,10 +108,12 @@ namespace TestStationManagement.Data
 
         public static bool save_sample(DataRow r)
         {
+
             if (!WebApi.internet_connection_ok)
                 return false;
             try
             {
+                SplashScreen2.Start("Backup in progress...");
                 TestStationSampleData data = new TestStationSampleData();
                 data.station_id = r["station_id"].ToString();
                 data.id = (int)r["id"];
@@ -149,16 +151,20 @@ namespace TestStationManagement.Data
                     dynamic myDetails = JsonConvert.DeserializeObject(result);
                     if (myDetails.request_action == "done")
                     {
+                        SplashScreen2.Stop();
                         return true;
                     }
                 }
+                SplashScreen2.Stop();
+                WebApi.internet_connection_ok = false;
                 return false;
             }
             catch (Exception ex)
             {
+                WebApi.internet_connection_ok = false;
+                SplashScreen2.Stop();
                 return false;
             }
-           
         }
     }
 }

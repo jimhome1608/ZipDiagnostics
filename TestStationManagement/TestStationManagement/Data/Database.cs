@@ -36,8 +36,28 @@ namespace TestStationManagement
 
     public static class Database    {
 
+        public static event EventHandler backup_percent_changed;
+
+        private static double _backup_percent = 100.00;
+
+        public static double  backup_percent
+        {
+            get
+            {
+                return _backup_percent;
+            }
+            set
+            {
+                _backup_percent = value;
+                if (backup_percent_changed != null)
+                {
+                    backup_percent_changed(null, null);
+                }
+            }
+        }
 
         public static int  need_backup = 0;
+        
 
         public static string database_host = ConfigurationManager.AppSettings["DatabaseHost"];
         public static String str_clean(String s)
@@ -102,18 +122,32 @@ namespace TestStationManagement
             return fMySql;
         }
 
-
-        public static string get_backup_status()
+        public static bool refresh_backup_percent()
         {
             int total_count = Database.sql_to_int("select count(*) from samples");
             int backup_count = Database.sql_to_int("select count(*) from samples where ifnull(web_saved,0) <> 0 ");
             need_backup = total_count - backup_count;
-            double backup_percent = 100.00;
-            string latest_sample = "select DATE_FORMAT(GREATEST(save_time, test_start_time, result_import_time), ' %W - %d/%m/%Y  %k:%i ') as x from samples order by x desc limit 1";
-            string latest_sample_saved = "select DATE_FORMAT(GREATEST(save_time, test_start_time, result_import_time), ' %W - %d/%m/%Y  %k:%i ') as x from samples  where ifnull(web_saved,0) = 1 order by x desc limit 1";
             if (total_count > 0)
-                backup_percent = (float) backup_count / (float) total_count * 100;
-//            backup_percent = 90;
+                backup_percent = (float)backup_count / (float)total_count * 100;
+            return false;
+        }
+
+        public static bool refresh_backup_percent(out int total_count, out int backup_count)
+        {
+            total_count = Database.sql_to_int("select count(*) from samples");
+            backup_count = Database.sql_to_int("select count(*) from samples where ifnull(web_saved,0) <> 0 ");
+            need_backup = total_count - backup_count;
+            if (total_count > 0)
+                backup_percent = (float)backup_count / (float)total_count * 100;
+            return false;
+        }
+
+
+        public static string get_backup_status()
+        {
+            int total_count;
+            int backup_count;
+            refresh_backup_percent(out total_count, out backup_count);
             String res = $"<br><br><b>Backup Status:  {Math.Round(backup_percent, 2)}%</b>";
             if (backup_percent < 100)
                 res =  $"<br><br><b>Backup Status: <color=red>{Math.Round(backup_percent,2)}%</b><color=black>";

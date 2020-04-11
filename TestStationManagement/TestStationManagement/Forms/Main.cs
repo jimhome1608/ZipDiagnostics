@@ -74,13 +74,6 @@ namespace TestStationManagement
             string hostName = Dns.GetHostName();
             AppView.ip_address = Dns.GetHostByName(hostName).AddressList[0].ToString();
 
-            Settings.station_id = Settings.get_station_id();
-            if (Settings.station_id.Length < 1)
-            {
-                throw new Exception("Could not get/set station id");
-            }
-
-
             openFileDialog1 = new OpenFileDialog()
             {
                 FileName = "",
@@ -172,7 +165,13 @@ namespace TestStationManagement
                 gvTestManagement.RefreshData();
 
             };
-            
+
+
+            Database.backup_percent_changed += (s, e) =>
+            {
+                colWebSaved.Caption = "Backup " + $"{Math.Round(Database.backup_percent, 0)}%";
+            };
+
             AppView.sample_state = AppView.DataStates.Saved;
             AppView.test_view_state = AppView.DataView.All;
 
@@ -268,7 +267,12 @@ namespace TestStationManagement
             while (true)
             try
             {                                                                           
-                    this.Enabled = true;                    
+                    this.Enabled = true;
+                    Settings.station_id = Settings.get_station_id();
+                    if (Settings.station_id.Length < 1)
+                    {
+                        throw new Exception("Could not get/set station id");
+                    }
                     samples_data = new SqlData($"{Constants.SQL_SAMPLES_SELECT} order by save_time desc ");
                     load_info_screen();
                     grdSamplesTest.DataSource = samples_data.myBindingSource;
@@ -301,7 +305,7 @@ namespace TestStationManagement
             lblInfo.Text = lblInfo.Text + $"<br>Database Connected: <b>OK</b>";
             string internet_connection_ok = (WebApi.internet_connection_ok) ? "<br>Internet Connection: <b>OK</b>" : "<br>Internet Connection: <b><color=red>Not Available <color=black></b>";
             lblInfo.Text = lblInfo.Text + internet_connection_ok;
-            lblInfo.Text = lblInfo.Text + Database.get_backup_status();
+            Database.refresh_backup_percent();
             if (Database.need_backup != 0 && WebApi.internet_connection_ok)
             {
                 lblInfo.Text = lblInfo.Text + $"<br>Backup in progress ({DateTime.Now.ToString()}) ";
@@ -315,8 +319,9 @@ namespace TestStationManagement
                     }
                 }
                 lblInfo.Text = lblInfo.Text + $"<br>Backup finished. ({DateTime.Now.ToString()}) ";
-                lblInfo.Text = lblInfo.Text + Database.get_backup_status();
             }
+            lblInfo.Text = lblInfo.Text + Database.get_backup_status();            
+            samples_data.refresh();
             lblInfo.Text = lblInfo.Text + "<br><br><b>This Computer</b>";
             lblInfo.Text = lblInfo.Text + $"<br>Computer Name: {AppView.computer_name}";
             lblInfo.Text = lblInfo.Text + $"<br>IP Address: {AppView.ip_address}";
@@ -324,9 +329,7 @@ namespace TestStationManagement
             {
                 lblInfo.Text = lblInfo.Text + $"<br><b>Note:</b> This is the machine with the SQL Database.";
                 lblInfo.Text = lblInfo.Text + $"<br>Please configure each other computer to use this IP Address or Computer Name";
-            }
-                
-
+            }                
         }
 
         private IEnumerable<Control> GetAll(Control control, Type type)
@@ -536,8 +539,12 @@ namespace TestStationManagement
             int sample_id = Database.sql_to_int("select max(id) from samples");           
             AppView.sample_state = AppView.DataStates.Saved;
             if (WebApi.save_sample(sample_id))
-                Database.execute_non_query($"update samples set web_saved = 1 where id = {sample_id}");
+            {
+                Database.execute_non_query($"update samples set web_saved = 1 where id = {sample_id}");                
+            }
+            Database.refresh_backup_percent();
             samples_data.refresh();
+            return;
             String test_r = $"<SAMPLE_ID>{_sample_id}</SAMPLE_ID>\n<RESULT>this is a mock test result, not a real test.</RESULT>";
             File.WriteAllText(AppView.temp_directory + "\\sample_test_result.dat", test_r);
             File.WriteAllText($"F:\\{_sample_id}.dat", test_r);
@@ -586,6 +593,7 @@ namespace TestStationManagement
             current_test_data.save_to_db();
             if (!WebApi.save_sample(r))
                 Database.execute_non_query($"update samples set web_saved = 0 where id = {r["id"].ToString()}");
+            Database.refresh_backup_percent();
             samples_data.refresh();
             tbTestStatus.BackColor = Constants.TEST_IN_PROGRESS_BACKCOLOR;
         }
@@ -607,16 +615,17 @@ namespace TestStationManagement
             {
                 Color c =Color.Yellow;
                 String s = e.CellValue.ToString().ToLower();
-                if (s == "1")
-                    c = Constants.WEB_SAVED_OK_COLOR;
+                bool backed_up_ok = s == "1";
                 e.DisplayText = "";
                 Rectangle rrect = e.Bounds;
-                Brush brush;
-                brush = new SolidBrush(c);
-                rrect.Width = rrect.Height - 5;
-                rrect.Height = rrect.Width;
-                rrect.X += 10;
-                e.Graphics.FillEllipse(brush, rrect);
+                Rectangle r = new Rectangle(e.Bounds.X + 12, e.Bounds.Y + 5, 16, 16);
+                if (backed_up_ok)
+                    e.Graphics.DrawImage(Properties.Resources.apply_16x16_no_color3, r); //   
+                else
+                {
+                    e.Graphics.DrawImage(Properties.Resources.mini_circle, r); //   mini_circle
+                }                
+                e.Handled = true;
             } //col
 
         }
@@ -759,6 +768,7 @@ namespace TestStationManagement
             writeTestResult.write(id, test_result);
             if (!WebApi.save_sample(id))
                 Database.execute_non_query($"update samples set web_saved = 0 where id = {id}");
+            Database.refresh_backup_percent();
             samples_data.refresh();
             
             XtraMessageBox.Show($"Sample for {sample_info}\nhas been updated with results.", "Import Test Results", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -767,13 +777,6 @@ namespace TestStationManagement
         private void btnSettings_Click(object sender, EventArgs e)
         {
 
-        }
-
-        private void gvTestManagement_DoubleClick(object sender, EventArgs e)
-        {
-            DataRow r = gvTestManagement.GetFocusedDataRow();
-            if (r == null) return;
-            WebApi.save_sample(r);
         }
 
         private void frmMain_FormClosing(object sender, FormClosingEventArgs e)
@@ -801,7 +804,6 @@ namespace TestStationManagement
                 return;
             if (sender == mmNotes && e.KeyData == Keys.Enter)
                 return;
-            Debug.WriteLine(e.KeyData);// Tab, Shift
             if (e.KeyData == Keys.Tab || e.KeyData == Keys.Enter || e.KeyData == (Keys.Tab | Keys.Shift) || e.KeyData == (Keys.Enter | Keys.Shift))
             {
                 Control result;

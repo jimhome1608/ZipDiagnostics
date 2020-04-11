@@ -187,11 +187,8 @@
             this.grdSamplesTest = new DevExpress.XtraGrid.GridControl();
             this.gvTestManagement = new DevExpress.XtraGrid.Views.Grid.GridView();
             this.gridColumn1 = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.gridColumn2 = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.gridColumn7 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.gridColumn3 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.gridColumn4 = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.gridColumn5 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.gridColumn6 = new DevExpress.XtraGrid.Columns.GridColumn();
             this._riMemoExEdit2 = new DevExpress.XtraEditors.Repository.RepositoryItemMemoExEdit();
             this._riMemoExEdit = new DevExpress.XtraGrid.Columns.GridColumn();
@@ -264,6 +261,8 @@
             this.panelControl7 = new DevExpress.XtraEditors.PanelControl();
             this.panelControl9 = new DevExpress.XtraEditors.PanelControl();
             this.xtraScrollableControl1 = new DevExpress.XtraEditors.XtraScrollableControl();
+            this.panel27 = new System.Windows.Forms.Panel();
+            this.btnCopy = new System.Windows.Forms.Button();
             this.lblInfo = new DevExpress.XtraEditors.LabelControl();
             this.imageCollection1 = new DevExpress.Utils.ImageCollection(this.components);
             this.panelControl6 = new DevExpress.XtraEditors.PanelControl();
@@ -316,8 +315,6 @@
             this.btnCancel = new DevExpress.XtraEditors.SimpleButton();
             this.btnNew = new DevExpress.XtraEditors.SimpleButton();
             this.btnPrint = new DevExpress.XtraEditors.SimpleButton();
-            this.btnCopy = new System.Windows.Forms.Button();
-            this.panel27 = new System.Windows.Forms.Panel();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemButtonEdit1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemButtonEdit2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit1)).BeginInit();
@@ -442,6 +439,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.panelControl9)).BeginInit();
             this.panelControl9.SuspendLayout();
             this.xtraScrollableControl1.SuspendLayout();
+            this.panel27.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.imageCollection1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.panelControl6)).BeginInit();
             this.panelControl6.SuspendLayout();
@@ -478,7 +476,6 @@
             this.xtraScrollableControl5.SuspendLayout();
             this.pnl_logout_settings.SuspendLayout();
             this.tlButtons.SuspendLayout();
-            this.panel27.SuspendLayout();
             this.SuspendLayout();
             // 
             // repositoryItemButtonEdit1
@@ -1457,13 +1454,11 @@
             this.gvTestManagement.Appearance.HeaderPanel.Options.UseFont = true;
             this.gvTestManagement.Appearance.Row.Font = new System.Drawing.Font("Tahoma", 12F);
             this.gvTestManagement.Appearance.Row.Options.UseFont = true;
+            this.gvTestManagement.ColumnPanelRowHeight = 40;
             this.gvTestManagement.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] {
             this.gridColumn1,
-            this.gridColumn2,
-            this.gridColumn7,
             this.gridColumn3,
             this.gridColumn4,
-            this.gridColumn5,
             this.gridColumn6,
             this._riMemoExEdit,
             this.gridColumn8,
@@ -1481,13 +1476,12 @@
             this.gvTestManagement.OptionsCustomization.AllowRowSizing = true;
             this.gvTestManagement.OptionsCustomization.AllowSort = false;
             this.gvTestManagement.OptionsFind.AlwaysVisible = true;
+            this.gvTestManagement.OptionsView.ColumnHeaderAutoHeight = DevExpress.Utils.DefaultBoolean.False;
             this.gvTestManagement.OptionsView.ShowGroupPanel = false;
             this.gvTestManagement.OptionsView.ShowIndicator = false;
             this.gvTestManagement.RowHeight = 0;
             this.gvTestManagement.CustomDrawCell += new DevExpress.XtraGrid.Views.Base.RowCellCustomDrawEventHandler(this.gvTestManagement_CustomDrawCell);
             this.gvTestManagement.CustomRowFilter += new DevExpress.XtraGrid.Views.Base.RowFilterEventHandler(this.gvTestManagement_CustomRowFilter);
-            this.gvTestManagement.Click += new System.EventHandler(this.gvTestManagement_DoubleClick);
-            this.gvTestManagement.DoubleClick += new System.EventHandler(this.gvTestManagement_DoubleClick);
             // 
             // gridColumn1
             // 
@@ -1495,26 +1489,8 @@
             this.gridColumn1.FieldName = "sample_id";
             this.gridColumn1.Name = "gridColumn1";
             this.gridColumn1.Visible = true;
-            this.gridColumn1.VisibleIndex = 5;
+            this.gridColumn1.VisibleIndex = 3;
             this.gridColumn1.Width = 139;
-            // 
-            // gridColumn2
-            // 
-            this.gridColumn2.Caption = "First Name";
-            this.gridColumn2.FieldName = "first_name";
-            this.gridColumn2.Name = "gridColumn2";
-            this.gridColumn2.Visible = true;
-            this.gridColumn2.VisibleIndex = 3;
-            this.gridColumn2.Width = 120;
-            // 
-            // gridColumn7
-            // 
-            this.gridColumn7.Caption = "Family Name";
-            this.gridColumn7.FieldName = "family_name";
-            this.gridColumn7.Name = "gridColumn7";
-            this.gridColumn7.Visible = true;
-            this.gridColumn7.VisibleIndex = 4;
-            this.gridColumn7.Width = 113;
             // 
             // gridColumn3
             // 
@@ -1522,7 +1498,7 @@
             this.gridColumn3.FieldName = "email";
             this.gridColumn3.Name = "gridColumn3";
             this.gridColumn3.Visible = true;
-            this.gridColumn3.VisibleIndex = 6;
+            this.gridColumn3.VisibleIndex = 4;
             this.gridColumn3.Width = 114;
             // 
             // gridColumn4
@@ -1531,17 +1507,8 @@
             this.gridColumn4.FieldName = "phone";
             this.gridColumn4.Name = "gridColumn4";
             this.gridColumn4.Visible = true;
-            this.gridColumn4.VisibleIndex = 7;
+            this.gridColumn4.VisibleIndex = 5;
             this.gridColumn4.Width = 114;
-            // 
-            // gridColumn5
-            // 
-            this.gridColumn5.Caption = "Date Of Birth";
-            this.gridColumn5.FieldName = "date_of_birth";
-            this.gridColumn5.Name = "gridColumn5";
-            this.gridColumn5.Visible = true;
-            this.gridColumn5.VisibleIndex = 8;
-            this.gridColumn5.Width = 114;
             // 
             // gridColumn6
             // 
@@ -1575,7 +1542,7 @@
             this._riMemoExEdit.FieldName = "notes";
             this._riMemoExEdit.Name = "_riMemoExEdit";
             this._riMemoExEdit.Visible = true;
-            this._riMemoExEdit.VisibleIndex = 9;
+            this._riMemoExEdit.VisibleIndex = 6;
             this._riMemoExEdit.Width = 144;
             // 
             // gridColumn8
@@ -1613,13 +1580,16 @@
             // 
             this.colWebSaved.AppearanceHeader.Font = new System.Drawing.Font("Tahoma", 8F);
             this.colWebSaved.AppearanceHeader.Options.UseFont = true;
-            this.colWebSaved.Caption = "Backup";
+            this.colWebSaved.AppearanceHeader.Options.UseTextOptions = true;
+            this.colWebSaved.AppearanceHeader.TextOptions.WordWrap = DevExpress.Utils.WordWrap.Wrap;
+            this.colWebSaved.Caption = "Backup 100%";
             this.colWebSaved.FieldName = "web_saved";
             this.colWebSaved.MaxWidth = 50;
             this.colWebSaved.MinWidth = 50;
             this.colWebSaved.Name = "colWebSaved";
+            this.colWebSaved.OptionsColumn.AllowEdit = false;
             this.colWebSaved.Visible = true;
-            this.colWebSaved.VisibleIndex = 10;
+            this.colWebSaved.VisibleIndex = 7;
             this.colWebSaved.Width = 50;
             // 
             // repositoryItemMemoEdit2
@@ -2380,6 +2350,25 @@
             this.xtraScrollableControl1.Size = new System.Drawing.Size(884, 677);
             this.xtraScrollableControl1.TabIndex = 23;
             // 
+            // panel27
+            // 
+            this.panel27.Controls.Add(this.btnCopy);
+            this.panel27.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel27.Location = new System.Drawing.Point(0, 120);
+            this.panel27.Name = "panel27";
+            this.panel27.Size = new System.Drawing.Size(884, 45);
+            this.panel27.TabIndex = 23;
+            // 
+            // btnCopy
+            // 
+            this.btnCopy.Location = new System.Drawing.Point(13, 12);
+            this.btnCopy.Name = "btnCopy";
+            this.btnCopy.Size = new System.Drawing.Size(75, 23);
+            this.btnCopy.TabIndex = 22;
+            this.btnCopy.Text = "Copy";
+            this.btnCopy.UseVisualStyleBackColor = true;
+            this.btnCopy.Click += new System.EventHandler(this.btnCopy_Click);
+            // 
             // lblInfo
             // 
             this.lblInfo.AllowHtmlString = true;
@@ -3106,25 +3095,6 @@
             this.btnPrint.TabIndex = 14;
             this.btnPrint.Text = "Print";
             // 
-            // btnCopy
-            // 
-            this.btnCopy.Location = new System.Drawing.Point(13, 12);
-            this.btnCopy.Name = "btnCopy";
-            this.btnCopy.Size = new System.Drawing.Size(75, 23);
-            this.btnCopy.TabIndex = 22;
-            this.btnCopy.Text = "Copy";
-            this.btnCopy.UseVisualStyleBackColor = true;
-            this.btnCopy.Click += new System.EventHandler(this.btnCopy_Click);
-            // 
-            // panel27
-            // 
-            this.panel27.Controls.Add(this.btnCopy);
-            this.panel27.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel27.Location = new System.Drawing.Point(0, 120);
-            this.panel27.Name = "panel27";
-            this.panel27.Size = new System.Drawing.Size(884, 45);
-            this.panel27.TabIndex = 23;
-            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -3266,6 +3236,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.panelControl9)).EndInit();
             this.panelControl9.ResumeLayout(false);
             this.xtraScrollableControl1.ResumeLayout(false);
+            this.panel27.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.imageCollection1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.panelControl6)).EndInit();
             this.panelControl6.ResumeLayout(false);
@@ -3303,7 +3274,6 @@
             this.pnl_logout_settings.ResumeLayout(false);
             this.pnl_logout_settings.PerformLayout();
             this.tlButtons.ResumeLayout(false);
-            this.panel27.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -3358,10 +3328,8 @@
         private DevExpress.XtraGrid.GridControl grdSamplesTest;
         private DevExpress.XtraGrid.Views.Grid.GridView gvTestManagement;
         private DevExpress.XtraGrid.Columns.GridColumn gridColumn1;
-        private DevExpress.XtraGrid.Columns.GridColumn gridColumn2;
         private DevExpress.XtraGrid.Columns.GridColumn gridColumn3;
         private DevExpress.XtraGrid.Columns.GridColumn gridColumn4;
-        private DevExpress.XtraGrid.Columns.GridColumn gridColumn5;
         private DevExpress.XtraGrid.Columns.GridColumn gridColumn6;
         private DevExpress.XtraGrid.Columns.GridColumn _riMemoExEdit;
         private DevExpress.XtraEditors.Repository.RepositoryItemMemoExEdit _riMemoExEdit2;
@@ -3484,7 +3452,6 @@
         private System.Windows.Forms.Splitter splitter3;
         private System.Windows.Forms.Splitter splitter1;
         private System.Windows.Forms.Panel panel43;
-        private DevExpress.XtraGrid.Columns.GridColumn gridColumn7;
         private DevExpress.XtraEditors.XtraScrollableControl xtraScrollableControl4;
         private DevExpress.XtraEditors.LabelControl lblInfoRunTest;
         private System.Windows.Forms.Panel panel8;
