@@ -15,9 +15,9 @@ namespace TestStationManagement.Data
 
         public static Color BACKGROUND_COLOR_FOR_SELECTED_VIEW_BUTTON = Color.DarkGray;
         public static Color EDITING_BACKCOLOR = Color.LightYellow;
-        public static Color TEST_IN_PROGRESS_BACKCOLOR = Color.Yellow;
-        public static Color TEST_COMPLETED_BACKCOLOR = Color.Red;
-        public static Color TEST_WAITING_BACKCOLOR = Color.LightGreen;
+        public static Color TEST_IN_PROGRESS_BACKCOLOR = Color.DarkGray;
+        public static Color TEST_COMPLETED_BACKCOLOR = Color.LightGray;
+        public static Color TEST_WAITING_BACKCOLOR = Color.LightBlue;
         public static Color WEB_SAVED_OK_COLOR = Color.Green;
 
         public static string TEST_IN_PROGRESS_TEXT = "Test in Progress";

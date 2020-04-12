@@ -565,7 +565,7 @@ namespace TestStationManagement
             }
             Database.refresh_backup_percent();
             samples_data.refresh();
-            //return;
+            return;
             String test_r = $"<SAMPLE_ID>{_sample_id}</SAMPLE_ID>\n<RESULT>this is a mock test result, not a real test.</RESULT>";
             File.WriteAllText(AppView.temp_directory + "\\sample_test_result.dat", test_r);
             File.WriteAllText($"F:\\{_sample_id}.dat", test_r);
@@ -635,19 +635,19 @@ namespace TestStationManagement
                 {
                     switch (e.RowHandle)
                     {
-                        case 0:
+                        case 1:
                             e.Appearance.DrawString(e.Cache, "  Invalid", e.Bounds);
                             e.Graphics.DrawImage(Properties.Resources.test_result_invalid_yellow, rec);
                             break;
-                        case 1:
+                        case 2:
                             e.Appearance.DrawString(e.Cache, "  Negative", e.Bounds);
                             e.Graphics.DrawImage(Properties.Resources.test_result_negative_green, rec);
                             break;
-                        case 2:
+                        case 3:
                             e.Appearance.DrawString(e.Cache, "  Positive", e.Bounds);
                             e.Graphics.DrawImage(Properties.Resources.test_result_positive_red, rec);
                             break;
-                        case 3:
+                        case 4:
                             e.Appearance.DrawString(e.Cache, "  Invalid", e.Bounds);
                             e.Graphics.DrawImage(Properties.Resources.test_result_invalid_yellow, rec);
                             break;
@@ -817,12 +817,11 @@ namespace TestStationManagement
                 return;
             }
             int id = Database.sql_to_int($"select id from samples where  sample_id = '{sample_id}'");
-            string sample_info = Database.sql_to_string($"select concat(first_name,' ',family_name,' ', DATE_FORMAT(date_of_birth,'%d/%c/%Y')) from samples where  id = {id}");
             string test_status = Database.sql_to_string($"select test_status from samples where  id = {id}");
             if (Constants.match_completed(test_status))
             {
-                ErrorLog.write_error_log("Import Test Results", $"Test Result for sample {sample_info} has already imported.\n\n" + File.ReadAllText(result_file));
-                XtraMessageBox.Show($"Test Result for sample\n{sample_info}\nhas <b>already been imported</b>.\n\nNo need to import this file again.", "Import Test Results", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                ErrorLog.write_error_log("Import Test Results", $"Test Result for sample {sample_id} has already imported.\n\n" + File.ReadAllText(result_file));
+                XtraMessageBox.Show($"Test Result for sample\n{sample_id}\nhas <b>already been imported</b>.\n\nNo need to import this file again.", "Import Test Results", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
             }
 
@@ -833,7 +832,7 @@ namespace TestStationManagement
             Database.refresh_backup_percent();
             samples_data.refresh();
             
-            XtraMessageBox.Show($"Sample for {sample_info}\nhas been updated with results.", "Import Test Results", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            XtraMessageBox.Show($"Import Success, 1 file[s] imported from USB.", "Import Test Results", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private void btnSettings_Click(object sender, EventArgs e)
