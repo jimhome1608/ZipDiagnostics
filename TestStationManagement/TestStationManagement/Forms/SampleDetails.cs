@@ -31,6 +31,14 @@ namespace TestStationManagement
                 }
 
             }
+            deDOB.Properties.Mask.EditMask = Constants.DATE_FORMAT;
+            deDOB.Properties.Mask.UseMaskAsDisplayFormat = true;
+
+            repoDateEditWithTime.Mask.EditMask = Constants.DATE_TIME_FORMAT;
+            repoDateEditWithTime.Mask.UseMaskAsDisplayFormat = true;
+            colSampleDateTime.ColumnEdit = repoDateEditWithTime;
+            colTestDateTime.ColumnEdit = repoDateEditWithTime;
+
             edName.Text = r["first_name"].ToString();
             edFamilyName.Text = r["family_name"].ToString();
             deDOB.DateTime = (DateTime) r["date_of_birth"];
@@ -62,7 +70,7 @@ namespace TestStationManagement
 
         private void gvTestManagement_CustomDrawCell(object sender, DevExpress.XtraGrid.Views.Base.RowCellCustomDrawEventArgs e)
         {
-            if (e.Column == coltest_start_time)
+            if (e.Column == colTestDateTime)
             {
                 if (e.DisplayText == "")
                     e.DisplayText = "N/A";

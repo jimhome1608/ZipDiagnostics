@@ -26,6 +26,9 @@ namespace TestStationManagement
 
         public static string SAMPLE_DETAILS_SCREEN_TITLE = "<br><size=24>Sample Details<size=14>";
 
+        public static string DATE_TIME_FORMAT = "dd MMM yyyy hh:mm:ss";
+        public static string DATE_FORMAT = "dd MMM yyyy";
+
         public static bool match_in_progress(string s)
         {
             s = s.ToLower().Trim();

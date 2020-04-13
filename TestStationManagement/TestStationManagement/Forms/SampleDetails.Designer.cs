@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             DevExpress.XtraPrinting.BarCode.QRCodeGenerator qrCodeGenerator1 = new DevExpress.XtraPrinting.BarCode.QRCodeGenerator();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SampleDetails));
             DevExpress.XtraGrid.GridLevelNode gridLevelNode1 = new DevExpress.XtraGrid.GridLevelNode();
             DevExpress.XtraEditors.Controls.EditorButtonImageOptions editorButtonImageOptions1 = new DevExpress.XtraEditors.Controls.EditorButtonImageOptions();
             DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject1 = new DevExpress.Utils.SerializableAppearanceObject();
@@ -50,7 +51,6 @@
             DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject14 = new DevExpress.Utils.SerializableAppearanceObject();
             DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject15 = new DevExpress.Utils.SerializableAppearanceObject();
             DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject16 = new DevExpress.Utils.SerializableAppearanceObject();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SampleDetails));
             this.panel11 = new System.Windows.Forms.Panel();
             this.panel13 = new System.Windows.Forms.Panel();
             this.edPostCode = new DevExpress.XtraEditors.TextEdit();
@@ -83,6 +83,8 @@
             this.xtraScrollableControl5 = new DevExpress.XtraEditors.XtraScrollableControl();
             this.lblInfo = new DevExpress.XtraEditors.LabelControl();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.bntPrintTicket = new DevExpress.XtraEditors.SimpleButton();
+            this.btnPrintSampleLabel = new DevExpress.XtraEditors.SimpleButton();
             this.simpleButton1 = new DevExpress.XtraEditors.SimpleButton();
             this.btnImportTestResults = new DevExpress.XtraEditors.SimpleButton();
             this.btynPrintTest = new DevExpress.XtraEditors.SimpleButton();
@@ -91,10 +93,10 @@
             this.gvTestManagement = new DevExpress.XtraGrid.Views.Grid.GridView();
             this.gridColumn1 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.colTestResult = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.gridColumn8 = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.repositoryItemDateEdit1 = new DevExpress.XtraEditors.Repository.RepositoryItemDateEdit();
+            this.colSampleDateTime = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.repoDateEditWithTime = new DevExpress.XtraEditors.Repository.RepositoryItemDateEdit();
             this.ColTestStatusTests = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.coltest_start_time = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.colTestDateTime = new DevExpress.XtraGrid.Columns.GridColumn();
             this.colTestResultSent = new DevExpress.XtraGrid.Columns.GridColumn();
             this.gridColumn2 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.colDetailsButtonEdit = new DevExpress.XtraEditors.Repository.RepositoryItemButtonEdit();
@@ -118,8 +120,6 @@
             this.repositoryItemRichTextEdit1 = new DevExpress.XtraEditors.Repository.RepositoryItemRichTextEdit();
             this._riMemoExEdit2 = new DevExpress.XtraEditors.Repository.RepositoryItemMemoExEdit();
             this.gridView3 = new DevExpress.XtraGrid.Views.Grid.GridView();
-            this.btnPrintSampleLabel = new DevExpress.XtraEditors.SimpleButton();
-            this.bntPrintTicket = new DevExpress.XtraEditors.SimpleButton();
             this.panel11.SuspendLayout();
             this.panel13.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.edPostCode.Properties)).BeginInit();
@@ -147,8 +147,8 @@
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.grdSamplesTest)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gvTestManagement)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemDateEdit1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemDateEdit1.CalendarTimeProperties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repoDateEditWithTime)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repoDateEditWithTime.CalendarTimeProperties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.colDetailsButtonEdit)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemMemoEdit2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemMemoExEdit3)).BeginInit();
@@ -303,7 +303,7 @@
             this.panel16.Location = new System.Drawing.Point(11, 396);
             this.panel16.Name = "panel16";
             this.panel16.Padding = new System.Windows.Forms.Padding(10);
-            this.panel16.Size = new System.Drawing.Size(1168, 209);
+            this.panel16.Size = new System.Drawing.Size(1168, 216);
             this.panel16.TabIndex = 29;
             // 
             // mmNotes
@@ -316,7 +316,7 @@
             this.mmNotes.Properties.Appearance.Options.UseBackColor = true;
             this.mmNotes.Properties.Appearance.Options.UseFont = true;
             this.mmNotes.Properties.ReadOnly = true;
-            this.mmNotes.Size = new System.Drawing.Size(1095, 189);
+            this.mmNotes.Size = new System.Drawing.Size(1095, 196);
             this.mmNotes.TabIndex = 21;
             this.mmNotes.TabStop = false;
             // 
@@ -332,7 +332,7 @@
             this.labelControl5.Dock = System.Windows.Forms.DockStyle.Left;
             this.labelControl5.Location = new System.Drawing.Point(10, 10);
             this.labelControl5.Name = "labelControl5";
-            this.labelControl5.Size = new System.Drawing.Size(53, 189);
+            this.labelControl5.Size = new System.Drawing.Size(53, 196);
             this.labelControl5.TabIndex = 20;
             this.labelControl5.Text = "Notes:";
             // 
@@ -469,18 +469,16 @@
             this.deDOB.EditValue = null;
             this.deDOB.Location = new System.Drawing.Point(110, 1);
             this.deDOB.Name = "deDOB";
-            this.deDOB.Properties.Appearance.BackColor = System.Drawing.SystemColors.Control;
             this.deDOB.Properties.Appearance.Font = new System.Drawing.Font("Tahoma", 12F);
-            this.deDOB.Properties.Appearance.Options.UseBackColor = true;
             this.deDOB.Properties.Appearance.Options.UseFont = true;
             this.deDOB.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
             this.deDOB.Properties.CalendarTimeProperties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.deDOB.Properties.ReadOnly = true;
+            this.deDOB.Properties.Mask.EditMask = "dd MMM yyyy";
+            this.deDOB.Properties.Mask.UseMaskAsDisplayFormat = true;
             this.deDOB.Size = new System.Drawing.Size(176, 26);
-            this.deDOB.TabIndex = 2;
-            this.deDOB.TabStop = false;
+            this.deDOB.TabIndex = 12;
             // 
             // labelControl7
             // 
@@ -616,6 +614,36 @@
             this.tableLayoutPanel1.Size = new System.Drawing.Size(675, 97);
             this.tableLayoutPanel1.TabIndex = 28;
             // 
+            // bntPrintTicket
+            // 
+            this.bntPrintTicket.Appearance.Font = new System.Drawing.Font("Tahoma", 12F);
+            this.bntPrintTicket.Appearance.Options.UseFont = true;
+            this.bntPrintTicket.Appearance.Options.UseTextOptions = true;
+            this.bntPrintTicket.Appearance.TextOptions.WordWrap = DevExpress.Utils.WordWrap.Wrap;
+            this.bntPrintTicket.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("bntPrintTicket.ImageOptions.Image")));
+            this.bntPrintTicket.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.TopCenter;
+            this.bntPrintTicket.Location = new System.Drawing.Point(272, 4);
+            this.bntPrintTicket.Margin = new System.Windows.Forms.Padding(4);
+            this.bntPrintTicket.Name = "bntPrintTicket";
+            this.bntPrintTicket.Size = new System.Drawing.Size(120, 86);
+            this.bntPrintTicket.TabIndex = 19;
+            this.bntPrintTicket.Text = "Print Ticket";
+            // 
+            // btnPrintSampleLabel
+            // 
+            this.btnPrintSampleLabel.Appearance.Font = new System.Drawing.Font("Tahoma", 12F);
+            this.btnPrintSampleLabel.Appearance.Options.UseFont = true;
+            this.btnPrintSampleLabel.Appearance.Options.UseTextOptions = true;
+            this.btnPrintSampleLabel.Appearance.TextOptions.WordWrap = DevExpress.Utils.WordWrap.Wrap;
+            this.btnPrintSampleLabel.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("btnPrintSampleLabel.ImageOptions.Image")));
+            this.btnPrintSampleLabel.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.TopCenter;
+            this.btnPrintSampleLabel.Location = new System.Drawing.Point(408, 4);
+            this.btnPrintSampleLabel.Margin = new System.Windows.Forms.Padding(4);
+            this.btnPrintSampleLabel.Name = "btnPrintSampleLabel";
+            this.btnPrintSampleLabel.Size = new System.Drawing.Size(120, 86);
+            this.btnPrintSampleLabel.TabIndex = 18;
+            this.btnPrintSampleLabel.Text = "Print Sample Label";
+            // 
             // simpleButton1
             // 
             this.simpleButton1.Appearance.Font = new System.Drawing.Font("Tahoma", 12F);
@@ -694,7 +722,7 @@
             this.repositoryItemButtonEdit17,
             this._repoMemoEdit3,
             this.repositoryItemRichTextEdit1,
-            this.repositoryItemDateEdit1,
+            this.repoDateEditWithTime,
             this._riMemoExEdit2,
             this.colDetailsButtonEdit});
             this.grdSamplesTest.Size = new System.Drawing.Size(1165, 102);
@@ -717,9 +745,9 @@
             this.gvTestManagement.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] {
             this.gridColumn1,
             this.colTestResult,
-            this.gridColumn8,
+            this.colSampleDateTime,
             this.ColTestStatusTests,
-            this.coltest_start_time,
+            this.colTestDateTime,
             this.colTestResultSent,
             this.gridColumn2});
             this.gvTestManagement.GridControl = this.grdSamplesTest;
@@ -763,27 +791,27 @@
             this.colTestResult.VisibleIndex = 4;
             this.colTestResult.Width = 159;
             // 
-            // gridColumn8
+            // colSampleDateTime
             // 
-            this.gridColumn8.Caption = "Sample Date/Time";
-            this.gridColumn8.ColumnEdit = this.repositoryItemDateEdit1;
-            this.gridColumn8.FieldName = "save_time";
-            this.gridColumn8.Name = "gridColumn8";
-            this.gridColumn8.Visible = true;
-            this.gridColumn8.VisibleIndex = 1;
-            this.gridColumn8.Width = 243;
+            this.colSampleDateTime.Caption = "Sample Date/Time";
+            this.colSampleDateTime.ColumnEdit = this.repoDateEditWithTime;
+            this.colSampleDateTime.FieldName = "save_time";
+            this.colSampleDateTime.Name = "colSampleDateTime";
+            this.colSampleDateTime.Visible = true;
+            this.colSampleDateTime.VisibleIndex = 1;
+            this.colSampleDateTime.Width = 243;
             // 
-            // repositoryItemDateEdit1
+            // repoDateEditWithTime
             // 
-            this.repositoryItemDateEdit1.AutoHeight = false;
-            this.repositoryItemDateEdit1.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            this.repoDateEditWithTime.AutoHeight = false;
+            this.repoDateEditWithTime.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.repositoryItemDateEdit1.CalendarTimeProperties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            this.repoDateEditWithTime.CalendarTimeProperties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.repositoryItemDateEdit1.DisplayFormat.FormatString = "G";
-            this.repositoryItemDateEdit1.DisplayFormat.FormatType = DevExpress.Utils.FormatType.DateTime;
-            this.repositoryItemDateEdit1.Mask.EditMask = "G";
-            this.repositoryItemDateEdit1.Name = "repositoryItemDateEdit1";
+            this.repoDateEditWithTime.DisplayFormat.FormatString = "G";
+            this.repoDateEditWithTime.DisplayFormat.FormatType = DevExpress.Utils.FormatType.DateTime;
+            this.repoDateEditWithTime.Mask.EditMask = "G";
+            this.repoDateEditWithTime.Name = "repoDateEditWithTime";
             // 
             // ColTestStatusTests
             // 
@@ -795,15 +823,15 @@
             this.ColTestStatusTests.VisibleIndex = 3;
             this.ColTestStatusTests.Width = 165;
             // 
-            // coltest_start_time
+            // colTestDateTime
             // 
-            this.coltest_start_time.Caption = "Test Date/Time";
-            this.coltest_start_time.ColumnEdit = this.repositoryItemDateEdit1;
-            this.coltest_start_time.FieldName = "test_start_time";
-            this.coltest_start_time.Name = "coltest_start_time";
-            this.coltest_start_time.Visible = true;
-            this.coltest_start_time.VisibleIndex = 2;
-            this.coltest_start_time.Width = 243;
+            this.colTestDateTime.Caption = "Test Date/Time";
+            this.colTestDateTime.ColumnEdit = this.repoDateEditWithTime;
+            this.colTestDateTime.FieldName = "test_start_time";
+            this.colTestDateTime.Name = "colTestDateTime";
+            this.colTestDateTime.Visible = true;
+            this.colTestDateTime.VisibleIndex = 2;
+            this.colTestDateTime.Width = 243;
             // 
             // colTestResultSent
             // 
@@ -1013,36 +1041,6 @@
             this.gridView3.GridControl = this.grdSamplesTest;
             this.gridView3.Name = "gridView3";
             // 
-            // btnPrintSampleLabel
-            // 
-            this.btnPrintSampleLabel.Appearance.Font = new System.Drawing.Font("Tahoma", 12F);
-            this.btnPrintSampleLabel.Appearance.Options.UseFont = true;
-            this.btnPrintSampleLabel.Appearance.Options.UseTextOptions = true;
-            this.btnPrintSampleLabel.Appearance.TextOptions.WordWrap = DevExpress.Utils.WordWrap.Wrap;
-            this.btnPrintSampleLabel.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("btnPrintSampleLabel.ImageOptions.Image")));
-            this.btnPrintSampleLabel.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.TopCenter;
-            this.btnPrintSampleLabel.Location = new System.Drawing.Point(408, 4);
-            this.btnPrintSampleLabel.Margin = new System.Windows.Forms.Padding(4);
-            this.btnPrintSampleLabel.Name = "btnPrintSampleLabel";
-            this.btnPrintSampleLabel.Size = new System.Drawing.Size(120, 86);
-            this.btnPrintSampleLabel.TabIndex = 18;
-            this.btnPrintSampleLabel.Text = "Print Sample Label";
-            // 
-            // bntPrintTicket
-            // 
-            this.bntPrintTicket.Appearance.Font = new System.Drawing.Font("Tahoma", 12F);
-            this.bntPrintTicket.Appearance.Options.UseFont = true;
-            this.bntPrintTicket.Appearance.Options.UseTextOptions = true;
-            this.bntPrintTicket.Appearance.TextOptions.WordWrap = DevExpress.Utils.WordWrap.Wrap;
-            this.bntPrintTicket.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("bntPrintTicket.ImageOptions.Image")));
-            this.bntPrintTicket.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.TopCenter;
-            this.bntPrintTicket.Location = new System.Drawing.Point(272, 4);
-            this.bntPrintTicket.Margin = new System.Windows.Forms.Padding(4);
-            this.bntPrintTicket.Name = "bntPrintTicket";
-            this.bntPrintTicket.Size = new System.Drawing.Size(120, 86);
-            this.bntPrintTicket.TabIndex = 19;
-            this.bntPrintTicket.Text = "Print Ticket";
-            // 
             // SampleDetails
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1090,8 +1088,8 @@
             this.panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.grdSamplesTest)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gvTestManagement)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemDateEdit1.CalendarTimeProperties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemDateEdit1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repoDateEditWithTime.CalendarTimeProperties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repoDateEditWithTime)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.colDetailsButtonEdit)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemMemoEdit2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemMemoExEdit3)).EndInit();
@@ -1141,7 +1139,6 @@
         private DevExpress.XtraEditors.LabelControl labelControl2;
         private System.Windows.Forms.Panel panel9;
         private System.Windows.Forms.Panel panel14;
-        private DevExpress.XtraEditors.DateEdit deDOB;
         private DevExpress.XtraEditors.LabelControl labelControl7;
         private System.Windows.Forms.Panel panel15;
         private System.Windows.Forms.Panel panel18;
@@ -1159,10 +1156,10 @@
         private DevExpress.XtraGrid.Views.Grid.GridView gvTestManagement;
         private DevExpress.XtraGrid.Columns.GridColumn gridColumn1;
         private DevExpress.XtraGrid.Columns.GridColumn colTestResult;
-        private DevExpress.XtraGrid.Columns.GridColumn gridColumn8;
-        private DevExpress.XtraEditors.Repository.RepositoryItemDateEdit repositoryItemDateEdit1;
+        private DevExpress.XtraGrid.Columns.GridColumn colSampleDateTime;
+        private DevExpress.XtraEditors.Repository.RepositoryItemDateEdit repoDateEditWithTime;
         private DevExpress.XtraGrid.Columns.GridColumn ColTestStatusTests;
-        private DevExpress.XtraGrid.Columns.GridColumn coltest_start_time;
+        private DevExpress.XtraGrid.Columns.GridColumn colTestDateTime;
         private DevExpress.XtraGrid.Columns.GridColumn colTestResultSent;
         private DevExpress.XtraEditors.Repository.RepositoryItemMemoEdit repositoryItemMemoEdit2;
         private DevExpress.XtraEditors.Repository.RepositoryItemMemoExEdit repositoryItemMemoExEdit3;
@@ -1188,5 +1185,6 @@
         private DevExpress.XtraGrid.Columns.GridColumn gridColumn2;
         private DevExpress.XtraEditors.SimpleButton btnPrintSampleLabel;
         private DevExpress.XtraEditors.SimpleButton bntPrintTicket;
+        private DevExpress.XtraEditors.DateEdit deDOB;
     }
 }

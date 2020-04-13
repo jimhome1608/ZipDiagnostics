@@ -90,6 +90,18 @@ namespace TestStationManagement
             shift_focus.Add(edEmail, mmNotes);
             shift_focus.Add(mmNotes, edName);
 
+            deDOB.Properties.Mask.EditMask = Constants.DATE_FORMAT;
+            deDOB.Properties.Mask.UseMaskAsDisplayFormat = true;
+            deRunTestsDateofBirth.Properties.Mask.EditMask = Constants.DATE_FORMAT;
+            deRunTestsDateofBirth.Properties.Mask.UseMaskAsDisplayFormat = true;
+
+            repoDateEditWithTime.Mask.EditMask = Constants.DATE_TIME_FORMAT;
+            repoDateEditWithTime.Mask.UseMaskAsDisplayFormat = true;
+            colSampleDateTime.ColumnEdit = repoDateEditWithTime;
+            colTestDateTime.ColumnEdit = repoDateEditWithTime;
+
+
+
             lblInfoSampleCollection.Text = "<br><size=24>Sample Collection<size=14><br>";
             lblInfoTestLists.Text = "<br><size=24>Test Lists<size=14><br>";
             lblInfoRunTest.Text = "<br><size=24>Run Test<size=14><br>";
@@ -513,12 +525,13 @@ namespace TestStationManagement
             if (!valid_to_save())
                 return;
             int next_id = Database.sql_to_int("select get_next_id()");
+            String _dob = deDOB.DateTime.ToString(Constants.DATE_FORMAT);
             String _sample_id = Settings.station_id + "-" + next_id.ToString();
             String _html = "<font=Tahoma></font><size=18>Please confirm these details are correct before saving<size=14><br><br>";
             _html = _html + $"Name:<backcolor=yellow>&nbsp;{edName.Text}&nbsp;<backcolor=control><br><br>";
             _html = _html + $"Email: <backcolor=yellow>&nbsp;{edEmail.Text}&nbsp;<backcolor=control><br><br>";
             _html = _html + $"Phone: <backcolor=yellow>&nbsp;{edPhone.Text}&nbsp;<backcolor=control><br><br>";
-            _html = _html + $"Date of Birth: <backcolor=yellow>&nbsp;{deDOB.DateTime.ToString("dd/MM/yyyy")}&nbsp;<backcolor=control><br><br>";
+            _html = _html + $"Date of Birth: <backcolor=yellow>&nbsp;{_dob}&nbsp;<backcolor=control><br><br>";
             _html = _html + $"Post Code: <backcolor=yellow>&nbsp;{edPostCode.Text}&nbsp;<backcolor=control><br><br>";
             _html = _html + $"Notes: <backcolor=yellow>&nbsp;{mmNotes.Text}&nbsp;<backcolor=control><br><br>";
             _html = _html + $"Ticket #: {_sample_id}&<br>";
@@ -617,7 +630,7 @@ namespace TestStationManagement
 
         private void gvTestManagement_CustomDrawCell(object sender, DevExpress.XtraGrid.Views.Base.RowCellCustomDrawEventArgs e)
         {
-            if (e.Column == coltest_start_time)
+            if (e.Column == colTestDateTime)
             {
                 if (e.DisplayText == "")
                     e.DisplayText = "N/A";
