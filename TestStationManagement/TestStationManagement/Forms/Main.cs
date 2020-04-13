@@ -282,12 +282,6 @@ namespace TestStationManagement
                     samples_data = new SqlData($"{Constants.SQL_SAMPLES_SELECT} order by save_time desc ");
                     load_info_screen();
                     grdSamplesTest.DataSource = samples_data.myBindingSource;
-                    teTestListName.DataBindings.Add(new Binding("text", samples_data.myBindingSource, "full_name"));
-                    teTestListPhone.DataBindings.Add(new Binding("text", samples_data.myBindingSource, "phone"));
-                    deTestListDateOfBirth.DataBindings.Add(new Binding("datetime", samples_data.myBindingSource, "date_of_birth"));
-                    teTestListPostCode.DataBindings.Add(new Binding("text", samples_data.myBindingSource, "postcode"));
-                    teTestListEmail.DataBindings.Add(new Binding("text", samples_data.myBindingSource, "email"));
-                    teTestListMemo.DataBindings.Add(new Binding("text", samples_data.myBindingSource, "notes"));
                     break;
             }
             catch (Exception ex)
@@ -622,6 +616,7 @@ namespace TestStationManagement
 
         private void gvTestManagement_CustomDrawCell(object sender, DevExpress.XtraGrid.Views.Base.RowCellCustomDrawEventArgs e)
         {
+
             if (e.Column == colTestResult)
             {
                 DataRow r = gvTestManagement.GetDataRow(e.RowHandle);
@@ -884,6 +879,13 @@ namespace TestStationManagement
         {
             samples_data.refresh();
             Database.refresh_backup_percent();
+        }
+
+        private void colDetailsButtonEdit_ButtonClick(object sender, DevExpress.XtraEditors.Controls.ButtonPressedEventArgs e)
+        {
+            DataRow r = gvTestManagement.GetFocusedDataRow();
+            if (r == null) return;
+            PatientDetails.show(r);
         }
 
         private void edit_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
