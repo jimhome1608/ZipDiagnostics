@@ -137,9 +137,10 @@ namespace TestStationManagement
                 btnSave.Enabled = AppView.sample_state == AppView.DataStates.Editing;
                 btnCancel.Enabled = AppView.sample_state == AppView.DataStates.Editing;
                 btnNew.Enabled = AppView.sample_state != AppView.DataStates.Editing;
-                btnPrint.Enabled = AppView.sample_state != AppView.DataStates.Editing;
+                btnPrintSampleLabel.Enabled = AppView.sample_state != AppView.DataStates.Editing;
                 btnLogout.Enabled = AppView.sample_state != AppView.DataStates.Editing;
-
+                bntPrintTicket.Enabled = AppView.sample_state == AppView.DataStates.Saved && edTicketId.Text.Length > 1; 
+                btnPrintSampleLabel.Enabled = AppView.sample_state == AppView.DataStates.Saved && edTicketId.Text.Length > 1;
                 if (AppView.sample_state == AppView.DataStates.Editing)
                     set_new_sample();
                 if (AppView.sample_state == AppView.DataStates.Saved)
@@ -912,6 +913,11 @@ namespace TestStationManagement
             DataRow r = gvTestManagement.GetFocusedDataRow();
             if (r == null) return;
             SampleDetails.show(r);
+        }
+
+        private void grdSamplesTest_Click(object sender, EventArgs e)
+        {
+
         }
 
         private void edit_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
