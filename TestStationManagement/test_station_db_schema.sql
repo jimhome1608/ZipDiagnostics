@@ -32,7 +32,7 @@ CREATE TABLE `error_log` (
   `key_word` varchar(255) DEFAULT NULL,
   `data` longtext,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
 /*Table structure for table `samples` */
 
@@ -262,13 +262,11 @@ DELIMITER $$
 
 CREATE DEFINER=`root`@`localhost` FUNCTION `get_test_barcode`(_station_id varchar(255),_sample_id int) RETURNS varchar(4096) CHARSET latin1
 BEGIN
-   declare name varchar(255);   
-   declare dob varchar(255);
+   declare sample_save_time varchar(255);
    declare sid varchar(255);
-   set name = (select concat(first_name,' ',family_name) from samples  where  station_id = _station_id and id = _sample_id);  
-   set dob = (select DATE_FORMAT(date_of_birth,'%d %b %Y') from samples where station_id = _station_id and id = _sample_id); 
+   set sample_save_time = (select DATE_FORMAT(save_time,'%d-%b-%Y') from samples where station_id = _station_id and id = _sample_id); 
    set sid = (select sample_id from samples where station_id = _station_id and id = _sample_id); 
-   return Concat(Upper(name),':',Upper(dob),':',sid);		
+   return Concat('',sid,':',Upper(sample_save_time));		
 END$$
 
 DELIMITER ;
