@@ -10,12 +10,12 @@ using System.Windows.Forms;
 
 namespace TestStationManagement
 {
-    public partial class PatientDetails : Form
+    public partial class SampleDetails : Form
     {
-        public PatientDetails(DataRow r)
+        public SampleDetails(DataRow r)
         {
             InitializeComponent();
-            lblInfo.Text = "<size=24>Patient Details<size=14><br>";
+            lblInfo.Text = Constants.SAMPLE_DETAILS_SCREEN_TITLE;
             var c = GetAll(this, typeof(Panel));
             foreach (Control con in c)
             {
@@ -41,7 +41,7 @@ namespace TestStationManagement
 
         public static void  show(DataRow r)
         {
-            using (PatientDetails patientDetails = new PatientDetails(r))
+            using (SampleDetails patientDetails = new SampleDetails(r))
             {
                 patientDetails.ShowDialog();
             }

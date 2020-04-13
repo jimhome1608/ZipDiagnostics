@@ -616,6 +616,11 @@ namespace TestStationManagement
 
         private void gvTestManagement_CustomDrawCell(object sender, DevExpress.XtraGrid.Views.Base.RowCellCustomDrawEventArgs e)
         {
+            if (e.Column == coltest_start_time)
+            {
+                if (e.DisplayText == "")
+                    e.DisplayText = "N/A";
+            }
 
             if (e.Column == colTestResult)
             {
@@ -630,19 +635,19 @@ namespace TestStationManagement
                 {
                     switch (e.RowHandle)
                     {
-                        case 1:
+                        case 0:
                             e.Appearance.DrawString(e.Cache, "  Invalid", e.Bounds);
                             e.Graphics.DrawImage(Properties.Resources.test_result_invalid_yellow, rec);
                             break;
-                        case 2:
+                        case 1:
                             e.Appearance.DrawString(e.Cache, "  Negative", e.Bounds);
                             e.Graphics.DrawImage(Properties.Resources.test_result_negative_green, rec);
                             break;
-                        case 3:
+                        case 2:
                             e.Appearance.DrawString(e.Cache, "  Positive", e.Bounds);
                             e.Graphics.DrawImage(Properties.Resources.test_result_positive_red, rec);
                             break;
-                        case 4:
+                        case 3:
                             e.Appearance.DrawString(e.Cache, "  Invalid", e.Bounds);
                             e.Graphics.DrawImage(Properties.Resources.test_result_invalid_yellow, rec);
                             break;
@@ -668,7 +673,7 @@ namespace TestStationManagement
                     e.Appearance.BackColor = Constants.TEST_WAITING_BACKCOLOR;
                 //
             } //
-            if (e.Column == colWebSaved)
+            if (e.Column == colWebSaved )
             {
                 Color c =Color.Yellow;
                 String s = e.CellValue.ToString().ToLower();
@@ -682,6 +687,27 @@ namespace TestStationManagement
                 {
                     e.Graphics.DrawImage(Properties.Resources.mini_circle, r); //   mini_circle
                 }                
+                e.Handled = true;
+            } //col
+            if (e.Column == colTestResultSent)
+            {
+                Rectangle rrect = e.Bounds;
+                Rectangle r = new Rectangle(e.Bounds.X + 12, e.Bounds.Y + 5, 16, 16);
+                switch (e.RowHandle)
+                {
+                    case 0:
+                        e.Graphics.DrawImage(Properties.Resources.apply_16x16_no_color3, r);
+                        break;
+                    case 1:
+                        e.Graphics.DrawImage(Properties.Resources.mini_circle, r);
+                        break;
+                    case 2:
+                        e.Graphics.DrawImage(Properties.Resources.apply_16x16_no_color3, r);
+                        break;
+                    case 3:
+                        e.Graphics.DrawImage(Properties.Resources.mini_circle, r);
+                        break;
+                }
                 e.Handled = true;
             } //col
 
@@ -885,7 +911,7 @@ namespace TestStationManagement
         {
             DataRow r = gvTestManagement.GetFocusedDataRow();
             if (r == null) return;
-            PatientDetails.show(r);
+            SampleDetails.show(r);
         }
 
         private void edit_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)

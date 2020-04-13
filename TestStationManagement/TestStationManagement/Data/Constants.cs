@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TestStationManagement.Data
+namespace TestStationManagement
 {
     public static class Constants
     {
@@ -23,6 +23,8 @@ namespace TestStationManagement.Data
         public static string TEST_IN_PROGRESS_TEXT = "Test in Progress";
         public static string TEST_COMPLETE_TEXT = "Test Completed";
         public static string TEST_WAITING_TEXT = "Sample Collected";
+
+        public static string SAMPLE_DETAILS_SCREEN_TITLE = "<br><size=24>Sample Details<size=14>";
 
         public static bool match_in_progress(string s)
         {

@@ -1,6 +1,6 @@
 ﻿namespace TestStationManagement
 {
-    partial class PatientDetails
+    partial class SampleDetails
     {
         /// <summary>
         /// Required designer variable.
@@ -28,7 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            DevExpress.XtraPrinting.BarCode.QRCodeGenerator qrCodeGenerator5 = new DevExpress.XtraPrinting.BarCode.QRCodeGenerator();
+            DevExpress.XtraPrinting.BarCode.QRCodeGenerator qrCodeGenerator3 = new DevExpress.XtraPrinting.BarCode.QRCodeGenerator();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SampleDetails));
             this.panel11 = new System.Windows.Forms.Panel();
             this.panel13 = new System.Windows.Forms.Panel();
             this.edPostCode = new DevExpress.XtraEditors.TextEdit();
@@ -64,6 +65,10 @@
             this.pnlTop = new System.Windows.Forms.Panel();
             this.xtraScrollableControl5 = new DevExpress.XtraEditors.XtraScrollableControl();
             this.lblInfo = new DevExpress.XtraEditors.LabelControl();
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.btnImportTestResults = new DevExpress.XtraEditors.SimpleButton();
+            this.btynPrintTest = new DevExpress.XtraEditors.SimpleButton();
+            this.simpleButton1 = new DevExpress.XtraEditors.SimpleButton();
             this.panel11.SuspendLayout();
             this.panel13.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.edPostCode.Properties)).BeginInit();
@@ -90,12 +95,13 @@
             ((System.ComponentModel.ISupportInitialize)(this.edName.Properties)).BeginInit();
             this.pnlTop.SuspendLayout();
             this.xtraScrollableControl5.SuspendLayout();
+            this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel11
             // 
             this.panel11.Controls.Add(this.panel13);
-            this.panel11.Location = new System.Drawing.Point(12, 231);
+            this.panel11.Location = new System.Drawing.Point(12, 274);
             this.panel11.Name = "panel11";
             this.panel11.Padding = new System.Windows.Forms.Padding(10);
             this.panel11.Size = new System.Drawing.Size(876, 50);
@@ -149,7 +155,7 @@
             // panel1
             // 
             this.panel1.Controls.Add(this.panel4);
-            this.panel1.Location = new System.Drawing.Point(12, 119);
+            this.panel1.Location = new System.Drawing.Point(12, 162);
             this.panel1.Name = "panel1";
             this.panel1.Padding = new System.Windows.Forms.Padding(10);
             this.panel1.Size = new System.Drawing.Size(876, 50);
@@ -206,13 +212,13 @@
             this.bcTicketId.Appearance.Options.UseBackColor = true;
             this.bcTicketId.AutoModule = true;
             this.bcTicketId.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
-            this.bcTicketId.Location = new System.Drawing.Point(905, 119);
+            this.bcTicketId.Location = new System.Drawing.Point(905, 162);
             this.bcTicketId.Name = "bcTicketId";
             this.bcTicketId.Padding = new System.Windows.Forms.Padding(2, 2, 10, 0);
             this.bcTicketId.ShowText = false;
             this.bcTicketId.Size = new System.Drawing.Size(275, 274);
-            qrCodeGenerator5.Version = DevExpress.XtraPrinting.BarCode.QRCodeVersion.Version1;
-            this.bcTicketId.Symbology = qrCodeGenerator5;
+            qrCodeGenerator3.Version = DevExpress.XtraPrinting.BarCode.QRCodeVersion.Version1;
+            this.bcTicketId.Symbology = qrCodeGenerator3;
             this.bcTicketId.TabIndex = 35;
             this.bcTicketId.Text = "JANE SMITH";
             // 
@@ -220,7 +226,7 @@
             // 
             this.panel16.Controls.Add(this.mmNotes);
             this.panel16.Controls.Add(this.labelControl5);
-            this.panel16.Location = new System.Drawing.Point(12, 412);
+            this.panel16.Location = new System.Drawing.Point(12, 455);
             this.panel16.Name = "panel16";
             this.panel16.Padding = new System.Windows.Forms.Padding(10);
             this.panel16.Size = new System.Drawing.Size(1168, 209);
@@ -259,7 +265,7 @@
             // panel22
             // 
             this.panel22.Controls.Add(this.panel24);
-            this.panel22.Location = new System.Drawing.Point(12, 343);
+            this.panel22.Location = new System.Drawing.Point(12, 386);
             this.panel22.Name = "panel22";
             this.panel22.Padding = new System.Windows.Forms.Padding(10);
             this.panel22.Size = new System.Drawing.Size(876, 50);
@@ -311,7 +317,7 @@
             // panel6
             // 
             this.panel6.Controls.Add(this.panel7);
-            this.panel6.Location = new System.Drawing.Point(905, 63);
+            this.panel6.Location = new System.Drawing.Point(905, 106);
             this.panel6.Name = "panel6";
             this.panel6.Padding = new System.Windows.Forms.Padding(10);
             this.panel6.Size = new System.Drawing.Size(275, 50);
@@ -366,7 +372,7 @@
             // panel3
             // 
             this.panel3.Controls.Add(this.panel12);
-            this.panel3.Location = new System.Drawing.Point(12, 287);
+            this.panel3.Location = new System.Drawing.Point(12, 330);
             this.panel3.Name = "panel3";
             this.panel3.Padding = new System.Windows.Forms.Padding(10);
             this.panel3.Size = new System.Drawing.Size(876, 50);
@@ -420,7 +426,7 @@
             // panel9
             // 
             this.panel9.Controls.Add(this.panel14);
-            this.panel9.Location = new System.Drawing.Point(12, 175);
+            this.panel9.Location = new System.Drawing.Point(12, 218);
             this.panel9.Name = "panel9";
             this.panel9.Padding = new System.Windows.Forms.Padding(10);
             this.panel9.Size = new System.Drawing.Size(876, 50);
@@ -478,7 +484,7 @@
             // panel15
             // 
             this.panel15.Controls.Add(this.panel18);
-            this.panel15.Location = new System.Drawing.Point(12, 63);
+            this.panel15.Location = new System.Drawing.Point(12, 106);
             this.panel15.Name = "panel15";
             this.panel15.Padding = new System.Windows.Forms.Padding(10);
             this.panel15.Size = new System.Drawing.Size(876, 50);
@@ -533,11 +539,12 @@
             // 
             this.pnlTop.BackColor = System.Drawing.Color.Linen;
             this.pnlTop.Controls.Add(this.xtraScrollableControl5);
+            this.pnlTop.Controls.Add(this.tableLayoutPanel1);
             this.pnlTop.Dock = System.Windows.Forms.DockStyle.Top;
             this.pnlTop.Location = new System.Drawing.Point(0, 0);
             this.pnlTop.Margin = new System.Windows.Forms.Padding(4);
             this.pnlTop.Name = "pnlTop";
-            this.pnlTop.Size = new System.Drawing.Size(1196, 44);
+            this.pnlTop.Size = new System.Drawing.Size(1196, 97);
             this.pnlTop.TabIndex = 38;
             // 
             // xtraScrollableControl5
@@ -546,9 +553,9 @@
             this.xtraScrollableControl5.Appearance.Options.UseBackColor = true;
             this.xtraScrollableControl5.Controls.Add(this.lblInfo);
             this.xtraScrollableControl5.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.xtraScrollableControl5.Location = new System.Drawing.Point(0, 0);
+            this.xtraScrollableControl5.Location = new System.Drawing.Point(404, 0);
             this.xtraScrollableControl5.Name = "xtraScrollableControl5";
-            this.xtraScrollableControl5.Size = new System.Drawing.Size(1196, 44);
+            this.xtraScrollableControl5.Size = new System.Drawing.Size(792, 97);
             this.xtraScrollableControl5.TabIndex = 27;
             // 
             // lblInfo
@@ -564,15 +571,73 @@
             this.lblInfo.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lblInfo.Location = new System.Drawing.Point(0, 0);
             this.lblInfo.Name = "lblInfo";
-            this.lblInfo.Size = new System.Drawing.Size(1196, 19);
+            this.lblInfo.Size = new System.Drawing.Size(792, 19);
             this.lblInfo.TabIndex = 21;
             this.lblInfo.Text = "test";
             // 
-            // PatientDetails
+            // tableLayoutPanel1
+            // 
+            this.tableLayoutPanel1.ColumnCount = 3;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 134F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 134F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 134F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel1.Controls.Add(this.simpleButton1, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.btnImportTestResults, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.btynPrintTest, 2, 0);
+            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Left;
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
+            this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(4);
+            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            this.tableLayoutPanel1.RowCount = 1;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(404, 97);
+            this.tableLayoutPanel1.TabIndex = 28;
+            // 
+            // btnImportTestResults
+            // 
+            this.btnImportTestResults.Appearance.Font = new System.Drawing.Font("Tahoma", 12F);
+            this.btnImportTestResults.Appearance.Options.UseFont = true;
+            this.btnImportTestResults.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("btnImportTestResults.ImageOptions.Image")));
+            this.btnImportTestResults.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.TopCenter;
+            this.btnImportTestResults.Location = new System.Drawing.Point(4, 4);
+            this.btnImportTestResults.Margin = new System.Windows.Forms.Padding(4);
+            this.btnImportTestResults.Name = "btnImportTestResults";
+            this.btnImportTestResults.Size = new System.Drawing.Size(120, 86);
+            this.btnImportTestResults.TabIndex = 16;
+            this.btnImportTestResults.Text = "Send Email";
+            // 
+            // btynPrintTest
+            // 
+            this.btynPrintTest.Appearance.Font = new System.Drawing.Font("Tahoma", 12F);
+            this.btynPrintTest.Appearance.Options.UseFont = true;
+            this.btynPrintTest.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("btynPrintTest.ImageOptions.Image")));
+            this.btynPrintTest.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.TopCenter;
+            this.btynPrintTest.Location = new System.Drawing.Point(272, 4);
+            this.btynPrintTest.Margin = new System.Windows.Forms.Padding(4);
+            this.btynPrintTest.Name = "btynPrintTest";
+            this.btynPrintTest.Size = new System.Drawing.Size(120, 86);
+            this.btynPrintTest.TabIndex = 14;
+            this.btynPrintTest.Text = "Print Result";
+            // 
+            // simpleButton1
+            // 
+            this.simpleButton1.Appearance.Font = new System.Drawing.Font("Tahoma", 12F);
+            this.simpleButton1.Appearance.Options.UseFont = true;
+            this.simpleButton1.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("simpleButton1.ImageOptions.Image")));
+            this.simpleButton1.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.TopCenter;
+            this.simpleButton1.Location = new System.Drawing.Point(138, 4);
+            this.simpleButton1.Margin = new System.Windows.Forms.Padding(4);
+            this.simpleButton1.Name = "simpleButton1";
+            this.simpleButton1.Size = new System.Drawing.Size(120, 86);
+            this.simpleButton1.TabIndex = 17;
+            this.simpleButton1.Text = "Send Text";
+            // 
+            // SampleDetails
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1196, 642);
+            this.ClientSize = new System.Drawing.Size(1196, 680);
             this.Controls.Add(this.pnlTop);
             this.Controls.Add(this.panel11);
             this.Controls.Add(this.panel1);
@@ -585,9 +650,9 @@
             this.Controls.Add(this.panel15);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "PatientDetails";
+            this.Name = "SampleDetails";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Patient Details";
+            this.Text = "Sample  Details";
             this.panel11.ResumeLayout(false);
             this.panel13.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.edPostCode.Properties)).EndInit();
@@ -614,6 +679,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.edName.Properties)).EndInit();
             this.pnlTop.ResumeLayout(false);
             this.xtraScrollableControl5.ResumeLayout(false);
+            this.tableLayoutPanel1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -655,5 +721,9 @@
         private System.Windows.Forms.Panel pnlTop;
         private DevExpress.XtraEditors.XtraScrollableControl xtraScrollableControl5;
         private DevExpress.XtraEditors.LabelControl lblInfo;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+        private DevExpress.XtraEditors.SimpleButton simpleButton1;
+        private DevExpress.XtraEditors.SimpleButton btnImportTestResults;
+        private DevExpress.XtraEditors.SimpleButton btynPrintTest;
     }
 }
