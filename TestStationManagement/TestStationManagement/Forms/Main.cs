@@ -69,6 +69,7 @@ namespace TestStationManagement
 
             InitializeComponent();
 
+            lblTestInstructions.Text = Constants.RUN_TEST_INSTRUCTIONS;
             AppView.get_versions();
             AppView.computer_name = Environment.MachineName.ToString();
             string hostName = Dns.GetHostName();
@@ -502,7 +503,7 @@ namespace TestStationManagement
             _html = _html + $"Date of Birth: <backcolor=yellow>&nbsp;{_dob}&nbsp;<backcolor=control><br><br>";
             _html = _html + $"Post Code: <backcolor=yellow>&nbsp;{edPostCode.Text}&nbsp;<backcolor=control><br><br>";
             _html = _html + $"Notes: <backcolor=yellow>&nbsp;{mmNotes.Text}&nbsp;<backcolor=control><br><br>";
-            _html = _html + $"Ticket ID: {_sample_id}&<br>";
+            _html = _html + $"Sample ID: {_sample_id}&<br>";
             HTMLDialog.confirm("Confirm", _html, "GO BACK", "SAVE");
             if (HTMLDialog.dialogResult != DialogResult.OK)
                 return;

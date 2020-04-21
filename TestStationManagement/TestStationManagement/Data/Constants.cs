@@ -27,8 +27,12 @@ namespace TestStationManagement
         public static string SAMPLE_DETAILS_SCREEN_TITLE = "<br><size=24>Sample Details<size=14>";
 
         public static string DATE_TIME_FORMAT = "dd MMM yyyy hh:mm:ss";
-        public static string DATE_TIME_FORMAT_SAMPLE_ID = "ddMMMyyyy-hh:mm:ss"; //11FEB2020-13:40:21
+        public static string DATE_TIME_FORMAT_SAMPLE_ID = "ddMMMyyyy-HHmmss"; //11FEB2020-13:40:21
         public static string DATE_FORMAT = "dd MMM yyyy";
+
+        public static string RUN_TEST_INSTRUCTIONS =
+            "<b>Instructions<b><br></b>1/ Scan the Sample ID into the Test Machine<br>" +
+            "2/ Scan the Cartridge ID into the Test Machine<br>";
 
         public static bool match_in_progress(string s)
         {
