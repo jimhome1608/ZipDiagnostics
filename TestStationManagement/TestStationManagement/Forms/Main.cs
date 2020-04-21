@@ -2,6 +2,7 @@
 using DevExpress.Office;
 using DevExpress.Skins;
 using DevExpress.XtraEditors;
+using Force.Crc32;
 using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
@@ -13,7 +14,6 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Net;
-using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -252,34 +252,7 @@ namespace TestStationManagement
             XtraMessageBox.AllowHtmlText = true;
             AppView.get_versions();
             //TabControl.ShowTabHeader = DevExpress.Utils.DefaultBoolean.False;
-            //  lblInfo.Text = "<size=24>Sample Collection<size=14><br>";
-     
-            const string data = "Ladyshipitdaughtersecuringprocuredorammoreovermr.Putsirsheexercisevicinitycheerfulwondered.Continualsaysuspicionprovisionyouneglectedsircuriosityunwilling.Simplicityendthemselvesincreasingleddaysympathizeyet";
-            string original = "Here is some data to encrypt!";
-            string key = "";
-            string iv = "";
-            using (Aes myAes = Aes.Create())
-            {
-                for (int i = 0; i < data.Length; i++)
-                {
-                    if (i % 6 == 0 && key.Length != 16)
-                        key = key + data.Substring(i, 1);
-                    if (i > 20 && i % 4 == 0 && iv.Length != 16)
-                        iv = iv + data.Substring(i, 1);
-                }
-                // Key:Liusnuao.revtrn. InitialVal:noeare.shescteun
-                myAes.IV = Encoding.UTF8.GetBytes(iv);
-                myAes.Key = Encoding.UTF8.GetBytes(key);
-                // Encrypt the string to an array of bytes.
-                byte[] encrypted = Encryption.encrypt(original, myAes.Key, myAes.IV);
-
-                // Decrypt the bytes to a string.
-                string roundtrip = Encryption.decrypt(encrypted, myAes.Key, myAes.IV);
-                Debug.WriteLine($"Key:{Encoding.UTF8.GetString(myAes.Key, 0, myAes.Key.Length)} InitialVal:{Encoding.UTF8.GetString(myAes.IV, 0, myAes.IV.Length)}");
-                //Display the original data and the decrypted data.
-                Debug.WriteLine($"Original:   {original}");
-                Debug.WriteLine($"Round Trip: {roundtrip}");
-            }   
+            //  lblInfo.Text = "<size=24>Sample Collection<size=14><br>";                
             string last_userName = ConfigurationManager.AppSettings["LastUserLogin"];
             if (last_userName != null && last_userName.Length > 1)
                 edtUserName.Text = last_userName;
@@ -510,31 +483,26 @@ namespace TestStationManagement
             return true;
         }
 
-        public string ComputeHash(string input)
-        {
-            Byte[] inputBytes = Encoding.UTF8.GetBytes(input);
-
-            Byte[] hashedBytes = new MD5CryptoServiceProvider().ComputeHash(inputBytes);
-            string result = Convert.ToBase64String(hashedBytes);
-            result = result.Replace("==", "");
-            return result.ToUpper();
-        }
-
         private void btnSave_Click(object sender, EventArgs e)
         {
             if (!valid_to_save())
                 return;
             int next_id = Database.sql_to_int("select get_next_id()");
             String _dob = deDOB.DateTime.ToString(Constants.DATE_FORMAT);
-            String _sample_id = Settings.station_id + "-" + next_id.ToString();
+            // {SRARS-CoV-2 in plain text} 
+            // +  [a hash of  {First Name} + {Family Name} + {DOB}] 
+            // + {Date/Time of sample Collection, to the minute  in plain text in the format 11FEB2020-13:40:21}
+            string hash_this = edName.Text + edFamilyName.Text + deDOB.DateTime.ToString("yyyyMMdd");
+            uint _hash_ing = Crc32Algorithm.Compute(Encoding.UTF8.GetBytes(hash_this));
+            string _sample_id = "SRARS-CoV-2#" + _hash_ing.ToString("X") + "#" + DateTime.Now.ToString(Constants.DATE_TIME_FORMAT_SAMPLE_ID).ToUpper();
             String _html = "<font=Tahoma></font><size=18>Please confirm these details are correct before saving<size=14><br><br>";
-            _html = _html + $"Name:<backcolor=yellow>&nbsp;{edName.Text}&nbsp;<backcolor=control><br><br>";
+            _html = _html + $"Name:<backcolor=yellow>&nbsp;{edName.Text}  {edFamilyName.Text}&nbsp;<backcolor=control><br><br>";
             _html = _html + $"Email: <backcolor=yellow>&nbsp;{edEmail.Text}&nbsp;<backcolor=control><br><br>";
             _html = _html + $"Phone: <backcolor=yellow>&nbsp;{edPhone.Text}&nbsp;<backcolor=control><br><br>";
             _html = _html + $"Date of Birth: <backcolor=yellow>&nbsp;{_dob}&nbsp;<backcolor=control><br><br>";
             _html = _html + $"Post Code: <backcolor=yellow>&nbsp;{edPostCode.Text}&nbsp;<backcolor=control><br><br>";
             _html = _html + $"Notes: <backcolor=yellow>&nbsp;{mmNotes.Text}&nbsp;<backcolor=control><br><br>";
-            _html = _html + $"Ticket #: {_sample_id}&<br>";
+            _html = _html + $"Ticket ID: {_sample_id}&<br>";
             HTMLDialog.confirm("Confirm", _html, "GO BACK", "SAVE");
             if (HTMLDialog.dialogResult != DialogResult.OK)
                 return;
@@ -612,7 +580,6 @@ namespace TestStationManagement
                 XtraMessageBox.Show("This test on this sample has been completed and cannot be started.", "Test Started", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
-            String _sample_id = ComputeHash(DateTime.Now.ToString() + edName.Text + deDOB.DateTime.ToString("dd/MM/yyyy"));
             String _html = "<font=Tahoma></font><size=18>Please confirm the test is running on this sample...<size=14><br><br>";
             HTMLDialog.confirm("Confirm", _html, "GO BACK", "SAVE");
             if (HTMLDialog.dialogResult != DialogResult.OK)
@@ -926,11 +893,6 @@ namespace TestStationManagement
             DataRow r = gvTestManagement.GetFocusedDataRow();
             if (r == null) return;
             SampleDetails.show(r);
-        }
-
-        private void grdSamplesTest_Click(object sender, EventArgs e)
-        {
-
         }
 
         private void edit_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)

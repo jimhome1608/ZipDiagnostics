@@ -1435,7 +1435,6 @@
             this.grdSamplesTest.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gvTestManagement,
             this.gridView3});
-            this.grdSamplesTest.Click += new System.EventHandler(this.grdSamplesTest_Click);
             // 
             // gvTestManagement
             // 
@@ -2329,15 +2328,16 @@
             this.bcTicketId.Appearance.Options.UseBackColor = true;
             this.bcTicketId.AutoModule = true;
             this.bcTicketId.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
-            this.bcTicketId.Location = new System.Drawing.Point(1049, 159);
+            this.bcTicketId.Location = new System.Drawing.Point(1056, 174);
             this.bcTicketId.Name = "bcTicketId";
             this.bcTicketId.Padding = new System.Windows.Forms.Padding(2, 2, 10, 0);
             this.bcTicketId.ShowText = false;
-            this.bcTicketId.Size = new System.Drawing.Size(275, 274);
-            qrCodeGenerator2.Version = DevExpress.XtraPrinting.BarCode.QRCodeVersion.Version1;
+            this.bcTicketId.Size = new System.Drawing.Size(258, 246);
+            qrCodeGenerator2.CompactionMode = DevExpress.XtraPrinting.BarCode.QRCodeCompactionMode.Byte;
+            qrCodeGenerator2.Version = DevExpress.XtraPrinting.BarCode.QRCodeVersion.Version3;
             this.bcTicketId.Symbology = qrCodeGenerator2;
             this.bcTicketId.TabIndex = 26;
-            this.bcTicketId.Text = "JANE SMITH";
+            this.bcTicketId.Text = "test-this";
             // 
             // panel16
             // 
@@ -2434,10 +2434,10 @@
             // panel6
             // 
             this.panel6.Controls.Add(this.panel7);
-            this.panel6.Location = new System.Drawing.Point(1049, 103);
+            this.panel6.Location = new System.Drawing.Point(1025, 103);
             this.panel6.Name = "panel6";
             this.panel6.Padding = new System.Windows.Forms.Padding(10);
-            this.panel6.Size = new System.Drawing.Size(275, 50);
+            this.panel6.Size = new System.Drawing.Size(320, 68);
             this.panel6.TabIndex = 18;
             // 
             // panel7
@@ -2449,22 +2449,23 @@
             this.panel7.Location = new System.Drawing.Point(10, 10);
             this.panel7.Name = "panel7";
             this.panel7.Padding = new System.Windows.Forms.Padding(1);
-            this.panel7.Size = new System.Drawing.Size(255, 30);
+            this.panel7.Size = new System.Drawing.Size(300, 48);
             this.panel7.TabIndex = 20;
             // 
             // edTicketId
             // 
-            this.edTicketId.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.edTicketId.Location = new System.Drawing.Point(76, 1);
+            this.edTicketId.Dock = System.Windows.Forms.DockStyle.Top;
+            this.edTicketId.EditValue = "";
+            this.edTicketId.Location = new System.Drawing.Point(1, 27);
             this.edTicketId.Name = "edTicketId";
             this.edTicketId.Properties.Appearance.BackColor = System.Drawing.SystemColors.Control;
-            this.edTicketId.Properties.Appearance.Font = new System.Drawing.Font("Tahoma", 12F);
+            this.edTicketId.Properties.Appearance.Font = new System.Drawing.Font("Tahoma", 10F);
             this.edTicketId.Properties.Appearance.Options.UseBackColor = true;
             this.edTicketId.Properties.Appearance.Options.UseFont = true;
             this.edTicketId.Properties.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
             this.edTicketId.Properties.MaxLength = 255;
             this.edTicketId.Properties.ReadOnly = true;
-            this.edTicketId.Size = new System.Drawing.Size(176, 24);
+            this.edTicketId.Size = new System.Drawing.Size(296, 20);
             this.edTicketId.TabIndex = 12;
             // 
             // labelControl6
@@ -2478,11 +2479,11 @@
             this.labelControl6.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Near;
             this.labelControl6.Appearance.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Top;
             this.labelControl6.AutoSizeMode = DevExpress.XtraEditors.LabelAutoSizeMode.None;
-            this.labelControl6.Dock = System.Windows.Forms.DockStyle.Left;
+            this.labelControl6.Dock = System.Windows.Forms.DockStyle.Top;
             this.labelControl6.Location = new System.Drawing.Point(1, 1);
             this.labelControl6.Name = "labelControl6";
             this.labelControl6.Padding = new System.Windows.Forms.Padding(0, 3, 0, 0);
-            this.labelControl6.Size = new System.Drawing.Size(75, 26);
+            this.labelControl6.Size = new System.Drawing.Size(296, 26);
             this.labelControl6.TabIndex = 11;
             this.labelControl6.Text = "Ticket ID:";
             // 
