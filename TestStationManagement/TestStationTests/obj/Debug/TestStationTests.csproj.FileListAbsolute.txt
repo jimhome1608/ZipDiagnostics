@@ -11,3 +11,4 @@ D:\git\ZipDiagnostics\TestStationManagement\TestStationTests\obj\Debug\TestStati
 D:\git\ZipDiagnostics\TestStationManagement\TestStationTests\obj\Debug\TestStationTests.csproj.CopyComplete
 D:\git\ZipDiagnostics\TestStationManagement\TestStationTests\obj\Debug\TestStationTests.dll
 D:\git\ZipDiagnostics\TestStationManagement\TestStationTests\obj\Debug\TestStationTests.pdb
+D:\git\ZipDiagnostics\TestStationManagement\TestStationTests\obj\Debug\TestStationTests.csprojAssemblyReference.cache

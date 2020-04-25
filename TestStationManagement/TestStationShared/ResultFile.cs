@@ -6,9 +6,13 @@ namespace TestStationShared
 {
     class ResultFile
     {
-        static public  uint ResultsFileWriteString(string str)
+
+         private uint cksm32;
+       
+        public  uint ResultsFileWriteString(string str, bool _first_line)
         {
-            uint cksm32 = 0;
+            if (_first_line)
+                cksm32 = 0;
             for (int i = 0; i < str.Length; i++)
             {
                 cksm32 += str[i];
