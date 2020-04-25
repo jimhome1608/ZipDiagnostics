@@ -78,7 +78,7 @@ namespace TestStationManagement
             openFileDialog1 = new OpenFileDialog()
             {
                 FileName = "",
-                Filter = "Test Result files (*.dat)|*.dat|All files (*.*)|*.*",
+                Filter = "Test Result files (*.csv)|*.csv|All files (*.*)|*.*",
                 Title = "Import Test Results"
             };
             Text = $"Test Station - Version: {AppView.version_info.test_station}";
@@ -542,10 +542,8 @@ namespace TestStationManagement
             }
             Database.refresh_backup_percent();
             samples_data.refresh();
-            return;
-            String test_r = $"<SAMPLE_ID>{_sample_id}</SAMPLE_ID>\n<RESULT>this is a mock test result, not a real test.</RESULT>";
-            File.WriteAllText(AppView.temp_directory + "\\sample_test_result.dat", test_r);
-            File.WriteAllText($"F:\\{_sample_id}.dat", test_r);
+            string mock_result_file = $"{AppView.temp_directory}\\{_sample_id}.csv";
+            ResultFile.make_result_file(_sample_id, "P+", DateTime.Now.ToString(Constants.DATE_FORMAT), DateTime.Now.ToString(Constants.RESULT_TIME_FORMAT), mock_result_file);
         }
 
         private void btnNew_Click(object sender, EventArgs e)
@@ -768,68 +766,41 @@ namespace TestStationManagement
             samples_data.refresh();
             if (openFileDialog1.ShowDialog() != DialogResult.OK)
                 return;
-
-            String sample_id = "";
-            String test_result = "";
-            String result_file = openFileDialog1.FileName;
-
-            XmlReaderSettings settings = new XmlReaderSettings();
-            settings.ConformanceLevel = ConformanceLevel.Fragment;
-            settings.IgnoreWhitespace = true;
-            settings.IgnoreComments = true;
-            XmlReader reader = XmlReader.Create(result_file, settings);
-            while (reader.Read())
-            {
-                switch (reader.NodeType)
-                {
-                    case XmlNodeType.Element:
-                        if (reader.Name == "SAMPLE_ID")
-                        {
-                            reader.Read();
-                            sample_id = reader.Value;
-                        }
-                        if (reader.Name == "RESULT")
-                        {
-                            reader.Read();
-                            test_result = reader.Value;
-                        }
-                        break;
-                }
-            }
-            if (sample_id == "")
-                return;
-            int sample_count_found = Database.sql_to_int($"select count(*) from samples where  sample_id = '{sample_id}'") ;
+            string result_file = openFileDialog1.FileName;
+            ResultFile resFile = new ResultFile();
+            bool res = resFile.load_from_file(result_file);
+            int sample_count_found = Database.sql_to_int($"select count(*) from samples where  sample_id = '{resFile.sample_id}'") ;
             if (sample_count_found < 1)
             {
                 String err_message =
-                     $"No matching Sample found\n\nFile: {Path.GetFileName(result_file)}\nSample ID: {sample_id}\nFile Content\n========================\n";
+                     $"No matching Sample found\n\nFile: {Path.GetFileName(result_file)}\nSample ID: {resFile.sample_id}\nFile Content\n========================\n";
                 ErrorLog.write_error_log("Import Test Results", err_message + File.ReadAllText(result_file));
                 err_message =
-                   $"<b>No matching Sample found</b>\n\nFile: {Path.GetFileName(result_file)}\nSample ID: {sample_id}\n\n";
+                   $"<b>No matching Sample found</b>\n\nFile: {Path.GetFileName(result_file)}\nSample ID: {resFile.sample_id}\n\n";
                 XtraMessageBox.Show(err_message, "Import Test Results", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
             if (sample_count_found > 1)
             {
                 String err_message =
-                     $"Multiple matching Sample found \n\nFile: {Path.GetFileName(result_file)}\nSample ID: {sample_id}\nFile Content\n========================\n";
+                     $"Multiple matching Sample found \n\nFile: {Path.GetFileName(result_file)}\nSample ID: {resFile.sample_id}\nFile Content\n========================\n";
                 ErrorLog.write_error_log("Import Test Results", err_message + File.ReadAllText(result_file));
                 err_message =
-                   $"<b>Multiple matching Sample found</b>\n\nFile: {Path.GetFileName(result_file)}\nSample ID: {sample_id}\n\n";
+                   $"<b>Multiple matching Sample found</b>\n\nFile: {Path.GetFileName(result_file)}\nSample ID: {resFile.sample_id}\n\n";
                 XtraMessageBox.Show(err_message, "Import Test Results", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-            int id = Database.sql_to_int($"select id from samples where  sample_id = '{sample_id}'");
+            int id = Database.sql_to_int($"select id from samples where  sample_id = '{resFile.sample_id}'");
             string test_status = Database.sql_to_string($"select test_status from samples where  id = {id}");
             if (Constants.match_completed(test_status))
             {
-                ErrorLog.write_error_log("Import Test Results", $"Test Result for sample {sample_id} has already imported.\n\n" + File.ReadAllText(result_file));
-                XtraMessageBox.Show($"Test Result for sample\n{sample_id}\nhas <b>already been imported</b>.\n\nNo need to import this file again.", "Import Test Results", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                ErrorLog.write_error_log("Import Test Results", $"Test Result for sample {resFile.sample_id} has already imported.\n\n" + File.ReadAllText(result_file));
+                XtraMessageBox.Show($"Test Result for sample\n{resFile.sample_id}\nhas <b>already been imported</b>.\n\nNo need to import this file again.", "Import Test Results", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
             }
 
-            
-            writeTestResult.write(id, test_result);
+
+            writeTestResult.write(id, resFile.final_result); ;
             if (!WebApi.save_sample(id))
                 Database.execute_non_query($"update samples set web_saved = 0 where id = {id}");
             Database.refresh_backup_percent();

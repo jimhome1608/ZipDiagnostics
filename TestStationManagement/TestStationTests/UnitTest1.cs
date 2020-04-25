@@ -3,7 +3,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using TestStationShared;
+using TestStationManagement;
 
 namespace TestStationTests
 {
@@ -13,29 +13,26 @@ namespace TestStationTests
         [TestMethod]
         public void TestCheckSumOneLine()
         {
-            ResultFile resultFile = new ResultFile();
-            uint res = resultFile.ResultsFileWriteString("abcdef\r\n", true);
+            uint res = ResultFile.ResultsFileWriteString("abcdef\r\n", true);
             Assert.AreEqual((uint)1862606736, res);
         }
 
         [TestMethod]
         public void TestCheckSumTwoLines()
         {
-            ResultFile resultFile = new ResultFile();
-            uint res = resultFile.ResultsFileWriteString("abc\r\n", true);
-            res = resultFile.ResultsFileWriteString("def\r\n", false);
+            uint res = ResultFile.ResultsFileWriteString("abc\r\n", true);
+            res = ResultFile.ResultsFileWriteString("def\r\n", false);
             Assert.AreEqual((uint)0xB5011F90, res);
         }
 
         [TestMethod]
         public void TestCheckSumTwoLineFile()
         {
-            ResultFile resultFile = new ResultFile();
             string[] lines = File.ReadAllLines(@"..\..\.\TestData\TwoLines.csv");
             uint res = 0;
             for (int i= 0; i < lines.Count(); i++)
             {
-                res = resultFile.ResultsFileWriteString(lines[i] + "\r\n", i==0);
+                res = ResultFile.ResultsFileWriteString(lines[i] + "\r\n", i==0);
             }
             Assert.AreEqual((uint)0xB5011F90, res);
         }

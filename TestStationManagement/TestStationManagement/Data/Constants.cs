@@ -27,6 +27,7 @@ namespace TestStationManagement
         public static string SAMPLE_DETAILS_SCREEN_TITLE = "<br><size=24>Sample Details<size=14>";
 
         public static string DATE_TIME_FORMAT = "dd MMM yyyy hh:mm:ss";
+        public static string RESULT_TIME_FORMAT = "hh:mm tt";
         public static string DATE_TIME_FORMAT_SAMPLE_ID = "ddMMMyyyy-HHmmss"; //11FEB2020-13:40:21
         public static string DATE_FORMAT = "dd MMM yyyy";
 

@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
-namespace TestStationShared
+namespace TestStationManagement
 {
     public class ResultFileException : Exception
     {
@@ -19,10 +19,10 @@ namespace TestStationShared
     }
 
 
-    class ResultFile
+    public class  ResultFile
     {
 
-        private uint cksm32;
+        private static uint cksm32;
 
         //File Checksum,'11223344
         //Final Result  ,P+
@@ -36,49 +36,70 @@ namespace TestStationShared
         public string test_time;
         public DateTime test_date_time;
 
+        public static string make_result_file(string sample_id, string final_result, string test_date, string test_time, string file_name)
+        {
+            string res = ResultFileMockData.data;
+            res = res.Replace("[sample-id]", sample_id);
+            res = res.Replace("[final_result]", final_result);
+            res = res.Replace("[test-date]", test_date);
+            res = res.Replace("[test-time]", test_time);
+            string[] lines = res.Split('\n');
+            uint check_sum = get_check_sum(lines);
+            res = res + $"File Checksum,'{check_sum.ToString()}";
+            File.WriteAllText(file_name, res);
+            return res;
+        }
+
         public bool load_from_file(string _filename)
         {
             check_sum_from_file = "";
             string[] lines = File.ReadAllLines(_filename);
             foreach (string s in lines)
             {
-                if (s.Trim().ToLower().IndexOf("file checksum") == 0) 
+                if (s.Trim().ToLower().IndexOf("file checksum") == 0)
                 {
-                    check_sum_from_file = get_csv_value(s);
+                    check_sum_from_file = get_csv_value(s).Trim();
                 }
                 if (s.Trim().ToLower().IndexOf("final result") == 0)
                 {
-                    final_result = get_csv_value(s);
+                    final_result = get_csv_value(s).Trim();
                 }
                 if (s.Trim().ToLower().IndexOf("sample-id") == 0)
                 {
-                    sample_id = get_csv_value(s);
+                    sample_id = get_csv_value(s).Trim();
                 }
                 if (s.Trim().ToLower().IndexOf("date,") == 0)
                 {
-                    test_date = get_csv_value(s);
+                    test_date = get_csv_value(s).Trim();
                 }
                 if (s.Trim().ToLower().IndexOf("time,") == 0)
                 {
-                    test_time = get_csv_value(s);
+                    test_time = get_csv_value(s).Trim();
                 }
             }
             if (check_sum_from_file == "")
                 throw new ResultFileException("Checksum not found in file");
             test_date_time = date_time_from_strings(test_date, test_time);
             Debug.WriteLine(check_sum_from_file);
-            uint res = 0;
-            // last line is ignored because is the File Checksum,'11223344
-            for (int i = 0; i < lines.Count() - 1; i++)
-            {
-                res = ResultsFileWriteString(lines[i] + "\r\n", i == 0);
-            }
+            uint res = get_check_sum(lines);
             if (check_sum_from_file != res.ToString())
                 throw new ResultFileException($"Invalid Checksum found in file");
             return true;
         }
-       
-        public  uint ResultsFileWriteString(string str, bool _first_line)
+
+        private static uint get_check_sum(string[] lines)
+        {
+            uint res = 0;
+            for (int i = 0; i < lines.Count() - 1; i++)
+            {
+                if (lines[i].Trim().ToLower().IndexOf("file checksum") == 0)
+                    continue;
+                res = ResultsFileWriteString(lines[i] + "\r\n", i == 0);
+            }
+            return res;
+        }
+
+        public static uint ResultsFileWriteString(string str, bool _first_line)
         {
             if (_first_line)
                 cksm32 = 0;
@@ -101,13 +122,13 @@ namespace TestStationShared
             return index;
         }
 
-        public DateTime date_time_from_strings (string date, string time)
+        public DateTime date_time_from_strings(string date, string time)
         {
             // 01-JAN-2000  
             // 04:16 AM
-            if (date.Length != 11)
+            if (date.Length < 11)
                 throw new ResultFileException($"Invalid Test Date in file");
-            if (time.Length != 8)
+            if (time.Length < 8)
                 throw new ResultFileException($"Invalid Test Time in file");
             int d;
             bool success = Int32.TryParse(date.Substring(0, 2), out d);
@@ -128,7 +149,7 @@ namespace TestStationShared
             success = Int32.TryParse(time.Substring(3, 2), out min);
             if (!success)
                 throw new ResultFileException($"Invalid Test Time in file");
-            DateTime res =  new DateTime(y, m, d, h , min, 0);
+            DateTime res = new DateTime(y, m, d, h, min, 0);
             return res;
 
         }

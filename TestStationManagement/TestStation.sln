@@ -5,16 +5,9 @@ VisualStudioVersion = 16.0.29728.190
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestStation", "TestStationManagement\TestStation.csproj", "{D1CBC88A-1C4A-43D8-BFD1-7A1435066E97}"
 EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "TestStationShared", "TestStationShared\TestStationShared.shproj", "{B27E6769-4383-4315-BAC4-74EB74570E0A}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestStationTests", "TestStationTests\TestStationTests.csproj", "{204CF6D8-1A15-4BE8-A7F1-5C5CE87000D5}"
 EndProject
 Global
-	GlobalSection(SharedMSBuildProjectFiles) = preSolution
-		TestStationShared\TestStationShared.projitems*{204cf6d8-1a15-4be8-a7f1-5c5ce87000d5}*SharedItemsImports = 4
-		TestStationShared\TestStationShared.projitems*{b27e6769-4383-4315-bac4-74eb74570e0a}*SharedItemsImports = 13
-		TestStationShared\TestStationShared.projitems*{d1cbc88a-1c4a-43d8-bfd1-7a1435066e97}*SharedItemsImports = 4
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU

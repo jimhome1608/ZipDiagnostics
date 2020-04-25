@@ -9,6 +9,6 @@
     <Import_RootNamespace>TestStationShared</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)ResultFile.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ResultFileMockData.cs" />
   </ItemGroup>
 </Project>

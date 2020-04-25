@@ -84,6 +84,8 @@
     <Compile Include="Data\Constants.cs" />
     <Compile Include="Data\Database.cs" />
     <Compile Include="Data\ErrorLog.cs" />
+    <Compile Include="Data\ResultFile.cs" />
+    <Compile Include="Data\ResultFileMockData.cs" />
     <Compile Include="Data\SqlData.cs" />
     <Compile Include="Data\User.cs" />
     <Compile Include="Data\WebApi.cs" />
@@ -189,6 +191,5 @@
     <None Include="Resources\apply_16x16.png" />
     <None Include="Resources\ZipDiagnosticsLogo.jpg" />
   </ItemGroup>
-  <Import Project="..\TestStationShared\TestStationShared.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
