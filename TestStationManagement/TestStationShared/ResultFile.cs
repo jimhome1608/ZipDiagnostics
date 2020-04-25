@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -31,6 +32,9 @@ namespace TestStationShared
         public string check_sum_from_file;
         public string final_result;
         public string sample_id;
+        public string test_date;
+        public string test_time;
+        public DateTime test_date_time;
 
         public bool load_from_file(string _filename)
         {
@@ -50,9 +54,18 @@ namespace TestStationShared
                 {
                     sample_id = get_csv_value(s);
                 }
+                if (s.Trim().ToLower().IndexOf("date,") == 0)
+                {
+                    test_date = get_csv_value(s);
+                }
+                if (s.Trim().ToLower().IndexOf("time,") == 0)
+                {
+                    test_time = get_csv_value(s);
+                }
             }
             if (check_sum_from_file == "")
                 throw new ResultFileException("Checksum not found in file");
+            test_date_time = date_time_from_strings(test_date, test_time);
             Debug.WriteLine(check_sum_from_file);
             uint res = 0;
             // last line is ignored because is the File Checksum,'11223344
@@ -75,6 +88,49 @@ namespace TestStationShared
                 cksm32 = cksm32 << 3;
             }
             return cksm32;
+        }
+
+        private int  GetMonthNumberFromAbbreviation(string mmm)
+        {
+            mmm = mmm.ToUpper();
+            string[] monthAbbrev =
+               CultureInfo.CurrentCulture.DateTimeFormat.AbbreviatedMonthNames;
+            for (int i = 0; i < monthAbbrev.Count(); i++)
+                monthAbbrev[i] = monthAbbrev[i].ToUpper();
+            int index = Array.IndexOf(monthAbbrev, mmm) + 1;
+            return index;
+        }
+
+        public DateTime date_time_from_strings (string date, string time)
+        {
+            // 01-JAN-2000  
+            // 04:16 AM
+            if (date.Length != 11)
+                throw new ResultFileException($"Invalid Test Date in file");
+            if (time.Length != 8)
+                throw new ResultFileException($"Invalid Test Time in file");
+            int d;
+            bool success = Int32.TryParse(date.Substring(0, 2), out d);
+            if (!success)
+                throw new ResultFileException($"Invalid Test Date in file");
+            int m = GetMonthNumberFromAbbreviation(date.Substring(3, 3));
+            int y;
+            success = Int32.TryParse(date.Substring(7, 4), out y);
+            if (!success)
+                throw new ResultFileException($"Invalid Test Date in file");
+            int h;
+            success = Int32.TryParse(time.Substring(0, 2), out h);
+            if (!success)
+                throw new ResultFileException($"Invalid Test Time in file");
+            if (time.ToUpper().IndexOf("PM") > 0)
+                h += 11;
+            int min;
+            success = Int32.TryParse(time.Substring(3, 2), out min);
+            if (!success)
+                throw new ResultFileException($"Invalid Test Time in file");
+            DateTime res =  new DateTime(y, m, d, h , min, 0);
+            return res;
+
         }
 
         private string get_csv_value(string csv)
