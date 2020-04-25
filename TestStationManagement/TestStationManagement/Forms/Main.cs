@@ -543,7 +543,15 @@ namespace TestStationManagement
             Database.refresh_backup_percent();
             samples_data.refresh();
             string mock_result_file = $"{AppView.temp_directory}\\{_sample_id}.csv";
-            ResultFile.make_result_file(_sample_id, "P+", DateTime.Now.ToString(Constants.DATE_FORMAT), DateTime.Now.ToString(Constants.RESULT_TIME_FORMAT), mock_result_file);
+            string _final_result = "P+";
+            Random random = new Random();
+            int random_number = random.Next(3);
+            if (random_number == 0)
+                _final_result = "!";
+            if (random_number == 1)
+                _final_result = "N-";
+
+            ResultFile.make_result_file(_sample_id, _final_result, DateTime.Now.ToString(Constants.DATE_FORMAT), DateTime.Now.ToString(Constants.RESULT_TIME_FORMAT), mock_result_file);
         }
 
         private void btnNew_Click(object sender, EventArgs e)
@@ -604,42 +612,30 @@ namespace TestStationManagement
 
             if (e.Column == colTestResult)
             {
-                DataRow r = gvTestManagement.GetDataRow(e.RowHandle);
-                if (r == null) return;
-                string test_status = r["test_status"].ToString();
+                String test_result = e.CellValue.ToString().ToUpper().Trim();
                 Rectangle rrect = e.Bounds;
                 Brush b = new SolidBrush(Color.White);
                 e.Graphics.FillRectangle(b, rrect);                
                 Rectangle rec = new Rectangle(e.Bounds.X + 80, e.Bounds.Y, 32, 32);
-                if (Constants.match_completed(test_status))
+                switch (test_result)
                 {
-                    switch (e.RowHandle)
-                    {
-                        case 0:
-                            e.Appearance.DrawString(e.Cache, "  Invalid", e.Bounds);
-                            e.Graphics.DrawImage(Properties.Resources.test_result_invalid_yellow, rec);
-                            break;
-                        case 1:
-                            e.Appearance.DrawString(e.Cache, "  Negative", e.Bounds);
-                            e.Graphics.DrawImage(Properties.Resources.test_result_negative_green, rec);
-                            break;
-                        case 2:
-                            e.Appearance.DrawString(e.Cache, "  Positive", e.Bounds);
-                            e.Graphics.DrawImage(Properties.Resources.test_result_positive_red, rec);
-                            break;
-                        case 3:
-                            e.Appearance.DrawString(e.Cache, "  Invalid", e.Bounds);
-                            e.Graphics.DrawImage(Properties.Resources.test_result_invalid_yellow, rec);
-                            break;
-                    }
-                    
+                    case "!":
+                        e.Appearance.DrawString(e.Cache, "  Invalid", e.Bounds);
+                        e.Graphics.DrawImage(Properties.Resources.test_result_invalid_yellow, rec);
+                        break;
+                    case "N-":
+                        e.Appearance.DrawString(e.Cache, "  Negative", e.Bounds);
+                        e.Graphics.DrawImage(Properties.Resources.test_result_negative_green, rec);
+                        break;
+                    case "P+":
+                        e.Appearance.DrawString(e.Cache, "  Positive", e.Bounds);
+                        e.Graphics.DrawImage(Properties.Resources.test_result_positive_red, rec);
+                        break;
+                    case "":
+                        e.Appearance.DrawString(e.Cache, "  Pending", e.Bounds);
+                        e.Graphics.DrawImage(Properties.Resources.test_result_waiting_blank, rec);
+                        break;
                 }                    
-                else
-                {
-                    e.Appearance.DrawString(e.Cache, "  Pending", e.Bounds);
-                    e.Graphics.DrawImage(Properties.Resources.test_result_waiting_blank, rec);
-                }
-                    
                 e.Handled = true;
             }
             if (e.Column == ColTestStatusTests)
