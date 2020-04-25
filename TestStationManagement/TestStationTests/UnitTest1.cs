@@ -45,13 +45,9 @@ namespace TestStationTests
         {
             // have deleted the last line for the File Checksum,'11223344 from this test data.
             ResultFile resultFile = new ResultFile();
-            string[] lines = File.ReadAllLines(@"..\..\.\TestData\T8C2-S043741-2000-01-01-005-SARS-CoV-2#d87f7e0c#11FEB2020-134021_orig.csv");
-            uint res = 0;
-            for (int i = 0; i < lines.Count()-1; i++)
-            {
-                res = resultFile.ResultsFileWriteString(lines[i] + "\r\n", i == 0);
-            }            
-            Assert.AreEqual((uint)11223344, res);
+            bool res = resultFile.load_from_file(@"..\..\.\TestData\modified_checksum.csv");
+            Assert.AreEqual(true, res);
+            return;
         }
     }
 }
