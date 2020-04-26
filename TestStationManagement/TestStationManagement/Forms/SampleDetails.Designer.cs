@@ -83,10 +83,10 @@
             this.xtraScrollableControl5 = new DevExpress.XtraEditors.XtraScrollableControl();
             this.lblInfo = new DevExpress.XtraEditors.LabelControl();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.btnPrintSampleLabel = new DevExpress.XtraEditors.SimpleButton();
             this.simpleButton1 = new DevExpress.XtraEditors.SimpleButton();
             this.btnImportTestResults = new DevExpress.XtraEditors.SimpleButton();
             this.btynPrintTest = new DevExpress.XtraEditors.SimpleButton();
+            this.btnPrintSampleLabel = new DevExpress.XtraEditors.SimpleButton();
             this.panel2 = new System.Windows.Forms.Panel();
             this.grdSamplesTest = new DevExpress.XtraGrid.GridControl();
             this.gvTestManagement = new DevExpress.XtraGrid.Views.Grid.GridView();
@@ -613,21 +613,6 @@
             this.tableLayoutPanel1.Size = new System.Drawing.Size(535, 97);
             this.tableLayoutPanel1.TabIndex = 28;
             // 
-            // btnPrintSampleLabel
-            // 
-            this.btnPrintSampleLabel.Appearance.Font = new System.Drawing.Font("Tahoma", 12F);
-            this.btnPrintSampleLabel.Appearance.Options.UseFont = true;
-            this.btnPrintSampleLabel.Appearance.Options.UseTextOptions = true;
-            this.btnPrintSampleLabel.Appearance.TextOptions.WordWrap = DevExpress.Utils.WordWrap.Wrap;
-            this.btnPrintSampleLabel.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("btnPrintSampleLabel.ImageOptions.Image")));
-            this.btnPrintSampleLabel.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.TopCenter;
-            this.btnPrintSampleLabel.Location = new System.Drawing.Point(408, 4);
-            this.btnPrintSampleLabel.Margin = new System.Windows.Forms.Padding(4);
-            this.btnPrintSampleLabel.Name = "btnPrintSampleLabel";
-            this.btnPrintSampleLabel.Size = new System.Drawing.Size(120, 86);
-            this.btnPrintSampleLabel.TabIndex = 18;
-            this.btnPrintSampleLabel.Text = "Print Sample Label";
-            // 
             // simpleButton1
             // 
             this.simpleButton1.Appearance.Font = new System.Drawing.Font("Tahoma", 12F);
@@ -666,6 +651,21 @@
             this.btynPrintTest.Size = new System.Drawing.Size(120, 86);
             this.btynPrintTest.TabIndex = 14;
             this.btynPrintTest.Text = "Print Result";
+            // 
+            // btnPrintSampleLabel
+            // 
+            this.btnPrintSampleLabel.Appearance.Font = new System.Drawing.Font("Tahoma", 12F);
+            this.btnPrintSampleLabel.Appearance.Options.UseFont = true;
+            this.btnPrintSampleLabel.Appearance.Options.UseTextOptions = true;
+            this.btnPrintSampleLabel.Appearance.TextOptions.WordWrap = DevExpress.Utils.WordWrap.Wrap;
+            this.btnPrintSampleLabel.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("btnPrintSampleLabel.ImageOptions.Image")));
+            this.btnPrintSampleLabel.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.TopCenter;
+            this.btnPrintSampleLabel.Location = new System.Drawing.Point(408, 4);
+            this.btnPrintSampleLabel.Margin = new System.Windows.Forms.Padding(4);
+            this.btnPrintSampleLabel.Name = "btnPrintSampleLabel";
+            this.btnPrintSampleLabel.Size = new System.Drawing.Size(120, 86);
+            this.btnPrintSampleLabel.TabIndex = 18;
+            this.btnPrintSampleLabel.Text = "Print Sample Label";
             // 
             // panel2
             // 

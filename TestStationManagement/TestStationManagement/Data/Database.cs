@@ -271,12 +271,28 @@ namespace TestStationManagement
                 return "";
         }
 
+        public static Nullable<DateTime> safe_read_nullable_datetime(DataRow r, String fieldname)
+        {
+            if (r[fieldname] != System.DBNull.Value)
+                return (DateTime) r[fieldname];
+            else
+                return null;
+        }
+
         public static String safe_read(DataRow r, String fieldname)
         {
             if (r[fieldname] != System.DBNull.Value)
                 return r[fieldname].ToString();
             else
                 return "";
+        }
+
+        public static int safe_read_int(DataRow r, String fieldname)
+        {
+            if (r[fieldname] != System.DBNull.Value)
+                return (int) r[fieldname];
+            else
+                return 0;
         }
 
         public static String safe_read(DevExpress.XtraGrid.Views.Grid.GridView grid, int rowHandle, String fieldname)
