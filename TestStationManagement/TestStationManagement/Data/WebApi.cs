@@ -19,6 +19,7 @@ namespace TestStationManagement.Data
 
         public string station_id;
         public int id;
+        public int test_id;
         public Nullable<DateTime> sample_time;
         public string first_name;
         public string family_name;
@@ -137,6 +138,7 @@ namespace TestStationManagement.Data
                 TestStationSampleData data = new TestStationSampleData();
                 data.station_id = r["station_id"].ToString();
                 data.id = (int)r["id"];
+                data.test_id = (int)r["test_id"];                
                 data.sample_time = Database.safe_read_nullable_datetime(r, "sample_time");
                 data.first_name = r["first_name"].ToString();
                 data.family_name = r["family_name"].ToString();
