@@ -1,6 +1,7 @@
 ﻿using DevExpress.BarCodes;
 using DevExpress.Office;
 using DevExpress.Skins;
+using DevExpress.Utils.Helpers;
 using DevExpress.XtraEditors;
 using Force.Crc32;
 using MySql.Data.MySqlClient;
@@ -221,8 +222,6 @@ namespace TestStationManagement
                         tbTestStatus.BackColor = Constants.TEST_COMPLETED_BACKCOLOR;
                     else
                         tbTestStatus.BackColor = Constants.TEST_WAITING_BACKCOLOR;
-                    bcRunTestTestBarcode.DataBindings.Add(new Binding("text", current_test_data.myBindingSource, "test_barcode"));
-                    teRunTestTestBarcode.DataBindings.Add(new Binding("text", current_test_data.myBindingSource, "test_barcode"));
 
                     teRunTestsName.DataBindings.Add(new Binding("text", current_test_data.myBindingSource, "full_name"));
                     teRunTestsPhone.DataBindings.Add(new Binding("text", current_test_data.myBindingSource, "phone"));
@@ -546,7 +545,7 @@ namespace TestStationManagement
             }
             Database.refresh_backup_percent();
             samples_data.refresh();
-            string mock_result_file = $"{AppView.temp_directory}\\{_sample_id}.csv";
+            string mock_result_file = $"{AppView.temp_directory}\\{_sample_id}";
             string _final_result = "P+";
             Random random = new Random();
             int random_number = random.Next(3);
@@ -555,7 +554,11 @@ namespace TestStationManagement
             if (random_number == 1)
                 _final_result = "N-";
             dt = dt.AddMinutes(5);
-            ResultFile.make_result_file(_sample_id, _final_result, DateTime.Now.ToString(Constants.DATE_FORMAT), DateTime.Now.ToString(Constants.RESULT_TIME_FORMAT), mock_result_file);
+            ResultFile.make_result_file(_sample_id, "P+", dt.ToString(Constants.DATE_FORMAT), dt.ToString(Constants.RESULT_TIME_FORMAT), mock_result_file + "_positive.csv");
+            dt = dt.AddMinutes(5);
+            ResultFile.make_result_file(_sample_id, "N-", dt.ToString(Constants.DATE_FORMAT), dt.ToString(Constants.RESULT_TIME_FORMAT), mock_result_file + "_negative.csv");
+            dt = dt.AddMinutes(5);
+            ResultFile.make_result_file(_sample_id, "!", dt.ToString(Constants.DATE_FORMAT), dt.ToString(Constants.RESULT_TIME_FORMAT),  mock_result_file + "_inconclusive.csv");
         }
 
         private void btnNew_Click(object sender, EventArgs e)
@@ -768,11 +771,28 @@ namespace TestStationManagement
             samples_data.refresh();
             if (openFileDialog1.ShowDialog() != DialogResult.OK)
                 return;
+            bool tested_already_need_to_insert_new_record = false;
+            int id_of_sample_to_update = -1;
             string result_file = openFileDialog1.FileName;
             ResultFile resFile = new ResultFile();
             bool res = resFile.load_from_file(result_file);
-            int sample_count_found = Database.sql_to_int($"select count(*) from samples where  sample_id = '{resFile.sample_id}'") ;
-            if (sample_count_found < 1)
+            SqlData samples = new SqlData($"select test_time, id from samples where  sample_id = '{resFile.sample_id}' and station_id = {Settings.station_id}");            
+            foreach (DataRow dr in samples.myDataTable.Rows)
+            {
+                if (dr["test_time"] == System.DBNull.Value)
+                {
+                    id_of_sample_to_update = (int)dr["id"];
+                    break;
+                }                                  
+                if ((DateTime) dr["test_time"] == resFile.test_date_time)
+                {
+                    ErrorLog.write_error_log("Import Test Results", $"Test Result for sample {resFile.sample_id} has already imported.\n\n" + File.ReadAllText(result_file));
+                    XtraMessageBox.Show($"Test Result for sample\n{resFile.sample_id}\nhas <b>already been imported</b>.\n\nNo need to import this file again.", "Import Test Results", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    return;
+                }
+                tested_already_need_to_insert_new_record = true;
+            }            
+            if (samples.myDataTable.Rows.Count < 1)
             {
                 String err_message =
                      $"No matching Sample found\n\nFile: {Path.GetFileName(result_file)}\nSample ID: {resFile.sample_id}\nFile Content\n========================\n";
@@ -782,29 +802,22 @@ namespace TestStationManagement
                 XtraMessageBox.Show(err_message, "Import Test Results", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-            if (sample_count_found > 1)
+            if (tested_already_need_to_insert_new_record)
             {
-                String err_message =
-                     $"Multiple matching Sample found \n\nFile: {Path.GetFileName(result_file)}\nSample ID: {resFile.sample_id}\nFile Content\n========================\n";
-                ErrorLog.write_error_log("Import Test Results", err_message + File.ReadAllText(result_file));
-                err_message =
-                   $"<b>Multiple matching Sample found</b>\n\nFile: {Path.GetFileName(result_file)}\nSample ID: {resFile.sample_id}\n\n";
-                XtraMessageBox.Show(err_message, "Import Test Results", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-            int id = Database.sql_to_int($"select id from samples where  sample_id = '{resFile.sample_id}'");
-            string test_status = Database.sql_to_string($"select test_status from samples where  id = {id}");
-            if (Constants.match_completed(test_status))
-            {
-                ErrorLog.write_error_log("Import Test Results", $"Test Result for sample {resFile.sample_id} has already imported.\n\n" + File.ReadAllText(result_file));
-                XtraMessageBox.Show($"Test Result for sample\n{resFile.sample_id}\nhas <b>already been imported</b>.\n\nNo need to import this file again.", "Import Test Results", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                return;
+                int next_text_id = Database.try_sql_to_int($"select max(test_id) from samples where sample_id = '{resFile.sample_id}'", 0);
+                next_text_id++;
+                string sql_clone =
+                $"insert into samples (select station_id, id, {next_text_id},  sample_time, first_name,  family_name, date_of_birth,  postcode,  phone,  email, notes,  sample_id,   \n" +
+                "test_result,  test_status,  test_start_time,  result_import_time,  test_time, web_saved,  sample_user_name,  test_start_user_name,   \n" +
+                "test_result_user_name,  sample_user_id, test_start_user_id,  test_result_user_id,  result_file \n" +
+                $"from samples where station_id = {Settings.station_id} and sample_id = '{resFile.sample_id}' limit 1);";
+                Database.execute_non_query(sql_clone);
+                id_of_sample_to_update = Database.sql_to_int($"select id from samples where sample_id = '{resFile.sample_id}' and test_id = {next_text_id} and station_id = {Settings.station_id}");
             }
 
-
-            writeTestResult.write(id, resFile); ;
-            if (!WebApi.save_sample(id))
-                Database.execute_non_query($"update samples set web_saved = 0 where id = {id}");
+            writeTestResult.write(id_of_sample_to_update,  resFile); ;
+            if (!WebApi.save_sample(id_of_sample_to_update))
+                Database.execute_non_query($"update samples set web_saved = 0 where id = {id_of_sample_to_update}");
             Database.refresh_backup_percent();
             samples_data.refresh();
             

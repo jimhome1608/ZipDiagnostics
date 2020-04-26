@@ -11,7 +11,7 @@ namespace TestStationManagement
     {
 
         public const string SQL_SAMPLES_SELECT =
-            "select *, get_sample_id(samples.station_id, samples.id) as sample_id2, concat(first_name,' ', family_name) as full_name, get_test_barcode(samples.station_id, samples.id) as  test_barcode from samples ";
+            "select *, get_sample_id(samples.station_id, samples.id) as sample_id2, concat(first_name,' ', family_name) as full_name  from samples ";
 
         public static Color BACKGROUND_COLOR_FOR_SELECTED_VIEW_BUTTON = Color.DarkGray;
         public static Color EDITING_BACKCOLOR = Color.LightYellow;
