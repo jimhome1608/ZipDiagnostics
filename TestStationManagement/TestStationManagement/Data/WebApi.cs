@@ -17,7 +17,7 @@ namespace TestStationManagement.Data
     {
         public string station_id;
         public int id;
-        public DateTime save_time;
+        public DateTime sample_time;
         public string first_name;
         public string family_name;
         public DateTime date_of_birth;
@@ -117,7 +117,7 @@ namespace TestStationManagement.Data
                 TestStationSampleData data = new TestStationSampleData();
                 data.station_id = r["station_id"].ToString();
                 data.id = (int)r["id"];
-                data.save_time = (DateTime)r["save_time"];
+                data.sample_time = (DateTime)r["sample_time"];
                 data.first_name = r["first_name"].ToString();
                 data.family_name = r["family_name"].ToString();
                 data.date_of_birth = (DateTime)r["date_of_birth"];

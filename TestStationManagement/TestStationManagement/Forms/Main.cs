@@ -266,7 +266,7 @@ namespace TestStationManagement
                     {
                         throw new Exception("Could not get/set station id");
                     }
-                    samples_data = new SqlData($"{Constants.SQL_SAMPLES_SELECT} order by save_time desc ");
+                    samples_data = new SqlData($"{Constants.SQL_SAMPLES_SELECT} order by sample_time desc ");
                     load_info_screen();
                     grdSamplesTest.DataSource = samples_data.myBindingSource;
                     break;
@@ -488,6 +488,7 @@ namespace TestStationManagement
         {
             if (!valid_to_save())
                 return;
+            DateTime dt = DateTime.Now;
             int next_id = Database.sql_to_int("select get_next_id()");
             String _dob = deDOB.DateTime.ToString(Constants.DATE_FORMAT);
             // {SRARS-CoV-2 in plain text} 
@@ -495,7 +496,7 @@ namespace TestStationManagement
             // + {Date/Time of sample Collection, to the minute  in plain text in the format 11FEB2020-13:40:21}
             string hash_this = edName.Text + edFamilyName.Text + deDOB.DateTime.ToString("yyyyMMdd");
             uint _hash_ing = Crc32Algorithm.Compute(Encoding.UTF8.GetBytes(hash_this));
-            string _sample_id = "SRARS-CoV-2#" + _hash_ing.ToString("X") + "#" + DateTime.Now.ToString(Constants.DATE_TIME_FORMAT_SAMPLE_ID).ToUpper();
+            string _sample_id = "SRARS-CoV-2#" + _hash_ing.ToString("X") + "#" + dt.ToString(Constants.DATE_TIME_FORMAT_SAMPLE_ID).ToUpper();
             String _html = "<font=Tahoma></font><size=18>Please confirm these details are correct before saving<size=14><br><br>";
             _html = _html + $"Name:<backcolor=yellow>&nbsp;{edName.Text}  {edFamilyName.Text}&nbsp;<backcolor=control><br><br>";
             _html = _html + $"Email: <backcolor=yellow>&nbsp;{edEmail.Text}&nbsp;<backcolor=control><br><br>";
@@ -508,28 +509,31 @@ namespace TestStationManagement
             if (HTMLDialog.dialogResult != DialogResult.OK)
                 return;
 
-            string sql_insert = "";
-            //sql_insert = "call save_sample(_station_id, _id,_save_time, _first_name, _family_name, _date_of_birth, _postcode, _phone, _email, _notes,"+
-            //             " _sample_id, _test_result, _test_status, _test_start_time, _result_import_time, _web_saved)";
-            sql_insert = "save_sample";
+            string sql_insert =
+                "insert into samples (station_id, id, sample_time, first_name, family_name, date_of_birth, postcode, phone, email, notes,"+
+                "sample_id, test_result, test_status, test_start_time, result_import_time, web_saved, sample_user_name, sample_user_id) " +
+                "values "+
+                "(@station_id, @id, @sample_time, @first_name, @family_name, @date_of_birth, @postcode, @phone, @email, @notes, " +
+                "@sample_id, @test_result, @test_status, @test_start_time, @result_import_time, @web_saved, @sample_user_name, @sample_user_id); ";
             MySqlCommand command = new MySqlCommand(sql_insert, Database.MySql());
-            command.CommandType = CommandType.StoredProcedure;
-            command.Parameters.Add("@_station_id", MySqlDbType.VarChar, 255).Value = Settings.station_id;
-            command.Parameters.Add("@_id", MySqlDbType.Int32).Value = next_id;
-            command.Parameters.Add("@_save_time", MySqlDbType.DateTime, 11).Value = DateTime.Now;
-            command.Parameters.Add("@_first_name", MySqlDbType.VarChar, 255).Value = edName.Text;
-            command.Parameters.Add("@_family_name", MySqlDbType.VarChar, 255).Value = edFamilyName.Text;
-            command.Parameters.Add("@_date_of_birth", MySqlDbType.DateTime, 11).Value = deDOB.DateTime.ToString("yyyy-MM-dd");
-            command.Parameters.Add("@_postcode", MySqlDbType.VarChar, 255).Value = edPostCode.Text;
-            command.Parameters.Add("@_phone", MySqlDbType.VarChar, 255).Value = edPhone.Text;
-            command.Parameters.Add("@_email", MySqlDbType.VarChar, 255).Value = edEmail.Text;
-            command.Parameters.Add("@_notes", MySqlDbType.LongText, 255).Value = mmNotes.Text;
-            command.Parameters.Add("@_sample_id", MySqlDbType.VarChar, 255).Value = _sample_id;
-            command.Parameters.Add("@_test_result", MySqlDbType.LongText, 255).Value = "";
-            command.Parameters.Add("@_test_status", MySqlDbType.VarChar, 255).Value = Constants.TEST_WAITING_TEXT;
-            command.Parameters.Add("@_test_start_time", MySqlDbType.DateTime, 11).Value = null;
-            command.Parameters.Add("@_result_import_time", MySqlDbType.DateTime, 11).Value = null;
-            command.Parameters.Add("@_web_saved", MySqlDbType.Int32).Value = 0;
+            command.Parameters.Add("@station_id", MySqlDbType.VarChar, 255).Value = Settings.station_id;
+            command.Parameters.Add("@id", MySqlDbType.Int32).Value = next_id;
+            command.Parameters.Add("@sample_time", MySqlDbType.DateTime, 11).Value = dt;
+            command.Parameters.Add("@first_name", MySqlDbType.VarChar, 255).Value = edName.Text;
+            command.Parameters.Add("@family_name", MySqlDbType.VarChar, 255).Value = edFamilyName.Text;
+            command.Parameters.Add("@date_of_birth", MySqlDbType.DateTime, 11).Value = deDOB.DateTime.ToString("yyyy-MM-dd");
+            command.Parameters.Add("@postcode", MySqlDbType.VarChar, 255).Value = edPostCode.Text;
+            command.Parameters.Add("@phone", MySqlDbType.VarChar, 255).Value = edPhone.Text;
+            command.Parameters.Add("@email", MySqlDbType.VarChar, 255).Value = edEmail.Text;
+            command.Parameters.Add("@notes", MySqlDbType.LongText, 255).Value = mmNotes.Text;
+            command.Parameters.Add("@sample_id", MySqlDbType.VarChar, 255).Value = _sample_id;
+            command.Parameters.Add("@test_result", MySqlDbType.LongText, 255).Value = "";
+            command.Parameters.Add("@test_status", MySqlDbType.VarChar, 255).Value = Constants.TEST_WAITING_TEXT;
+            command.Parameters.Add("@test_start_time", MySqlDbType.DateTime, 11).Value = null;
+            command.Parameters.Add("@result_import_time", MySqlDbType.DateTime, 11).Value = null;
+            command.Parameters.Add("@sample_user_name", MySqlDbType.VarChar, 255).Value = CurrentUser.user_full_name;
+            command.Parameters.Add("@sample_user_id", MySqlDbType.Int32).Value = CurrentUser.user_id;
+            command.Parameters.Add("@web_saved", MySqlDbType.Int32).Value = 0;
             command.ExecuteNonQuery();
 
             edTicketId.Text = _sample_id;
@@ -550,7 +554,7 @@ namespace TestStationManagement
                 _final_result = "!";
             if (random_number == 1)
                 _final_result = "N-";
-
+            dt = dt.AddMinutes(5);
             ResultFile.make_result_file(_sample_id, _final_result, DateTime.Now.ToString(Constants.DATE_FORMAT), DateTime.Now.ToString(Constants.RESULT_TIME_FORMAT), mock_result_file);
         }
 
@@ -592,7 +596,9 @@ namespace TestStationManagement
             if (HTMLDialog.dialogResult != DialogResult.OK)
                 return;
             r["test_status"] = Constants.TEST_IN_PROGRESS_TEXT;
-            r["test_start_time"] = DateTime.Now;            
+            r["test_start_user_id"] = CurrentUser.user_id;
+            r["test_start_user_name"] = CurrentUser.user_full_name;
+            r["test_status"] = Constants.TEST_IN_PROGRESS_TEXT;
             current_test_data.save_to_db();
             if (!WebApi.save_sample(r))
                 Database.execute_non_query($"update samples set web_saved = 0 where id = {r["id"].ToString()}");
@@ -796,7 +802,7 @@ namespace TestStationManagement
             }
 
 
-            writeTestResult.write(id, resFile.final_result); ;
+            writeTestResult.write(id, resFile); ;
             if (!WebApi.save_sample(id))
                 Database.execute_non_query($"update samples set web_saved = 0 where id = {id}");
             Database.refresh_backup_percent();

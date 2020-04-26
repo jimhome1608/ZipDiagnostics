@@ -35,6 +35,8 @@ namespace TestStationManagement
         public string test_date;
         public string test_time;
         public DateTime test_date_time;
+        public string file_name;
+        public string file_content;
 
         public static string make_result_file(string sample_id, string final_result, string test_date, string test_time, string file_name)
         {
@@ -52,7 +54,7 @@ namespace TestStationManagement
 
         public bool load_from_file(string _filename)
         {
-            check_sum_from_file = "";
+            check_sum_from_file = "";            
             string[] lines = File.ReadAllLines(_filename);
             foreach (string s in lines)
             {
@@ -84,6 +86,8 @@ namespace TestStationManagement
             uint res = get_check_sum(lines);
             if (check_sum_from_file != res.ToString())
                 throw new ResultFileException($"Invalid Checksum found in file");
+            file_name = Path.GetFileName(_filename);
+            file_content = File.ReadAllText(_filename);
             return true;
         }
 

@@ -83,7 +83,6 @@
             this.xtraScrollableControl5 = new DevExpress.XtraEditors.XtraScrollableControl();
             this.lblInfo = new DevExpress.XtraEditors.LabelControl();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.bntPrintTicket = new DevExpress.XtraEditors.SimpleButton();
             this.btnPrintSampleLabel = new DevExpress.XtraEditors.SimpleButton();
             this.simpleButton1 = new DevExpress.XtraEditors.SimpleButton();
             this.btnImportTestResults = new DevExpress.XtraEditors.SimpleButton();
@@ -291,10 +290,11 @@
             this.bcTicketId.Padding = new System.Windows.Forms.Padding(2, 2, 10, 0);
             this.bcTicketId.ShowText = false;
             this.bcTicketId.Size = new System.Drawing.Size(181, 162);
-            qrCodeGenerator1.Version = DevExpress.XtraPrinting.BarCode.QRCodeVersion.Version1;
+            qrCodeGenerator1.CompactionMode = DevExpress.XtraPrinting.BarCode.QRCodeCompactionMode.Byte;
+            qrCodeGenerator1.Version = DevExpress.XtraPrinting.BarCode.QRCodeVersion.Version3;
             this.bcTicketId.Symbology = qrCodeGenerator1;
             this.bcTicketId.TabIndex = 35;
-            this.bcTicketId.Text = "JANE SMITH";
+            this.bcTicketId.Text = "SRARS-COV-2*FD5E8198*26APR2020-105516";
             // 
             // panel16
             // 
@@ -570,9 +570,9 @@
             this.xtraScrollableControl5.Appearance.Options.UseBackColor = true;
             this.xtraScrollableControl5.Controls.Add(this.lblInfo);
             this.xtraScrollableControl5.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.xtraScrollableControl5.Location = new System.Drawing.Point(675, 0);
+            this.xtraScrollableControl5.Location = new System.Drawing.Point(535, 0);
             this.xtraScrollableControl5.Name = "xtraScrollableControl5";
-            this.xtraScrollableControl5.Size = new System.Drawing.Size(521, 97);
+            this.xtraScrollableControl5.Size = new System.Drawing.Size(661, 97);
             this.xtraScrollableControl5.TabIndex = 27;
             // 
             // lblInfo
@@ -588,46 +588,30 @@
             this.lblInfo.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lblInfo.Location = new System.Drawing.Point(0, 0);
             this.lblInfo.Name = "lblInfo";
-            this.lblInfo.Size = new System.Drawing.Size(521, 19);
+            this.lblInfo.Size = new System.Drawing.Size(661, 19);
             this.lblInfo.TabIndex = 21;
             this.lblInfo.Text = "test";
             // 
             // tableLayoutPanel1
             // 
-            this.tableLayoutPanel1.ColumnCount = 5;
+            this.tableLayoutPanel1.ColumnCount = 4;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 134F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 134F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 136F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 136F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 136F));
-            this.tableLayoutPanel1.Controls.Add(this.bntPrintTicket, 0, 0);
-            this.tableLayoutPanel1.Controls.Add(this.btnPrintSampleLabel, 0, 0);
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel1.Controls.Add(this.simpleButton1, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.btnImportTestResults, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.btynPrintTest, 2, 0);
+            this.tableLayoutPanel1.Controls.Add(this.btnPrintSampleLabel, 3, 0);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Left;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(4);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 1;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(675, 97);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(535, 97);
             this.tableLayoutPanel1.TabIndex = 28;
-            // 
-            // bntPrintTicket
-            // 
-            this.bntPrintTicket.Appearance.Font = new System.Drawing.Font("Tahoma", 12F);
-            this.bntPrintTicket.Appearance.Options.UseFont = true;
-            this.bntPrintTicket.Appearance.Options.UseTextOptions = true;
-            this.bntPrintTicket.Appearance.TextOptions.WordWrap = DevExpress.Utils.WordWrap.Wrap;
-            this.bntPrintTicket.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("bntPrintTicket.ImageOptions.Image")));
-            this.bntPrintTicket.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.TopCenter;
-            this.bntPrintTicket.Location = new System.Drawing.Point(272, 4);
-            this.bntPrintTicket.Margin = new System.Windows.Forms.Padding(4);
-            this.bntPrintTicket.Name = "bntPrintTicket";
-            this.bntPrintTicket.Size = new System.Drawing.Size(120, 86);
-            this.bntPrintTicket.TabIndex = 19;
-            this.bntPrintTicket.Text = "Print Ticket";
             // 
             // btnPrintSampleLabel
             // 
@@ -650,7 +634,7 @@
             this.simpleButton1.Appearance.Options.UseFont = true;
             this.simpleButton1.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("simpleButton1.ImageOptions.Image")));
             this.simpleButton1.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.TopCenter;
-            this.simpleButton1.Location = new System.Drawing.Point(4, 4);
+            this.simpleButton1.Location = new System.Drawing.Point(138, 4);
             this.simpleButton1.Margin = new System.Windows.Forms.Padding(4);
             this.simpleButton1.Name = "simpleButton1";
             this.simpleButton1.Size = new System.Drawing.Size(120, 86);
@@ -663,7 +647,7 @@
             this.btnImportTestResults.Appearance.Options.UseFont = true;
             this.btnImportTestResults.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("btnImportTestResults.ImageOptions.Image")));
             this.btnImportTestResults.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.TopCenter;
-            this.btnImportTestResults.Location = new System.Drawing.Point(138, 4);
+            this.btnImportTestResults.Location = new System.Drawing.Point(4, 4);
             this.btnImportTestResults.Margin = new System.Windows.Forms.Padding(4);
             this.btnImportTestResults.Name = "btnImportTestResults";
             this.btnImportTestResults.Size = new System.Drawing.Size(120, 86);
@@ -676,7 +660,7 @@
             this.btynPrintTest.Appearance.Options.UseFont = true;
             this.btynPrintTest.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("btynPrintTest.ImageOptions.Image")));
             this.btynPrintTest.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.TopCenter;
-            this.btynPrintTest.Location = new System.Drawing.Point(544, 4);
+            this.btynPrintTest.Location = new System.Drawing.Point(272, 4);
             this.btynPrintTest.Margin = new System.Windows.Forms.Padding(4);
             this.btynPrintTest.Name = "btynPrintTest";
             this.btynPrintTest.Size = new System.Drawing.Size(120, 86);
@@ -770,7 +754,7 @@
             // 
             // gridColumn1
             // 
-            this.gridColumn1.Caption = "Ticket ID";
+            this.gridColumn1.Caption = "Sample ID";
             this.gridColumn1.FieldName = "sample_id";
             this.gridColumn1.Name = "gridColumn1";
             this.gridColumn1.Visible = true;
@@ -795,7 +779,7 @@
             // 
             this.colSampleDateTime.Caption = "Sample Date/Time";
             this.colSampleDateTime.ColumnEdit = this.repoDateEditWithTime;
-            this.colSampleDateTime.FieldName = "save_time";
+            this.colSampleDateTime.FieldName = "sample_time";
             this.colSampleDateTime.Name = "colSampleDateTime";
             this.colSampleDateTime.Visible = true;
             this.colSampleDateTime.VisibleIndex = 1;
@@ -827,7 +811,7 @@
             // 
             this.colTestDateTime.Caption = "Test Date/Time";
             this.colTestDateTime.ColumnEdit = this.repoDateEditWithTime;
-            this.colTestDateTime.FieldName = "test_start_time";
+            this.colTestDateTime.FieldName = "test_time";
             this.colTestDateTime.Name = "colTestDateTime";
             this.colTestDateTime.Visible = true;
             this.colTestDateTime.VisibleIndex = 2;
@@ -1184,7 +1168,6 @@
         private DevExpress.XtraGrid.Views.Grid.GridView gridView3;
         private DevExpress.XtraGrid.Columns.GridColumn gridColumn2;
         private DevExpress.XtraEditors.SimpleButton btnPrintSampleLabel;
-        private DevExpress.XtraEditors.SimpleButton bntPrintTicket;
         private DevExpress.XtraEditors.DateEdit deDOB;
     }
 }
