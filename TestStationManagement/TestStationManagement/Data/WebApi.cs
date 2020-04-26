@@ -15,8 +15,6 @@ namespace TestStationManagement.Data
 
     public class TestStationSampleData
     {
-
-
         public string station_id;
         public int id;
         public int test_id;

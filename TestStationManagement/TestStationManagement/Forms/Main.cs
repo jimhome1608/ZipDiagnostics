@@ -265,7 +265,7 @@ namespace TestStationManagement
                     {
                         throw new Exception("Could not get/set station id");
                     }
-                    samples_data = new SqlData($"{Constants.SQL_SAMPLES_SELECT} order by sample_time desc ");
+                    samples_data = new SqlData($"{Constants.SQL_SAMPLES_SELECT} order by sample_time, test_time desc ");
                     load_info_screen();
                     grdSamplesTest.DataSource = samples_data.myBindingSource;
                     break;
@@ -554,11 +554,13 @@ namespace TestStationManagement
             if (random_number == 1)
                 _final_result = "N-";
             dt = dt.AddMinutes(5);
+            ResultFile.make_result_file(_sample_id, "!", dt.ToString(Constants.DATE_FORMAT), dt.ToString(Constants.RESULT_TIME_FORMAT), mock_result_file + "_inconclusive.csv");
+            dt = dt.AddMinutes(5);
             ResultFile.make_result_file(_sample_id, "P+", dt.ToString(Constants.DATE_FORMAT), dt.ToString(Constants.RESULT_TIME_FORMAT), mock_result_file + "_positive.csv");
             dt = dt.AddMinutes(5);
             ResultFile.make_result_file(_sample_id, "N-", dt.ToString(Constants.DATE_FORMAT), dt.ToString(Constants.RESULT_TIME_FORMAT), mock_result_file + "_negative.csv");
-            dt = dt.AddMinutes(5);
-            ResultFile.make_result_file(_sample_id, "!", dt.ToString(Constants.DATE_FORMAT), dt.ToString(Constants.RESULT_TIME_FORMAT),  mock_result_file + "_inconclusive.csv");
+            
+            
         }
 
         private void btnNew_Click(object sender, EventArgs e)
@@ -613,6 +615,13 @@ namespace TestStationManagement
 
         private void gvTestManagement_CustomDrawCell(object sender, DevExpress.XtraGrid.Views.Base.RowCellCustomDrawEventArgs e)
         {
+            if (e.Column == colSampleID)
+            {
+                if (e.DisplayText.Trim().ToLower() == "retest")
+                {
+                    e.Appearance.Font = new Font("Arial", 8, FontStyle.Bold);
+                }
+            }
             if (e.Column == colTestDateTime)
             {
                 if (e.DisplayText == "")
@@ -773,15 +782,17 @@ namespace TestStationManagement
                 return;
             bool tested_already_need_to_insert_new_record = false;
             int id_of_sample_to_update = -1;
+            int test_id_of_sample_to_update = -1;
             string result_file = openFileDialog1.FileName;
             ResultFile resFile = new ResultFile();
             bool res = resFile.load_from_file(result_file);
-            SqlData samples = new SqlData($"select test_time, id from samples where  sample_id = '{resFile.sample_id}' and station_id = {Settings.station_id}");            
+            SqlData samples = new SqlData($"select test_time, id, test_id from samples where  sample_id = '{resFile.sample_id}' and station_id = {Settings.station_id}");            
             foreach (DataRow dr in samples.myDataTable.Rows)
             {
                 if (dr["test_time"] == System.DBNull.Value)
                 {
                     id_of_sample_to_update = (int)dr["id"];
+                    test_id_of_sample_to_update = (int)dr["test_id"];
                     break;
                 }                                  
                 if ((DateTime) dr["test_time"] == resFile.test_date_time)
@@ -806,6 +817,7 @@ namespace TestStationManagement
             {
                 int next_text_id = Database.try_sql_to_int($"select max(test_id) from samples where sample_id = '{resFile.sample_id}'", 0);
                 next_text_id++;
+                test_id_of_sample_to_update = next_text_id;
                 string sql_clone =
                 $"insert into samples (select station_id, id, {next_text_id},  sample_time, first_name,  family_name, date_of_birth,  postcode,  phone,  email, notes,  sample_id,   \n" +
                 "test_result,  test_status,  test_start_time,  result_import_time,  test_time, web_saved,  sample_user_name,  test_start_user_name,   \n" +
@@ -815,7 +827,7 @@ namespace TestStationManagement
                 id_of_sample_to_update = Database.sql_to_int($"select id from samples where sample_id = '{resFile.sample_id}' and test_id = {next_text_id} and station_id = {Settings.station_id}");
             }
 
-            writeTestResult.write(id_of_sample_to_update,  resFile); ;
+            writeTestResult.write(id_of_sample_to_update, test_id_of_sample_to_update,  resFile); ;
             if (!WebApi.save_sample(id_of_sample_to_update))
                 Database.execute_non_query($"update samples set web_saved = 0 where id = {id_of_sample_to_update}");
             Database.refresh_backup_percent();

@@ -64,6 +64,23 @@ namespace TestStationManagement
             myDataTable = new DataTable();
             if (_sql.Trim() == "") return;
             mySqlDataAdapter.Fill(myDataTable);
+            try
+            {
+                DataRow dr1, dr_next_up;
+                for (int row_idx = myDataTable.Rows.Count - 1; row_idx > 0; row_idx--)
+                {
+                    dr1 = myDataTable.Rows[row_idx];
+                    dr_next_up = myDataTable.Rows[row_idx - 1];
+                    if (dr1["sample_id"].ToString() == dr_next_up["sample_id"].ToString())
+                    {
+                        dr1["sample_id"] = " retest";
+                    }
+                }
+            }
+            catch
+            {
+
+            }
             myBindingSource = new BindingSource();
             myBindingSource.DataSource = myDataTable;
         }
@@ -72,6 +89,24 @@ namespace TestStationManagement
         {
             myDataTable.Clear();
             mySqlDataAdapter.Fill(myDataTable);
+            try
+            {
+                DataRow dr1, dr_next_up;
+                for (int row_idx = myDataTable.Rows.Count - 1; row_idx > 0; row_idx--)
+                {
+                    dr1 = myDataTable.Rows[row_idx];
+                    dr_next_up = myDataTable.Rows[row_idx-1];
+                    if (dr1["sample_id"].ToString() == dr_next_up["sample_id"].ToString())
+                    {
+                        dr1["sample_id"] = " retest";
+                    } 
+                }
+            }
+            catch
+            {
+
+            }
+
         }
 
 

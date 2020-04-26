@@ -10,13 +10,15 @@ namespace TestStationManagement.Data
     public static class writeTestResult
     {
 
-        public static void write(int _id, ResultFile resultFile)
+        public static void write(int _id, int test_id, ResultFile resultFile)
         {
             string sql_insert = 
                 "update samples set  result_import_time = now(), test_result = @test_result, test_status = @test_status, test_time = @test_time, "+
-                "test_result_user_name = @test_result_user_name, test_result_user_id = @test_result_user_id, result_file = @result_file where id = @id ";
+                "test_result_user_name = @test_result_user_name, test_result_user_id = @test_result_user_id, result_file = @result_file where station_id = @station_id and id = @id and test_id = @test_id ";
             MySqlCommand command = new MySqlCommand(sql_insert, Database.MySql()); 
             command.Parameters.Add("@id", MySqlDbType.Int32).Value = _id;
+            command.Parameters.Add("@station_id", MySqlDbType.Int32).Value = Settings.station_id;
+            command.Parameters.Add("@test_id", MySqlDbType.Int32).Value = test_id;
             command.Parameters.Add("@test_result", MySqlDbType.LongText, 255).Value = resultFile.final_result;
             command.Parameters.Add("@test_time", MySqlDbType.Datetime, 11).Value = resultFile.test_date_time;
             command.Parameters.Add("@test_status", MySqlDbType.VarChar, 255).Value = Constants.TEST_COMPLETE_TEXT;
