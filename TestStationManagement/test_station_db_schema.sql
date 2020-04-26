@@ -32,14 +32,14 @@ CREATE TABLE `error_log` (
   `key_word` varchar(255) DEFAULT NULL,
   `data` longtext,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
 
 /*Table structure for table `samples` */
 
 CREATE TABLE `samples` (
   `station_id` varchar(255) NOT NULL,
   `id` int(11) NOT NULL,
-  `save_time` datetime NOT NULL,
+  `sample_time` datetime NOT NULL,
   `first_name` varchar(255) DEFAULT NULL,
   `family_name` varchar(255) DEFAULT NULL,
   `date_of_birth` datetime DEFAULT NULL,
@@ -52,7 +52,15 @@ CREATE TABLE `samples` (
   `test_status` varchar(255) DEFAULT '',
   `test_start_time` datetime DEFAULT NULL,
   `result_import_time` datetime DEFAULT NULL,
+  `test_time` datetime DEFAULT NULL,
   `web_saved` int(11) DEFAULT '0',
+  `sample_user_name` varchar(255) DEFAULT NULL,
+  `test_start_user_name` varchar(255) DEFAULT NULL,
+  `test_result_user_name` varchar(255) DEFAULT NULL,
+  `sample_user_id` int(11) DEFAULT NULL,
+  `test_start_user_id` int(11) DEFAULT NULL,
+  `test_result_user_id` int(11) DEFAULT NULL,
+  `result_file` longtext,
   PRIMARY KEY (`station_id`,`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -62,7 +70,7 @@ CREATE TABLE `samples_history` (
   `history_id` int(11) NOT NULL,
   `station_id` varchar(255) NOT NULL,
   `id` int(11) NOT NULL,
-  `save_time` datetime NOT NULL,
+  `sample_time` datetime NOT NULL,
   `first_name` varchar(255) DEFAULT NULL,
   `family_name` varchar(255) DEFAULT NULL,
   `date_of_birth` datetime DEFAULT NULL,
@@ -75,8 +83,15 @@ CREATE TABLE `samples_history` (
   `test_status` varchar(255) DEFAULT '',
   `test_start_time` datetime DEFAULT NULL,
   `result_import_time` datetime DEFAULT NULL,
+  `test_time` datetime DEFAULT NULL,
   `web_saved` int(11) DEFAULT '0',
-  `history_date` datetime DEFAULT NULL,
+  `sample_user_name` varchar(255) DEFAULT NULL,
+  `test_start_user_name` varchar(255) DEFAULT NULL,
+  `test_result_user_name` varchar(255) DEFAULT NULL,
+  `sample_user_id` int(11) DEFAULT NULL,
+  `test_start_user_id` int(11) DEFAULT NULL,
+  `test_result_user_id` int(11) DEFAULT NULL,
+  `result_file` longtext,
   PRIMARY KEY (`history_id`,`station_id`,`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -160,23 +175,29 @@ DELIMITER ;
 
 DELIMITER $$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `save_sample`(IN _station_id varchar(255), _id int, _save_time datetime, _first_name varchar(255), _family_name varchar(255), 
-	_date_of_birth datetime, _postcode varchar(255), _phone varchar(255), _email varchar(255), _notes longtext, _sample_id varchar(255), _test_result longtext , 
-        _test_status  varchar(255), _test_start_time datetime, _result_import_time datetime, _web_saved  int)
+CREATE DEFINER=`root`@`localhost` PROCEDURE `save_sample`(IN _station_id varchar(255),  _id int ,  _sample_time datetime, _first_name varchar(255),  _family_name varchar(255), _date_of_birth datetime,  
+          _postcode varchar(255),  _phone varchar(255),  _email varchar(255), _notes longtext,  _sample_id varchar(255),  _test_result varchar(255),  _test_status varchar(255),  
+	  _test_start_time datetime,  _result_import_time datetime,  _test_time datetime, _web_saved int,  _sample_user_name varchar(255),  _test_start_user_name varchar(255),  
+          _test_result_user_name varchar(255),  _sample_user_id int, _test_start_user_id int,  _test_result_user_id int , _result_file longtext)
 BEGIN
    declare new_id int;
    if exists (select * from samples where station_id = _station_id and id = _id) then
-	insert into samples_history (select get_next_history_id(),station_id, id, save_time, first_name, family_name, 
-	date_of_birth, postcode, phone, email, notes,sample_id, test_result, test_status, test_start_time, result_import_time, web_saved,
-        now() from samples where station_id = _station_id and id = _id );
+	insert into samples_history (select get_next_history_id(),station_id,  id,  sample_time, first_name,  family_name, date_of_birth,  postcode,  phone,  email, notes,  sample_id,  
+         test_result,  test_status,  test_start_time,  result_import_time,  test_time, web_saved,  sample_user_name,  test_start_user_name,  
+         test_result_user_name,  sample_user_id, test_start_user_id,  test_result_user_id,  result_file
+        from samples where station_id = _station_id and id = _id );
         delete from samples where station_id = _station_id and id = _id;
    end if;
    insert into `samples` 
-	(station_id, id, save_time, first_name, family_name, date_of_birth, postcode, phone, email, notes, 
-	sample_id, test_result, test_status, test_start_time, result_import_time, web_saved )
+	(station_id,  id,  sample_time, first_name,  family_name, date_of_birth,  postcode,  phone,  email, notes,  sample_id,  
+         test_result,  test_status,  test_start_time,  result_import_time,  test_time, web_saved,  sample_user_name,  test_start_user_name,  
+         test_result_user_name,  sample_user_id, test_start_user_id,  test_result_user_id,  result_file
+	)
 	values
-	(_station_id, _id, _save_time, _first_name, _family_name, _date_of_birth, _postcode, _phone, _email, _notes, 
-	_sample_id, _test_result, _test_status, _test_start_time, _result_import_time, _web_saved);
+	(_station_id,  _id,  _sample_time, _first_name,  _family_name, _date_of_birth,  _postcode,  _phone,  _email, _notes,  _sample_id,  
+         _test_result,  _test_status,  _test_start_time,  _result_import_time,  _test_time, _web_saved,  _sample_user_name,  _test_start_user_name,  
+         _test_result_user_name,  _sample_user_id, _test_start_user_id,  _test_result_user_id,  _result_file
+	);
     set new_id = (select max(id) from samples where station_id = _station_id);
     select samples.*, get_sample_id(samples.station_id, samples.id) as sample_id2, concat(first_name,' ', family_name) as full_name  from samples
     where station_id = _station_id and id = new_id;
@@ -264,7 +285,7 @@ CREATE DEFINER=`root`@`localhost` FUNCTION `get_test_barcode`(_station_id varcha
 BEGIN
    declare sample_save_time varchar(255);
    declare sid varchar(255);
-   set sample_save_time = (select DATE_FORMAT(save_time,'%d-%b-%Y') from samples where station_id = _station_id and id = _sample_id); 
+   set sample_save_time = (select DATE_FORMAT(sample_time,'%d-%b-%Y') from samples where station_id = _station_id and id = _sample_id); 
    set sid = (select sample_id from samples where station_id = _station_id and id = _sample_id); 
    return Concat('',sid,':',Upper(sample_save_time));		
 END$$
