@@ -20,8 +20,8 @@ namespace TestStationManagement
 				"Test Type Version,1 \n"+
 				"Sample-ID, [sample-id] \n"+
 				"SID-Name,SARS-Cov-2 \n"+
-				"SID-Hash,d87f7e0c \n"+
-				"SID-SampleDate,11FEB2020-134021 \n"+
+				"SID-Hash,[SID-Hash] \n" +
+				"SID-SampleDate,[SID-SampleDate] \n" +
 				"Cartridge-ID, 102#123456#200421 \n"+
 				"CID-TestType,102 \n"+
 				"CID-LotNo,123456 \n"+

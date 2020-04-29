@@ -45,6 +45,9 @@ namespace TestStationManagement
             res = res.Replace("[final_result]", final_result);
             res = res.Replace("[test-date]", test_date);
             res = res.Replace("[test-time]", test_time);
+            // SRARS-CoV-2_72955434_20200430-090120 
+            res = res.Replace("[SID-Hash]", sample_id.Substring(12,8));
+            res = res.Replace("[SID-SampleDate]", sample_id.Substring(21, 15));
             string[] lines = res.Split('\n');
             uint check_sum = get_check_sum(lines);
             res = res + $"File Checksum,'{check_sum.ToString()}";
