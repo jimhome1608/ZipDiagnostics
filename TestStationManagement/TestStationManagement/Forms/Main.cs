@@ -265,7 +265,7 @@ namespace TestStationManagement
                     {
                         throw new Exception("Could not get/set station id");
                     }
-                    samples_data = new SqlData($"{Constants.SQL_SAMPLES_SELECT} order by sample_time, test_time desc ");
+                    samples_data = new SqlData($"{Constants.SQL_SAMPLES_SELECT} order by sample_time desc, test_time desc ");
                     load_info_screen();
                     grdSamplesTest.DataSource = samples_data.myBindingSource;
                     break;
@@ -487,15 +487,12 @@ namespace TestStationManagement
         {
             if (!valid_to_save())
                 return;
-            DateTime dt = DateTime.Now;
             int next_id = Database.sql_to_int("select get_next_id()");
+            DateTime dt = DateTime.Now;            
             String _dob = deDOB.DateTime.ToString(Constants.DATE_FORMAT);
-            // {SRARS-CoV-2 in plain text} 
-            // +  [a hash of  {First Name} + {Family Name} + {DOB}] 
-            // + {Date/Time of sample Collection, to the minute  in plain text in the format 11FEB2020-13:40:21}
             string hash_this = edName.Text + edFamilyName.Text + deDOB.DateTime.ToString("yyyyMMdd");
             uint _hash_ing = Crc32Algorithm.Compute(Encoding.UTF8.GetBytes(hash_this));
-            string _sample_id = "SRARS-CoV-2#" + _hash_ing.ToString("X") + "#" + dt.ToString(Constants.DATE_TIME_FORMAT_SAMPLE_ID).ToUpper();
+            string _sample_id = "SRARS-CoV-2_" + _hash_ing.ToString("X") + "_" + dt.ToString(Constants.DATE_TIME_FORMAT_SAMPLE_ID).ToUpper();
             String _html = "<font=Tahoma></font><size=18>Please confirm these details are correct before saving<size=14><br><br>";
             _html = _html + $"Name:<backcolor=yellow>&nbsp;{edName.Text}  {edFamilyName.Text}&nbsp;<backcolor=control><br><br>";
             _html = _html + $"Email: <backcolor=yellow>&nbsp;{edEmail.Text}&nbsp;<backcolor=control><br><br>";
