@@ -55,8 +55,8 @@ namespace TestStationManagement.Data
 
     public static class WebApi
     {
-        static string host_address = "http://localhost:52647";
-        //static string host_address = "https://www.multilink2.com.au";
+        //static string host_address = "http://localhost:52647";
+        static string host_address = "https://www.multilink2.com.au";
         public static bool internet_connection_ok = false;
 
         public static bool CheckForInternetConnection()
